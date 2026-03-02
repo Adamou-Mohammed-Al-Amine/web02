@@ -5,20 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adamou Mohammed | Video Editor</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Poppins',sans-serif;
 scroll-behavior:smooth;
 }
 
 body{
 background:#0f0f0f;
 color:white;
+font-family:'Poppins',sans-serif;
 }
 
 header{
@@ -33,8 +34,10 @@ z-index:1000;
 }
 
 header h1{
+font-family:'Anton',sans-serif;
+font-size:28px;
+letter-spacing:2px;
 color:#ff0033;
-font-weight:800;
 }
 
 nav a{
@@ -53,6 +56,14 @@ padding:120px 10%;
 min-height:100vh;
 }
 
+h2{
+font-family:'Anton',sans-serif;
+font-size:60px;
+letter-spacing:3px;
+text-transform:uppercase;
+margin-bottom:20px;
+}
+
 .hero{
 display:flex;
 align-items:center;
@@ -64,10 +75,6 @@ flex-wrap:wrap;
 max-width:600px;
 }
 
-.hero-text h2{
-font-size:50px;
-}
-
 .hero-text span{
 color:#ff0033;
 }
@@ -75,23 +82,26 @@ color:#ff0033;
 .hero-text p{
 margin-top:20px;
 opacity:.8;
+line-height:1.6;
 }
 
 .hero img{
 width:300px;
 border-radius:20px;
 margin-top:30px;
+box-shadow:0 0 30px rgba(255,0,51,0.4);
 }
 
 .btn{
 display:inline-block;
 margin-top:30px;
-padding:12px 25px;
+padding:12px 30px;
 background:#ff0033;
 color:white;
 text-decoration:none;
 border-radius:30px;
 transition:.3s;
+font-weight:600;
 }
 
 .btn:hover{
@@ -103,7 +113,7 @@ color:#ff0033;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
 gap:30px;
-margin-top:50px;
+margin-top:40px;
 }
 
 iframe{
@@ -118,6 +128,18 @@ text-align:center;
 padding:30px;
 background:#000;
 opacity:.6;
+font-size:14px;
+}
+
+@media(max-width:900px){
+.hero{
+flex-direction:column;
+text-align:center;
+}
+
+.hero img{
+margin-top:40px;
+}
 }
 </style>
 </head>
@@ -125,7 +147,7 @@ opacity:.6;
 <body>
 
 <header>
-<h1>Adamou</h1>
+<h1>ADAMOU</h1>
 <nav>
 <a href="#home">Home</a>
 <a href="#reels">Reels</a>
@@ -135,56 +157,46 @@ opacity:.6;
 </header>
 
 <section class="hero" id="home">
-
 <div class="hero-text">
-<h2>I’m <span>Adamou Mohammed</span></h2>
+<h2>I'M <span>ADAMOU MOHAMMED</span></h2>
 <p>
 Professional Video Editor with 5+ years experience in short-form and long-form content.
-Specialized in cinematic edits, storytelling and motion graphics.
+Specialized in cinematic storytelling, motion graphics and dynamic edits.
 </p>
-<a href="#contact" class="btn">Hire Me</a>
+<a href="#contact" class="btn">HIRE ME</a>
 </div>
 
 <img src="https://drive.google.com/uc?export=view&id=144Ka7MXaRq59dHPwWdJMzXlK2NxQdjZ4" alt="My Photo">
-
 </section>
 
 <section id="reels">
-<h2>Instagram Reels</h2>
+<h2>REELS</h2>
 
 <div class="videos">
-
 <iframe src="https://drive.google.com/file/d/1tDh8PmzIK8k_cfnPgVAgFLT8EjC44Jt6/preview"></iframe>
-
 <iframe src="https://drive.google.com/file/d/1ZlczjeELO1o8Xcdz41e3XHbixC5e1Je5/preview"></iframe>
-
 <iframe src="https://drive.google.com/file/d/1CdvSvS1pwvIl_7sVOd49kkr6Rl79GLPp/preview"></iframe>
-
 </div>
 </section>
 
 <section id="youtube">
-<h2>YouTube Projects</h2>
+<h2>YOUTUBE PROJECTS</h2>
 
 <div class="videos">
-
 <iframe src="https://drive.google.com/file/d/1IHynu1RMquEb9Hg9XRBiB44qo4UCdfRI/preview"></iframe>
-
 <iframe src="https://drive.google.com/file/d/1hZQ9Vx-CqjKpEyNDIcQWNlVe9LyO-0P3/preview"></iframe>
-
 <iframe src="https://drive.google.com/file/d/1PopvBvTnT03Dh2I3t09KiqYzRz180-8v/preview"></iframe>
-
 </div>
 </section>
 
 <section id="contact">
-<h2>Contact Me</h2>
+<h2>CONTACT</h2>
 <p style="margin-top:20px;">📧 mohalaminadamou@gmail.com</p>
 <p>📍 Algeria</p>
 </section>
 
 <footer>
-<p>© 2026 Adamou Mohammed | All Rights Reserved</p>
+© 2026 ADAMOU MOHAMMED | ALL RIGHTS RESERVED
 </footer>
 
 </body>
