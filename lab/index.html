@@ -3,223 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adamou Mohammed | Portfolio</title>
+<title>Adamou Mohammed | Cinematic Portfolio</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
+background:linear-gradient(135deg,#0f0f0f,#141414,#1c1c1c);
 color:white;
-text-align:center;
 overflow-x:hidden;
-transition:0.4s;
+scroll-behavior:smooth;
 }
 
-.light{
-background:white;
-color:black;
+/* Cursor Glow */
+.cursor{
+position:fixed;
+width:300px;
+height:300px;
+background:radial-gradient(circle,rgba(255,0,0,0.2),transparent 60%);
+pointer-events:none;
+transform:translate(-50%,-50%);
+z-index:-1;
 }
 
+/* Section */
+section{
+padding:120px 10%;
+text-align:center;
+}
+
+/* Titles */
 h1,h2{
 font-family:'Alex Brush',cursive;
-font-size:60px;
+font-size:70px;
 background:linear-gradient(45deg,#ff0000,#ff4d4d);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-text-shadow:0 0 20px rgba(255,0,0,0.8);
-animation:flicker 3s infinite alternate;
+margin-bottom:40px;
+opacity:0;
+transform:translateY(40px);
+transition:1s ease;
 }
 
-@keyframes flicker{
-0%{opacity:1;}
-100%{opacity:0.85;}
+.reveal.active{
+opacity:1;
+transform:translateY(0);
 }
 
-section{padding:70px 20px;}
-hr{height:4px;background:red;border:none;width:70%;margin:40px auto;}
-
+/* Profile */
 .profile img{
-width:180px;height:180px;border-radius:50%;
-border:6px solid red;padding:5px;
+width:180px;height:180px;
+border-radius:50%;
+border:4px solid red;
+margin-bottom:20px;
 }
 
-.toggle{
-position:fixed;top:20px;right:20px;
-padding:8px 15px;background:red;color:white;
-cursor:pointer;border:none;
+.profile p{
+max-width:600px;
+margin:auto;
+opacity:0.8;
 }
 
-/* REELS */
-.reels{background:black;}
-.video-grid,.youtube-grid{
-display:flex;flex-wrap:wrap;
-justify-content:center;gap:40px;
+/* Grid */
+.grid{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:40px;
 }
 
-.reel-card{
-position:relative;width:260px;
+/* Cards */
+.card{
+position:relative;
+overflow:hidden;
+border-radius:20px;
+border:2px solid rgba(255,0,0,0.5);
+backdrop-filter:blur(10px);
+background:rgba(255,255,255,0.03);
+transition:0.5s ease;
+opacity:0;
+transform:translateY(50px);
+}
+
+.card.active{
+opacity:1;
+transform:translateY(0);
+}
+
+.card:hover{
+transform:scale(1.05);
+box-shadow:0 0 40px rgba(255,0,0,0.6);
+}
+
+/* Reels */
+.reel{
+width:260px;
 aspect-ratio:9/16;
-border:4px solid red;
-overflow:hidden;opacity:0;
-transform:translateY(60px);
-transition:0.7s cubic-bezier(.68,-0.55,.27,1.55);
 }
 
-.reel-card:hover{
-transform:scale(1.05);
-box-shadow:0 0 30px rgba(255,0,0,0.8);
+.reel video{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-.reel-card video{
-width:100%;height:100%;object-fit:cover;
-}
-
-.reel-info{
-position:absolute;bottom:0;width:100%;
-padding:15px;background:linear-gradient(to top,black,transparent);
-border-top:8px solid red;
-}
-
-/* YOUTUBE */
-.yt-card{
-position:relative;width:500px;
+/* YouTube */
+.youtube{
+width:520px;
 aspect-ratio:16/9;
-border:4px solid red;
-overflow:hidden;opacity:0;
-transform:translateY(60px);
-transition:0.7s cubic-bezier(.68,-0.55,.27,1.55);
-cursor:pointer;
 }
 
-.yt-card:hover{
-transform:scale(1.05);
-box-shadow:0 0 30px rgba(255,0,0,0.8);
+.youtube video{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-.yt-card video{
-width:100%;height:100%;object-fit:cover;
-}
-
-.yt-info{
-position:absolute;bottom:0;width:100%;
+/* Info Overlay */
+.info{
+position:absolute;
+bottom:0;
+width:100%;
 padding:20px;
-background:linear-gradient(to top,black,transparent);
-border-top:8px solid red;
+background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);
+font-size:14px;
 }
-
-.yt-stats{
-display:flex;justify-content:center;
-gap:20px;font-size:15px;
-}
-
-.like-btn{cursor:pointer;transition:0.3s;}
-.like-btn:hover{transform:scale(1.2);color:red;}
 
 /* Programs */
-.programs{
-display:flex;justify-content:center;
-gap:30px;flex-wrap:wrap;
-}
 .programs img{
-width:70px;transition:0.3s;
+width:70px;
+margin:20px;
+transition:0.4s;
 }
-.programs img:hover{transform:scale(1.2);}
-
-/* Comments */
-.comments{max-width:600px;margin:auto;}
-.comment-box{
-background:#111;padding:15px;margin:10px 0;
-border-left:4px solid red;text-align:left;
+.programs img:hover{
+transform:scale(1.2) rotate(5deg);
 }
 
-input,textarea{
-width:100%;padding:10px;margin:10px 0;border:none;
-}
-button{
-padding:10px 20px;background:red;border:none;color:white;cursor:pointer;
-}
-
-/* Stars */
-canvas{
-position:fixed;top:0;left:0;
-pointer-events:none;z-index:-1;
+/* Footer */
+footer{
+padding:60px;
+text-align:center;
+opacity:0.6;
 }
 
+/* Responsive */
 @media(max-width:768px){
-.yt-card{width:95%;}
+.youtube{width:95%;}
 }
 </style>
 </head>
-
 <body>
 
-<button class="toggle">Toggle Mode</button>
-<canvas id="stars"></canvas>
+<div class="cursor"></div>
 
 <section class="profile">
+<h1 class="reveal">Adamou Mohammed</h1>
 <img src="me.png">
-<h1>Adamou Mohammed Al Amine</h1>
-<p>Professional Video Editor & Motion Designer | 5+ Years Experience</p>
+<p>Professional Video Editor & Motion Designer with 5+ years of experience crafting cinematic visuals, short-form viral content, and commercial productions.</p>
 </section>
-
-<section class="reels">
-<h2>Reels Videos</h2>
-<div class="video-grid">
-
-<div class="reel-card">
-<video src="REEL1.mp4" muted loop></video>
-<div class="reel-info">Reel Edit • ❤️ 1.2K • 💬 120 • 👁 20K</div>
-</div>
-
-<div class="reel-card">
-<video src="REEL2.mp4" muted loop></video>
-<div class="reel-info">Creative Motion • ❤️ 980 • 💬 90 • 👁 15K</div>
-</div>
-
-</div>
-</section>
-
-<hr>
 
 <section>
-<h2>Long Form Videos</h2>
-<div class="youtube-grid">
+<h2 class="reveal">Reels Videos</h2>
+<div class="grid">
 
-<div class="yt-card">
-<video src="YT1.mp4" muted loop></video>
-<div class="yt-info">
-<div>Cinematic Promo</div>
-<div class="yt-stats">
-<span class="like-btn">❤️ <span class="like-count">2400</span></span>
-<span>💬 340</span>
-<span>👁 45K</span>
-</div>
-</div>
-</div>
-
-<div class="yt-card">
-<video src="YT2.mp4" muted loop></video>
-<div class="yt-info">
-<div>Business Commercial</div>
-<div class="yt-stats">
-<span class="like-btn">❤️ <span class="like-count">1800</span></span>
-<span>💬 210</span>
-<span>👁 30K</span>
-</div>
-</div>
-</div>
+<div class="card reel"><video src="REEL1.mp4" muted loop></video><div class="info">Reel 1 • ❤️1.2K • 💬120 • 👁20K</div></div>
+<div class="card reel"><video src="REEL2.mp4" muted loop></video><div class="info">Reel 2 • ❤️980 • 💬90 • 👁15K</div></div>
+<div class="card reel"><video src="REEL3.mp4" muted loop></video><div class="info">Reel 3 • ❤️1.5K • 💬200 • 👁25K</div></div>
+<div class="card reel"><video src="REEL4.mp4" muted loop></video><div class="info">Reel 4 • ❤️870 • 💬70 • 👁12K</div></div>
 
 </div>
 </section>
 
-<hr>
+<section>
+<h2 class="reveal">Long Form Videos</h2>
+<div class="grid">
+
+<div class="card youtube"><video src="YT1.mp4" muted loop></video><div class="info">Cinematic Promo • ❤️2.4K • 💬340 • 👁45K</div></div>
+<div class="card youtube"><video src="YT2.mp4" muted loop></video><div class="info">Commercial Ad • ❤️1.8K • 💬210 • 👁30K</div></div>
+<div class="card youtube"><video src="YT3.mp4" muted loop></video><div class="info">Documentary Edit • ❤️3.1K • 💬500 • 👁60K</div></div>
+
+</div>
+</section>
 
 <section>
-<h2>Programs Used</h2>
+<h2 class="reveal">Programs Used</h2>
 <div class="programs">
 <img src="adobe-photoshop-icon.png">
 <img src="adobe-illustrator-icon.png">
@@ -228,91 +198,46 @@ pointer-events:none;z-index:-1;
 </div>
 </section>
 
-<hr>
-
-<section>
-<h2>Leave a Comment</h2>
-<div class="comments">
-<div class="comment-box">🔥 Amazing editing skills bro!</div>
-<div class="comment-box">Super clean motion graphics 👌</div>
-<div class="comment-box">Agency level work 🚀</div>
-
-<input type="text" placeholder="Your Name">
-<textarea placeholder="Write your comment..."></textarea>
-<button>Post Comment</button>
-</div>
-</section>
+<footer>
+© 2026 Adamou Mohammed — Cinematic Portfolio
+</footer>
 
 <script>
-// Scroll Animation Stagger
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-const cards=entry.target.parentElement.children;
-Array.from(cards).forEach((card,i)=>{
-setTimeout(()=>{
-card.style.opacity="1";
-card.style.transform="translateY(0)";
-},i*250);
+// Cursor Glow
+const cursor=document.querySelector(".cursor");
+document.addEventListener("mousemove",e=>{
+cursor.style.left=e.clientX+"px";
+cursor.style.top=e.clientY+"px";
 });
+
+// Scroll Reveal
+function reveal(){
+document.querySelectorAll(".reveal").forEach(el=>{
+let windowHeight=window.innerHeight;
+let elementTop=el.getBoundingClientRect().top;
+if(elementTop<windowHeight-100){
+el.classList.add("active");
 }
 });
-},{threshold:0.3});
-
-document.querySelectorAll('.reel-card,.yt-card').forEach(el=>observer.observe(el));
-
-// AutoPlay Hover
-document.querySelectorAll('video').forEach(video=>{
-video.parentElement.addEventListener('mouseenter',()=>video.play());
-video.parentElement.addEventListener('mouseleave',()=>{
-video.pause();video.currentTime=0;
-});
-});
-
-// Like Button
-document.querySelectorAll('.like-btn').forEach(btn=>{
-btn.addEventListener('click',()=>{
-let count=btn.querySelector('.like-count');
-count.textContent=parseInt(count.textContent)+1;
-btn.style.color="red";
-});
-});
-
-// Dark Light Toggle
-document.querySelector('.toggle').addEventListener('click',()=>{
-document.body.classList.toggle('light');
-});
-
-// Stars
-const canvas=document.getElementById("stars");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-let stars=[];
-for(let i=0;i<40;i++){
-stars.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-size:Math.random()*2,
-speed:Math.random()*0.5
-});
-}
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="red";
-stars.forEach(s=>{
-ctx.beginPath();
-ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
-ctx.fill();
-s.y+=s.speed;
-if(s.y>canvas.height){
-s.y=0;
-s.x=Math.random()*canvas.width;
+document.querySelectorAll(".card").forEach(el=>{
+let windowHeight=window.innerHeight;
+let elementTop=el.getBoundingClientRect().top;
+if(elementTop<windowHeight-100){
+el.classList.add("active");
 }
 });
-requestAnimationFrame(animate);
 }
-animate();
+window.addEventListener("scroll",reveal);
+reveal();
+
+// Auto Play Hover
+document.querySelectorAll("video").forEach(video=>{
+video.parentElement.addEventListener("mouseenter",()=>video.play());
+video.parentElement.addEventListener("mouseleave",()=>{
+video.pause();
+video.currentTime=0;
+});
+});
 </script>
 
 </body>
