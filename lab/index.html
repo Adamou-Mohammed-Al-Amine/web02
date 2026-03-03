@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adamou Mohammed | Video Editor</title>
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -20,6 +19,7 @@ body{
 background:#0f0f0f;
 color:white;
 font-family:'Poppins',sans-serif;
+text-align:center;
 }
 
 /* HEADER */
@@ -39,69 +39,59 @@ header h1{
 font-family:'Alex Brush',cursive;
 font-size:32px;
 color:#ff0033;
-animation:flicker 3s infinite;
+text-shadow:0 0 15px #ff0033;
 }
 
 nav a{
 margin-left:25px;
 text-decoration:none;
 color:white;
-transition:.3s;
 }
 
 nav a:hover{
 color:#ff0033;
 }
 
-/* FLICKER EFFECT */
-
-@keyframes flicker{
-0%{opacity:1;text-shadow:0 0 10px #ff0033;}
-50%{opacity:.85;text-shadow:0 0 20px #ff0033;}
-100%{opacity:1;text-shadow:0 0 10px #ff0033;}
-}
-
-/* SECTIONS */
+/* GENERAL SECTION */
 
 section{
 padding:120px 10%;
-min-height:100vh;
 }
 
-h2{
+/* TITLES */
+
+.main-title{
 font-family:'Alex Brush',cursive;
-font-size:55px;
-color:#ff0033;
-text-shadow:0 0 15px rgba(255,0,51,0.6);
-animation:flicker 4s infinite;
-margin-bottom:30px;
+font-size:65px;
+margin-bottom:20px;
+}
+
+.divider{
+width:100%;
+height:4px;
+margin:20px 0 60px 0;
 }
 
 /* HERO */
 
 .hero{
 display:flex;
+flex-direction:column;
 align-items:center;
-justify-content:space-between;
-flex-wrap:wrap;
-}
-
-.hero-text{
-max-width:600px;
-}
-
-.hero-text span{
-color:#ff0033;
 }
 
 .hero img{
-width:300px;
-border-radius:20px;
+width:260px;
+height:260px;
+border-radius:50%;
+object-fit:cover;
+padding:6px;
+background:linear-gradient(45deg,#ff0033,#ff5e00,#ff0033);
+box-shadow:0 0 40px rgba(255,0,51,0.6);
 margin-top:30px;
-box-shadow:0 0 40px rgba(255,0,51,0.5);
 }
 
-/* REELS GRID */
+/* GRID */
 
 .reels-grid{
 display:grid;
@@ -109,73 +99,93 @@ grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:40px;
 }
 
-/* REEL CARD */
+/* CARD DEFAULT */
 
 .reel-card{
-border:3px solid #ff0033;
 border-radius:20px;
 overflow:hidden;
-background:#111;
-box-shadow:0 0 25px rgba(255,0,51,0.4);
 transition:.3s;
-}
-
-.reel-card:hover{
-transform:translateY(-10px);
 }
 
 .reel-card iframe{
 width:100%;
-height:500px; /* 9:16 vertical */
+aspect-ratio:9/16;
 border:none;
 }
 
-/* BOTTOM INFO BAR */
+/* INFO BAR */
 
 .reel-info{
-background:#ff0033;
 padding:15px;
-font-size:14px;
 font-weight:600;
-}
-
-.reel-info h3{
-font-size:16px;
-margin-bottom:8px;
 }
 
 .stats{
 display:flex;
-justify-content:space-between;
+justify-content:center;
+gap:20px;
 font-size:13px;
 }
 
-/* SOCIAL */
+/* REELS SECTION */
 
-.socials a{
-display:inline-block;
-margin-right:15px;
+#reels{
+background:#000;
+color:white;
+}
+
+#reels .main-title{
 color:#ff0033;
-text-decoration:none;
-font-weight:600;
+text-shadow:0 0 20px rgba(255,0,51,0.6);
+}
+
+#reels .divider{
+background:#ff0033;
+box-shadow:0 0 15px rgba(255,0,51,0.7);
+}
+
+#reels .reel-card{
+border:3px solid #ff0033;
+background:#111;
+}
+
+#reels .reel-info{
+background:#ff0033;
+color:white;
+}
+
+/* YOUTUBE SECTION */
+
+#youtube{
+background:#ff0033;
+color:white;
+}
+
+#youtube .main-title{
+color:white;
+}
+
+#youtube .divider{
+background:black;
+}
+
+#youtube .reel-card{
+border:3px solid black;
+background:white;
+color:black;
+}
+
+#youtube .reel-info{
+background:black;
+color:white;
 }
 
 /* FOOTER */
 
 footer{
-text-align:center;
 padding:30px;
 background:#000;
-opacity:.7;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:900px){
-.hero{
-flex-direction:column;
-text-align:center;
-}
+opacity:.8;
 }
 </style>
 </head>
@@ -185,50 +195,30 @@ text-align:center;
 <header>
 <h1>Adamou Mohammed</h1>
 <nav>
-<a href="#home">Home</a>
-<a href="#about">About</a>
 <a href="#reels">Reels</a>
+<a href="#youtube">Long Form</a>
 <a href="#contact">Contact</a>
 </nav>
 </header>
 
-<section class="hero" id="home">
-<div class="hero-text">
-<h2>Creative Video Editor</h2>
-<p>
-Adamou Mohammed Al Amine – Professional Video Editor with 5+ years experience in short-form & long-form content. Specialized in cinematic storytelling, motion graphics and dynamic social media edits.
-</p>
-</div>
-
-<img src="https://drive.google.com/uc?export=view&id=144Ka7MXaRq59dHPwWdJMzXlK2NxQdjZ4">
+<section class="hero">
+<h2 class="main-title">Creative Video Editor</h2>
+<p>Adamou Mohammed Al Amine – Professional Video Editor with 5+ years experience in short & long form content.</p>
+<img src="me.png" alt="Adamou">
 </section>
 
-<section id="about">
-<h2>About Me</h2>
-<p>
-I am a university student in Computer Science & Mathematics (LMD), 3rd year License.  
-Based in Algeria – El Oued (UTC+1).  
-I help creators and brands grow using high-impact video editing and modern visual storytelling.
-</p>
-
-<br><br>
-
-<div class="socials">
-<a href="https://www.behance.net/adamoumehal" target="_blank">Behance</a>
-<a href="https://www.instagram.com/adamou_moh_al_amine/" target="_blank">Instagram</a>
-<a href="https://www.facebook.com/mehalamine.adamou" target="_blank">Facebook</a>
-</div>
-</section>
+<!-- REELS FIRST -->
 
 <section id="reels">
-<h2>Instagram Reels</h2>
+<h2 class="main-title">Reels Videos</h2>
+<div class="divider"></div>
 
 <div class="reels-grid">
 
 <div class="reel-card">
 <iframe src="https://drive.google.com/file/d/1tDh8PmzIK8k_cfnPgVAgFLT8EjC44Jt6/preview"></iframe>
 <div class="reel-info">
-<h3>Motivational Reel Edit</h3>
+<h3>Motivational Reel</h3>
 <div class="stats">
 <span>❤️ 12K</span>
 <span>💬 430</span>
@@ -240,7 +230,7 @@ I help creators and brands grow using high-impact video editing and modern visua
 <div class="reel-card">
 <iframe src="https://drive.google.com/file/d/1ZlczjeELO1o8Xcdz41e3XHbixC5e1Je5/preview"></iframe>
 <div class="reel-info">
-<h3>Cinematic Transition Reel</h3>
+<h3>Cinematic Transition</h3>
 <div class="stats">
 <span>❤️ 8.5K</span>
 <span>💬 210</span>
@@ -264,8 +254,55 @@ I help creators and brands grow using high-impact video editing and modern visua
 </div>
 </section>
 
+<!-- YOUTUBE -->
+
+<section id="youtube">
+<h2 class="main-title">Long Form Videos</h2>
+<div class="divider"></div>
+
+<div class="reels-grid">
+
+<div class="reel-card">
+<iframe src="https://drive.google.com/file/d/1IHynu1RMquEb9Hg9XRBiB44qo4UCdfRI/preview"></iframe>
+<div class="reel-info">
+<h3>Documentary Edit</h3>
+<div class="stats">
+<span>👁 45K</span>
+<span>💬 1.2K</span>
+<span>👍 3.8K</span>
+</div>
+</div>
+</div>
+
+<div class="reel-card">
+<iframe src="https://drive.google.com/file/d/1hZQ9Vx-CqjKpEyNDIcQWNlVe9LyO-0P3/preview"></iframe>
+<div class="reel-info">
+<h3>Storytelling Video</h3>
+<div class="stats">
+<span>👁 22K</span>
+<span>💬 540</span>
+<span>👍 1.9K</span>
+</div>
+</div>
+</div>
+
+<div class="reel-card">
+<iframe src="https://drive.google.com/file/d/1PopvBvTnT03Dh2I3t09KiqYzRz180-8v/preview"></iframe>
+<div class="reel-info">
+<h3>Educational Long Form</h3>
+<div class="stats">
+<span>👁 60K</span>
+<span>💬 2.4K</span>
+<span>👍 5.1K</span>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
 <section id="contact">
-<h2>Contact</h2>
+<h2 class="main-title">Contact</h2>
 <p>📧 mohalaminadamou@gmail.com</p>
 <p>📱 +213782955961</p>
 </section>
