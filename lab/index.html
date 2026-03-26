@@ -1228,17 +1228,17 @@ footer {
     <div class="stats-grid">
       <div class="stat-card glass" data-aos="zoom-in" data-aos-delay="0">
         <span class="stat-icon">👁️</span>
-        <div><span class="stat-num" data-target="50">0</span><span class="stat-suffix">M+</span></div>
+        <div><span class="stat-num" data-target="15">0</span><span class="stat-suffix">M+</span></div>
         <span class="stat-label">Total Views Generated</span>
       </div>
       <div class="stat-card glass" data-aos="zoom-in" data-aos-delay="100">
         <span class="stat-icon">🤝</span>
-        <div><span class="stat-num" data-target="120">0</span><span class="stat-suffix">+</span></div>
+        <div><span class="stat-num" data-target="20">0</span><span class="stat-suffix">+</span></div>
         <span class="stat-label">Clients Worked With</span>
       </div>
       <div class="stat-card glass" data-aos="zoom-in" data-aos-delay="200">
         <span class="stat-icon">🎬</span>
-        <div><span class="stat-num" data-target="800">0</span><span class="stat-suffix">+</span></div>
+        <div><span class="stat-num" data-target="250">0</span><span class="stat-suffix">+</span></div>
         <span class="stat-label">Completed Projects</span>
       </div>
     </div>
@@ -1626,17 +1626,33 @@ function renderComments(){
 
 // ── Hire form ─────────────────────────────────────────────────────────────────
 window.submitHire = () => {
-  const name  = document.getElementById('hireName').value.trim();
-  const email = document.getElementById('hireEmail').value.trim();
-  const type  = document.getElementById('hireType').value.trim();
-  const budget= document.getElementById('hireBudget').value.trim();
-  const msg   = document.getElementById('hireMessage').value.trim();
-  if(!name||!email||!msg){ showToast('Please fill in required fields 📋'); return; }
-  const subject = encodeURIComponent(`Project Inquiry from ${name} — ${type||'Video Editing'}`);
-  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nProject Type: ${type}\nBudget: ${budget}\n\nMessage:\n${msg}`);
-  window.open(`mailto:mohalaminadamou@gmail.com?subject=${subject}&body=${body}`, '_blank');
-  showToast('Opening email client... 🎬');
-  ['hireName','hireEmail','hireType','hireBudget','hireMessage'].forEach(id=>{ document.getElementById(id).value=''; });
+  const name   = document.getElementById('hireName').value.trim();
+  const email  = document.getElementById('hireEmail').value.trim();
+  const type   = document.getElementById('hireType').value.trim();
+  const budget = document.getElementById('hireBudget').value.trim();
+  const msg    = document.getElementById('hireMessage').value.trim();
+  if(!name || !email || !msg){ showToast('Please fill in required fields 📋'); return; }
+
+  const subject = encodeURIComponent(`🎬 Project Inquiry from ${name}${type ? ' — ' + type : ''}`);
+  const body = encodeURIComponent(
+    `Hello Adamou,\n\n` +
+    `You have a new project inquiry!\n\n` +
+    `━━━━━━━━━━━━━━━━━━━━━━\n` +
+    `👤 Name:         ${name}\n` +
+    `📧 Email:        ${email}\n` +
+    `🎬 Project Type: ${type || 'Not specified'}\n` +
+    `💰 Budget:       ${budget || 'Not specified'}\n` +
+    `━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+    `📝 Message:\n${msg}\n\n` +
+    `━━━━━━━━━━━━━━━━━━━━━━\n` +
+    `Sent from your portfolio website.`
+  );
+
+  window.location.href = `mailto:mohalaminadamou@gmail.com?subject=${subject}&body=${body}`;
+  showToast('✅ Opening your email client...');
+  ['hireName','hireEmail','hireType','hireBudget','hireMessage'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
 };
 
 // ── Toast ─────────────────────────────────────────────────────────────────────
