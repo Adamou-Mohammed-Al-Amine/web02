@@ -2,376 +2,280 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AMINE | Video Editor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMINE — Professional Video Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
 
   <!-- NAVBAR -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-logo">AMINE</div>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#hero" data-i18n="nav_home">Home</a></li>
-      <li><a href="#about" data-i18n="nav_about">About</a></li>
-      <li><a href="#services" data-i18n="nav_services">Services</a></li>
-      <li><a href="#work" data-i18n="nav_work">Work</a></li>
-      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-    </ul>
-    <div class="nav-right">
-      <div class="lang-switcher">
-        <button onclick="setLang('en')">EN</button>
-        <button onclick="setLang('ar')">AR</button>
-        <button onclick="setLang('fr')">FR</button>
-      </div>
-      <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#home" class="logo">AMINE</a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" data-i18n="nav_home">Home</a>
+        <a href="#about" data-i18n="nav_about">About</a>
+        <a href="#services" data-i18n="nav_services">Services</a>
+        <a href="#longform" data-i18n="nav_longform">Long Form</a>
+        <a href="#latest" data-i18n="nav_latest">Latest Work</a>
+        <a href="#shortform" data-i18n="nav_shortform">Short Form</a>
+        <a href="#why" data-i18n="nav_why">Why Me</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <select id="langSwitcher" class="lang-switcher" aria-label="Language">
+          <option value="en">EN</option>
+          <option value="ar">عربي</option>
+          <option value="fr">FR</option>
+        </select>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
-  </nav>
+  </header>
 
   <!-- HERO -->
-  <section class="hero" id="hero">
-    <div class="hero-overlay"></div>
+  <section id="home" class="hero">
+    <div class="hero-bg"></div>
     <div class="hero-content">
-      <p class="hero-sub" data-i18n="hero_sub">Creative Video Editor</p>
-      <h1 class="hero-name">Adamou Mohammed Al Amine</h1>
-      <h2 class="hero-brand great-vibes">AMINE</h2>
-      <p class="hero-desc" data-i18n="hero_desc">Crafting cinematic stories that leave a lasting impression.</p>
-      <div class="hero-btns">
-        <a href="#work" class="btn-primary" data-i18n="hero_btn1">View My Work</a>
-        <a href="#contact" class="btn-outline" data-i18n="hero_btn2">Let's Work Together</a>
+      <p class="hero-accent" data-i18n="hero_accent">Available for Projects · El Oued, Algeria</p>
+      <h1 class="hero-title">
+        <span data-i18n="hero_title">Professional Video Editor</span>
+        <span class="script-text" data-i18n="hero_script">Cinematic Storyteller</span>
+      </h1>
+      <p class="hero-subtitle" data-i18n="hero_subtitle">
+        Crafting viral short-form content and premium long-form YouTube productions that captivate and convert.
+      </p>
+      <div class="hero-buttons">
+        <a href="#latest" class="btn btn-primary" data-i18n="hero_btn_portfolio">▶ View Portfolio</a>
+        <a href="#contact" class="btn btn-outline" data-i18n="hero_btn_hire">Hire Me</a>
       </div>
     </div>
-    <div class="scroll-indicator">
-      <span></span>
+    <div class="hero-image-wrap">
+      <img src="me.jpg" alt="Adamou Mohammed Al Amine" class="hero-image" />
+      <div class="hero-image-frame"></div>
     </div>
+    <div class="scroll-indicator"><span data-i18n="scroll">Scroll</span> ↓</div>
   </section>
 
   <!-- ABOUT -->
-  <section class="about section" id="about">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-img-wrap reveal">
-          <div class="about-img-frame">
-            <img src="https://i.pravatar.cc/400?img=12" alt="Amine" />
-          </div>
-        </div>
-        <div class="about-text reveal">
-          <span class="section-label" data-i18n="about_label">About Me</span>
-          <h2 class="section-title" data-i18n="about_title">The Editor Behind the Frame</h2>
-          <p data-i18n="about_p1">I'm Adamou Mohammed Al Amine — a passionate video editor with years of experience crafting compelling visual narratives for brands, creators, and filmmakers worldwide.</p>
-          <p data-i18n="about_p2">My work spans cinematic long-form documentaries to fast-paced short-form content, always driven by storytelling, rhythm, and emotion.</p>
-          <div class="about-stats">
-            <div class="stat">
-              <span class="stat-num">150+</span>
-              <span class="stat-label" data-i18n="stat1">Projects Done</span>
-            </div>
-            <div class="stat">
-              <span class="stat-num">5+</span>
-              <span class="stat-label" data-i18n="stat2">Years Experience</span>
-            </div>
-            <div class="stat">
-              <span class="stat-num">50+</span>
-              <span class="stat-label" data-i18n="stat3">Happy Clients</span>
-            </div>
-          </div>
+  <section id="about" class="section about">
+    <div class="section-header">
+      <p class="section-kicker" data-i18n="about_kicker">About Me</p>
+      <h2 class="script-text" data-i18n="about_title">Visual Storyteller</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-image">
+        <img src="me.jpg" alt="Adamou Mohammed Al Amine" />
+      </div>
+      <div class="about-text reveal">
+        <h3 data-i18n="about_name">Adamou Mohammed Al Amine</h3>
+        <p class="about-role" data-i18n="about_role">Video Editor & Visual Storyteller</p>
+        <ul class="about-meta">
+          <li>🎂 <span data-i18n="about_dob">Aug 12, 2005</span></li>
+          <li>📍 <span data-i18n="about_location">El Oued, Algeria</span></li>
+          <li>🎓 <span data-i18n="about_edu">CS & Math — L3</span></li>
+          <li>🏛️ <span data-i18n="about_uni">Hamma Lakhdar University</span></li>
+        </ul>
+        <p data-i18n="about_para">
+          University student in Computer Science & Mathematics, and a passionate video editor with 5+ years of experience. I craft compelling visual stories combining technical precision with cinematic creative vision.
+        </p>
+        <div class="about-tags">
+          <span>🎬 Premiere Pro</span>
+          <span>✨ After Effects</span>
+          <span>🎞️ Motion Graphics</span>
+          <span>▶️ Long-Form</span>
+          <span>📱 Reels</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- SERVICES -->
-  <section class="services section" id="services">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label" data-i18n="services_label">What I Do</span>
-        <h2 class="section-title" data-i18n="services_title">Services</h2>
+  <section id="services" class="section services">
+    <div class="section-header">
+      <p class="section-kicker" data-i18n="services_kicker">What I Offer</p>
+      <h2 class="script-text" data-i18n="services_title">Services</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">🎬</div>
+        <h3 data-i18n="service1_title">Long-Form YouTube</h3>
+        <p data-i18n="service1_desc">Cinematic storytelling, smooth pacing, and premium edits that retain viewers.</p>
       </div>
-      <div class="services-grid">
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fas fa-film"></i></div>
-          <h3 data-i18n="s1_title">Cinematic Editing</h3>
-          <p data-i18n="s1_desc">Long-form cinematic edits for films, documentaries, and brand stories with powerful narrative flow.</p>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
-          <h3 data-i18n="s2_title">Short-Form Content</h3>
-          <p data-i18n="s2_desc">Reels, TikToks, and YouTube Shorts crafted for maximum engagement and viral potential.</p>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fas fa-palette"></i></div>
-          <h3 data-i18n="s3_title">Color Grading</h3>
-          <p data-i18n="s3_desc">Professional color grading that gives your footage a distinct cinematic look and feel.</p>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fas fa-music"></i></div>
-          <h3 data-i18n="s4_title">Sound Design</h3>
-          <p data-i18n="s4_desc">Immersive audio mixing and sound design to complement and elevate your visuals.</p>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fas fa-closed-captioning"></i></div>
-          <h3 data-i18n="s5_title">Subtitles & Captions</h3>
-          <p data-i18n="s5_desc">Multilingual subtitles and animated captions for global reach and accessibility.</p>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fas fa-magic"></i></div>
-          <h3 data-i18n="s6_title">Motion Graphics</h3>
-          <p data-i18n="s6_desc">Eye-catching motion graphics and animated titles that enhance your brand identity.</p>
-        </div>
+      <div class="service-card reveal">
+        <div class="service-icon">📱</div>
+        <h3 data-i18n="service2_title">Short-Form / Reels</h3>
+        <p data-i18n="service2_desc">Viral hooks, dynamic cuts, and platform-optimized content for TikTok & Reels.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">✨</div>
+        <h3 data-i18n="service3_title">Motion Graphics</h3>
+        <p data-i18n="service3_desc">Custom animated titles, intros, transitions, and visual effects.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🎨</div>
+        <h3 data-i18n="service4_title">Color Grading</h3>
+        <p data-i18n="service4_desc">Cinematic color treatment that elevates the mood of your footage.</p>
       </div>
     </div>
   </section>
 
   <!-- LONG FORM VIDEOS -->
-  <section class="longform section" id="longform">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label" data-i18n="lf_label">Cinematic Work</span>
-        <h2 class="section-title" data-i18n="lf_title">Long Form Videos</h2>
+  <section id="longform" class="section longform">
+    <div class="section-header">
+      <p class="section-kicker" data-i18n="longform_kicker">Long Form</p>
+      <h2 class="script-text" data-i18n="longform_title">YouTube Productions</h2>
+    </div>
+    <div class="longform-grid">
+      <div class="video-card reveal" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+        <div class="video-thumb"><span class="play-icon">▶</span></div>
+        <h4>Documentary Edit</h4>
       </div>
-      <div class="video-grid">
-        <div class="video-card reveal" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-          <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Video 1"/>
-            <div class="play-btn"><i class="fas fa-play"></i></div>
-          </div>
-          <div class="video-info">
-            <h4 data-i18n="lf_v1">Documentary — Desert Journey</h4>
-            <span>12:34</span>
-          </div>
-        </div>
-        <div class="video-card reveal" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-          <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Video 2"/>
-            <div class="play-btn"><i class="fas fa-play"></i></div>
-          </div>
-          <div class="video-info">
-            <h4 data-i18n="lf_v2">Brand Film — Vision 2025</h4>
-            <span>8:20</span>
-          </div>
-        </div>
-        <div class="video-card reveal" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-          <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Video 3"/>
-            <div class="play-btn"><i class="fas fa-play"></i></div>
-          </div>
-          <div class="video-info">
-            <h4 data-i18n="lf_v3">Short Film — Echoes</h4>
-            <span>18:45</span>
-          </div>
-        </div>
+      <div class="video-card reveal" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+        <div class="video-thumb"><span class="play-icon">▶</span></div>
+        <h4>Vlog Production</h4>
+      </div>
+      <div class="video-card reveal" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+        <div class="video-thumb"><span class="play-icon">▶</span></div>
+        <h4>Brand Story</h4>
       </div>
     </div>
   </section>
 
   <!-- LATEST WORK CAROUSEL -->
-  <section class="latest-work section" id="work">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label" data-i18n="lw_label">Portfolio</span>
-        <h2 class="section-title" data-i18n="lw_title">Latest Work</h2>
-      </div>
-      <div class="carousel-wrapper reveal">
-        <button class="carousel-btn prev" onclick="moveCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
-        <div class="carousel-track-wrap">
-          <div class="carousel-track" id="carouselTrack">
-            <div class="carousel-item" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-              <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Work 1"/>
-              <div class="carousel-overlay"><span>Project Alpha</span></div>
-            </div>
-            <div class="carousel-item" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-              <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Work 2"/>
-              <div class="carousel-overlay"><span>Project Beta</span></div>
-            </div>
-            <div class="carousel-item" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-              <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Work 3"/>
-              <div class="carousel-overlay"><span>Project Gamma</span></div>
-            </div>
-            <div class="carousel-item" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-              <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Work 4"/>
-              <div class="carousel-overlay"><span>Project Delta</span></div>
-            </div>
-            <div class="carousel-item" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-              <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Work 5"/>
-              <div class="carousel-overlay"><span>Project Epsilon</span></div>
-            </div>
-          </div>
+  <section id="latest" class="section latest">
+    <div class="section-header">
+      <p class="section-kicker" data-i18n="latest_kicker">Latest Work</p>
+      <h2 class="script-text" data-i18n="latest_title">Featured Projects</h2>
+    </div>
+    <div class="carousel">
+      <button class="carousel-btn prev" id="prevBtn">←</button>
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide active">
+          <div class="slide-thumb"><span class="play-icon">▶</span></div>
+          <h4>Cinematic Reel 2025</h4>
         </div>
-        <button class="carousel-btn next" onclick="moveCarousel(1)"><i class="fas fa-chevron-right"></i></button>
+        <div class="carousel-slide">
+          <div class="slide-thumb"><span class="play-icon">▶</span></div>
+          <h4>Brand Campaign</h4>
+        </div>
+        <div class="carousel-slide">
+          <div class="slide-thumb"><span class="play-icon">▶</span></div>
+          <h4>Travel Documentary</h4>
+        </div>
       </div>
-      <div class="carousel-dots" id="carouselDots"></div>
+      <button class="carousel-btn next" id="nextBtn">→</button>
     </div>
   </section>
 
-  <!-- SHORT FORM VIDEOS -->
-  <section class="shortform section" id="shortform">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label" data-i18n="sf_label">Social Media</span>
-        <h2 class="section-title" data-i18n="sf_title">Short Form Videos</h2>
-      </div>
-      <div class="shorts-grid">
-        <div class="short-card reveal" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-          <div class="short-thumb">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Short 1"/>
-            <div class="play-btn small"><i class="fas fa-play"></i></div>
-            <span class="short-duration">0:30</span>
-          </div>
-          <p data-i18n="sf_v1">Reel — Brand Identity</p>
-        </div>
-        <div class="short-card reveal" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-          <div class="short-thumb">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Short 2"/>
-            <div class="play-btn small"><i class="fas fa-play"></i></div>
-            <span class="short-duration">0:45</span>
-          </div>
-          <p data-i18n="sf_v2">TikTok — Travel Vibes</p>
-        </div>
-        <div class="short-card reveal" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-          <div class="short-thumb">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Short 3"/>
-            <div class="play-btn small"><i class="fas fa-play"></i></div>
-            <span class="short-duration">0:58</span>
-          </div>
-          <p data-i18n="sf_v3">YouTube Short — Product Launch</p>
-        </div>
-        <div class="short-card reveal" onclick="openModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
-          <div class="short-thumb">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Short 4"/>
-            <div class="play-btn small"><i class="fas fa-play"></i></div>
-            <span class="short-duration">1:00</span>
-          </div>
-          <p data-i18n="sf_v4">Reel — Event Highlight</p>
-        </div>
-      </div>
+  <!-- SHORT FORM -->
+  <section id="shortform" class="section shortform">
+    <div class="section-header">
+      <p class="section-kicker" data-i18n="shortform_kicker">Short Form</p>
+      <h2 class="script-text" data-i18n="shortform_title">Reels & TikToks</h2>
+    </div>
+    <div class="shortform-grid">
+      <div class="short-card reveal"><div class="short-thumb"><span class="play-icon">▶</span></div></div>
+      <div class="short-card reveal"><div class="short-thumb"><span class="play-icon">▶</span></div></div>
+      <div class="short-card reveal"><div class="short-thumb"><span class="play-icon">▶</span></div></div>
+      <div class="short-card reveal"><div class="short-thumb"><span class="play-icon">▶</span></div></div>
+      <div class="short-card reveal"><div class="short-thumb"><span class="play-icon">▶</span></div></div>
     </div>
   </section>
 
-  <!-- WHY WORK WITH ME -->
-  <section class="why section" id="why">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label" data-i18n="why_label">The Difference</span>
-        <h2 class="section-title" data-i18n="why_title">Why Work With Me?</h2>
+  <!-- WHY ME -->
+  <section id="why" class="section why">
+    <div class="section-header">
+      <p class="section-kicker" data-i18n="why_kicker">Why Work With Me</p>
+      <h2 class="script-text" data-i18n="why_title">The Difference</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <span class="why-icon">⚡</span>
+        <h3 data-i18n="why1_title">Fast Turnaround</h3>
+        <p data-i18n="why1_desc">24–72 hours delivery on most projects.</p>
       </div>
-      <div class="why-grid">
-        <div class="why-card reveal">
-          <i class="fas fa-eye"></i>
-          <h3 data-i18n="why1_title">Cinematic Eye</h3>
-          <p data-i18n="why1_desc">Every cut, transition, and color choice is intentional — crafted to tell your story visually.</p>
-        </div>
-        <div class="why-card reveal">
-          <i class="fas fa-clock"></i>
-          <h3 data-i18n="why2_title">On-Time Delivery</h3>
-          <p data-i18n="why2_desc">I respect deadlines. Your project will be delivered on time, every time — without compromising quality.</p>
-        </div>
-        <div class="why-card reveal">
-          <i class="fas fa-comments"></i>
-          <h3 data-i18n="why3_title">Clear Communication</h3>
-          <p data-i18n="why3_desc">I keep you in the loop at every stage of the editing process so there are no surprises.</p>
-        </div>
-        <div class="why-card reveal">
-          <i class="fas fa-infinity"></i>
-          <h3 data-i18n="why4_title">Unlimited Revisions</h3>
-          <p data-i18n="why4_desc">Your satisfaction is my priority. I'll revise until the final cut is exactly what you envisioned.</p>
-        </div>
+      <div class="why-card reveal">
+        <span class="why-icon">🔄</span>
+        <h3 data-i18n="why2_title">Unlimited Revisions</h3>
+        <p data-i18n="why2_desc">Until you are 100% satisfied with the final result.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">🎯</span>
+        <h3 data-i18n="why3_title">Platform-Optimized</h3>
+        <p data-i18n="why3_desc">Edits crafted for YouTube, TikTok, Instagram & more.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">🔒</span>
+        <h3 data-i18n="why4_title">100% Confidential</h3>
+        <p data-i18n="why4_desc">NDA-friendly, your project stays private.</p>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
-  <section class="contact section" id="contact">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label" data-i18n="contact_label">Get In Touch</span>
-        <h2 class="section-title" data-i18n="contact_title">Let's Create Together</h2>
+  <section id="contact" class="section contact">
+    <div class="section-header">
+      <p class="section-kicker" data-i18n="contact_kicker">Work Together</p>
+      <h2 class="script-text" data-i18n="contact_title">Let's Create</h2>
+    </div>
+    <div class="contact-wrap">
+      <div class="contact-info reveal">
+        <p data-i18n="contact_intro">Ready to elevate your content? Let's discuss your project.</p>
+        <p>✉️ <a href="mailto:[email protected]">[email protected]</a></p>
+        <p>💬 WhatsApp: <a href="https://wa.me/213782955961" target="_blank">+213 782 955 961</a></p>
       </div>
-      <div class="contact-grid">
-        <div class="contact-info reveal">
-          <p data-i18n="contact_desc">Have a project in mind? I'd love to hear about it. Send me a message and let's bring your vision to life.</p>
-          <div class="contact-links">
-            <a href="mailto:amine@example.com" class="contact-link">
-              <i class="fas fa-envelope"></i>
-              <span>amine@example.com</span>
-            </a>
-            <a href="https://wa.me/1234567890" target="_blank" class="contact-link">
-              <i class="fab fa-whatsapp"></i>
-              <span>+1 234 567 890</span>
-            </a>
-          </div>
+      <form class="contact-form reveal" id="contactForm">
+        <input type="text" id="fullName" placeholder="Full Name" data-i18n-placeholder="form_name" required />
+        <input type="email" id="email" placeholder="Email Address" data-i18n-placeholder="form_email" required />
+        <input type="text" id="projectType" placeholder="Project Type" data-i18n-placeholder="form_project" />
+        <input type="text" id="budget" placeholder="Budget (USD)" data-i18n-placeholder="form_budget" />
+        <textarea id="details" rows="4" placeholder="Project Details" data-i18n-placeholder="form_details" required></textarea>
+        <div class="form-buttons">
+          <button type="button" id="sendWhatsApp" class="btn btn-primary" data-i18n="form_btn_wa">💬 Send via WhatsApp</button>
+          <button type="button" id="sendEmail" class="btn btn-outline" data-i18n="form_btn_email">✉️ Send via Email</button>
         </div>
-        <form class="contact-form reveal" id="contactForm" onsubmit="sendMessage(event)">
-          <div class="form-group">
-            <input type="text" id="fname" placeholder=" " required />
-            <label data-i18n="form_name">Your Name</label>
-          </div>
-          <div class="form-group">
-            <input type="email" id="femail" placeholder=" " required />
-            <label data-i18n="form_email">Your Email</label>
-          </div>
-          <div class="form-group">
-            <select id="fservice">
-              <option value="" data-i18n="form_service">Select a Service</option>
-              <option value="Cinematic Editing">Cinematic Editing</option>
-              <option value="Short-Form Content">Short-Form Content</option>
-              <option value="Color Grading">Color Grading</option>
-              <option value="Sound Design">Sound Design</option>
-              <option value="Motion Graphics">Motion Graphics</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <textarea id="fmessage" rows="5" placeholder=" " required></textarea>
-            <label data-i18n="form_message">Your Message</label>
-          </div>
-          <div class="form-btns">
-            <button type="submit" class="btn-primary" data-i18n="form_send">Send Message</button>
-            <button type="button" class="btn-whatsapp" onclick="sendWhatsApp()">
-              <i class="fab fa-whatsapp"></i>
-              <span data-i18n="form_wa">Chat on WhatsApp</span>
-            </button>
-          </div>
-        </form>
-      </div>
+      </form>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="container">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <span class="great-vibes footer-logo">AMINE</span>
-          <p data-i18n="footer_tagline">Crafting cinematic stories.</p>
-        </div>
-        <div class="footer-links">
-          <a href="#about" data-i18n="nav_about">About</a>
-          <a href="#services" data-i18n="nav_services">Services</a>
-          <a href="#work" data-i18n="nav_work">Work</a>
-          <a href="#contact" data-i18n="nav_contact">Contact</a>
-        </div>
-        <div class="footer-social">
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-          <a href="#"><i class="fab fa-tiktok"></i></a>
-          <a href="#"><i class="fab fa-linkedin"></i></a>
-        </div>
+    <div class="footer-grid">
+      <div>
+        <h3 class="logo">AMINE</h3>
+        <p data-i18n="footer_tag">Crafting stories, one frame at a time.</p>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 AMINE. <span data-i18n="footer_rights">All rights reserved.</span></p>
+      <div>
+        <h4 data-i18n="footer_nav">Navigation</h4>
+        <a href="#home" data-i18n="nav_home">Home</a>
+        <a href="#about" data-i18n="nav_about">About</a>
+        <a href="#latest" data-i18n="nav_latest">Latest Work</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
+      </div>
+      <div>
+        <h4 data-i18n="footer_connect">Connect</h4>
+        <a href="#">Behance</a>
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+        <a href="#">WhatsApp</a>
       </div>
     </div>
+    <p class="copyright">© 2025 Adamou Mohammed Al Amine · El Oued, Algeria</p>
   </footer>
 
   <!-- VIDEO MODAL -->
-  <div class="modal-overlay" id="videoModal" onclick="closeModal(event)">
+  <div class="modal" id="videoModal">
     <div class="modal-content">
-      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-      <div class="modal-video-wrap">
-        <iframe id="modalIframe" src="" frameborder="0" allowfullscreen></iframe>
-      </div>
+      <button class="modal-close" id="modalClose">✕</button>
+      <iframe id="modalIframe" src="" frameborder="0" allowfullscreen></iframe>
     </div>
   </div>
 
