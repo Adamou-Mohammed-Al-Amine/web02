@@ -1,254 +1,259 @@
-// ===== TRANSLATIONS =====
+/* =========== TRANSLATIONS =========== */
 const translations = {
   en: {
     nav_home: "Home", nav_about: "About", nav_services: "Services",
-    nav_work: "Work", nav_contact: "Contact",
-    hero_sub: "Creative Video Editor",
-    hero_desc: "Crafting cinematic stories that leave a lasting impression.",
-    hero_btn1: "View My Work", hero_btn2: "Let's Work Together",
-    about_label: "About Me", about_title: "The Editor Behind the Frame",
-    about_p1: "I'm Adamou Mohammed Al Amine — a passionate video editor with years of experience crafting compelling visual narratives for brands, creators, and filmmakers worldwide.",
-    about_p2: "My work spans cinematic long-form documentaries to fast-paced short-form content, always driven by storytelling, rhythm, and emotion.",
-    stat1: "Projects Done", stat2: "Years Experience", stat3: "Happy Clients",
-    services_label: "What I Do", services_title: "Services",
-    s1_title: "Cinematic Editing", s1_desc: "Long-form cinematic edits for films, documentaries, and brand stories with powerful narrative flow.",
-    s2_title: "Short-Form Content", s2_desc: "Reels, TikToks, and YouTube Shorts crafted for maximum engagement and viral potential.",
-    s3_title: "Color Grading", s3_desc: "Professional color grading that gives your footage a distinct cinematic look and feel.",
-    s4_title: "Sound Design", s4_desc: "Immersive audio mixing and sound design to complement and elevate your visuals.",
-    s5_title: "Subtitles & Captions", s5_desc: "Multilingual subtitles and animated captions for global reach and accessibility.",
-    s6_title: "Motion Graphics", s6_desc: "Eye-catching motion graphics and animated titles that enhance your brand identity.",
-    lf_label: "Cinematic Work", lf_title: "Long Form Videos",
-    lf_v1: "Documentary — Desert Journey", lf_v2: "Brand Film — Vision 2025", lf_v3: "Short Film — Echoes",
-    lw_label: "Portfolio", lw_title: "Latest Work",
-    sf_label: "Social Media", sf_title: "Short Form Videos",
-    sf_v1: "Reel — Brand Identity", sf_v2: "TikTok — Travel Vibes",
-    sf_v3: "YouTube Short — Product Launch", sf_v4: "Reel — Event Highlight",
-    why_label: "The Difference", why_title: "Why Work With Me?",
-    why1_title: "Cinematic Eye", why1_desc: "Every cut, transition, and color choice is intentional — crafted to tell your story visually.",
-    why2_title: "On-Time Delivery", why2_desc: "I respect deadlines. Your project will be delivered on time, every time — without compromising quality.",
-    why3_title: "Clear Communication", why3_desc: "I keep you in the loop at every stage of the editing process so there are no surprises.",
-    why4_title: "Unlimited Revisions", why4_desc: "Your satisfaction is my priority. I'll revise until the final cut is exactly what you envisioned.",
-    contact_label: "Get In Touch", contact_title: "Let's Create Together",
-    contact_desc: "Have a project in mind? I'd love to hear about it. Send me a message and let's bring your vision to life.",
-    form_name: "Your Name", form_email: "Your Email",
-    form_service: "Select a Service", form_message: "Your Message",
-    form_send: "Send Message", form_wa: "Chat on WhatsApp",
-    footer_tagline: "Crafting cinematic stories.", footer_rights: "All rights reserved."
+    nav_longform: "Long Form", nav_latest: "Latest Work",
+    nav_shortform: "Short Form", nav_why: "Why Me", nav_contact: "Contact",
+    hero_accent: "Available for Projects · El Oued, Algeria",
+    hero_title: "Professional Video Editor",
+    hero_script: "Cinematic Storyteller",
+    hero_subtitle: "Crafting viral short-form content and premium long-form YouTube productions that captivate and convert.",
+    hero_btn_portfolio: "▶ View Portfolio",
+    hero_btn_hire: "Hire Me",
+    scroll: "Scroll",
+    about_kicker: "About Me", about_title: "Visual Storyteller",
+    about_name: "Adamou Mohammed Al Amine",
+    about_role: "Video Editor & Visual Storyteller",
+    about_dob: "Aug 12, 2005", about_location: "El Oued, Algeria",
+    about_edu: "CS & Math — L3", about_uni: "Hamma Lakhdar University",
+    about_para: "University student in Computer Science & Mathematics, and a passionate video editor with 5+ years of experience. I craft compelling visual stories combining technical precision with cinematic creative vision.",
+    services_kicker: "What I Offer", services_title: "Services",
+    service1_title: "Long-Form YouTube",
+    service1_desc: "Cinematic storytelling, smooth pacing, and premium edits that retain viewers.",
+    service2_title: "Short-Form / Reels",
+    service2_desc: "Viral hooks, dynamic cuts, and platform-optimized content for TikTok & Reels.",
+    service3_title: "Motion Graphics",
+    service3_desc: "Custom animated titles, intros, transitions, and visual effects.",
+    service4_title: "Color Grading",
+    service4_desc: "Cinematic color treatment that elevates the mood of your footage.",
+    longform_kicker: "Long Form", longform_title: "YouTube Productions",
+    latest_kicker: "Latest Work", latest_title: "Featured Projects",
+    shortform_kicker: "Short Form", shortform_title: "Reels & TikToks",
+    why_kicker: "Why Work With Me", why_title: "The Difference",
+    why1_title: "Fast Turnaround", why1_desc: "24–72 hours delivery on most projects.",
+    why2_title: "Unlimited Revisions", why2_desc: "Until you are 100% satisfied with the final result.",
+    why3_title: "Platform-Optimized", why3_desc: "Edits crafted for YouTube, TikTok, Instagram & more.",
+    why4_title: "100% Confidential", why4_desc: "NDA-friendly, your project stays private.",
+    contact_kicker: "Work Together", contact_title: "Let's Create",
+    contact_intro: "Ready to elevate your content? Let's discuss your project.",
+    form_name: "Full Name", form_email: "Email Address",
+    form_project: "Project Type", form_budget: "Budget (USD)",
+    form_details: "Project Details",
+    form_btn_wa: "💬 Send via WhatsApp", form_btn_email: "✉️ Send via Email",
+    footer_tag: "Crafting stories, one frame at a time.",
+    footer_nav: "Navigation", footer_connect: "Connect"
   },
   ar: {
-    nav_home: "الرئيسية", nav_about: "عني", nav_services: "الخدمات",
-    nav_work: "أعمالي", nav_contact: "تواصل",
-    hero_sub: "مونتير فيديو إبداعي",
-    hero_desc: "أصنع قصصاً سينمائية تترك أثراً لا يُنسى.",
-    hero_btn1: "شاهد أعمالي", hero_btn2: "لنعمل معاً",
-    about_label: "عني", about_title: "المونتير خلف الكادر",
-    about_p1: "أنا آدم محمد الأمين — مونتير فيديو شغوف بسنوات من الخبرة في صياغة روايات بصرية مقنعة للعلامات التجارية والمبدعين وصانعي الأفلام حول العالم.",
-    about_p2: "يمتد عملي من الأفلام الوثائقية السينمائية الطويلة إلى المحتوى القصير سريع الإيقاع، مدفوعاً دائماً بالسرد والإيقاع والعاطفة.",
-    stat1: "مشروع منجز", stat2: "سنوات خبرة", stat3: "عميل سعيد",
-    services_label: "ما أقدمه", services_title: "الخدمات",
-    s1_title: "مونتاج سينمائي", s1_desc: "تحرير سينمائي طويل للأفلام والوثائقيات وقصص العلامات التجارية بتدفق سردي قوي.",
-    s2_title: "محتوى قصير", s2_desc: "ريلز وتيك توك ويوتيوب شورتس مصممة لأقصى تفاعل وإمكانية انتشار.",
-    s3_title: "تدرج الألوان", s3_desc: "تدرج ألوان احترافي يمنح لقطاتك مظهراً سينمائياً مميزاً.",
-    s4_title: "تصميم الصوت", s4_desc: "مزج صوتي غامر وتصميم صوت يكمل مرئياتك ويرفع مستواها.",
-    s5_title: "الترجمة والتعليقات", s5_desc: "ترجمات متعددة اللغات وتعليقات متحركة للوصول العالمي وإمكانية الوصول.",
-    s6_title: "موشن جرافيك", s6_desc: "رسوم متحركة جذابة وعناوين متحركة تعزز هوية علامتك التجارية.",
-    lf_label: "العمل السينمائي", lf_title: "فيديوهات طويلة",
-    lf_v1: "وثائقي — رحلة الصحراء", lf_v2: "فيلم علامة تجارية — رؤية 2025", lf_v3: "فيلم قصير — أصداء",
-    lw_label: "معرض الأعمال", lw_title: "أحدث الأعمال",
-    sf_label: "وسائل التواصل", sf_title: "فيديوهات قصيرة",
-    sf_v1: "ريل — هوية العلامة", sf_v2: "تيك توك — أجواء السفر",
-    sf_v3: "يوتيوب شورت — إطلاق منتج", sf_v4: "ريل — تغطية حدث",
-    why_label: "الفارق", why_title: "لماذا تعمل معي؟",
-    why1_title: "عين سينمائية", why1_desc: "كل قطعة وانتقال واختيار لون مقصود — مصمم لرواية قصتك بصرياً.",
-    why2_title: "التسليم في الوقت المحدد", why2_desc: "أحترم المواعيد النهائية. سيتم تسليم مشروعك في الوقت المحدد دون المساس بالجودة.",
-    why3_title: "تواصل واضح", why3_desc: "أبقيك على اطلاع في كل مرحلة من مراحل عملية التحرير حتى لا تكون هناك مفاجآت.",
-    why4_title: "تعديلات غير محدودة", why4_desc: "رضاك هو أولويتي. سأراجع حتى يكون المنتج النهائي بالضبط ما تصورته.",
-    contact_label: "تواصل معي", contact_title: "لنبدع معاً",
-    contact_desc: "هل لديك مشروع في ذهنك؟ أود سماع المزيد عنه. أرسل لي رسالة ولنحول رؤيتك إلى واقع.",
-    form_name: "اسمك", form_email: "بريدك الإلكتروني",
-    form_service: "اختر خدمة", form_message: "رسالتك",
-    form_send: "أرسل الرسالة", form_wa: "تواصل عبر واتساب",
-    footer_tagline: "نصنع قصصاً سينمائية.", footer_rights: "جميع الحقوق محفوظة."
+    nav_home: "الرئيسية", nav_about: "نبذة", nav_services: "الخدمات",
+    nav_longform: "فيديوهات طويلة", nav_latest: "أحدث الأعمال",
+    nav_shortform: "فيديوهات قصيرة", nav_why: "لماذا أنا", nav_contact: "تواصل",
+    hero_accent: "متاح للمشاريع · الوادي، الجزائر",
+    hero_title: "مونتير فيديو محترف",
+    hero_script: "صانع قصص سينمائي",
+    hero_subtitle: "أصنع محتوى قصير منتشر وإنتاجات يوتيوب طويلة عالية الجودة تأسر المشاهدين وتحقق النتائج.",
+    hero_btn_portfolio: "▶ شاهد الأعمال",
+    hero_btn_hire: "وظفني",
+    scroll: "اسحب",
+    about_kicker: "نبذة عني", about_title: "صانع القصص",
+    about_name: "أدمو محمد الأمين",
+    about_role: "مونتير فيديو وصانع قصص بصرية",
+    about_dob: "12 أوت 2005", about_location: "الوادي، الجزائر",
+    about_edu: "علوم الحاسوب والرياضيات — السنة 3", about_uni: "جامعة حمة لخضر",
+    about_para: "طالب جامعي في علوم الحاسوب والرياضيات، ومونتير فيديو شغوف بأكثر من 5 سنوات من الخبرة. أصنع قصصاً بصرية مؤثرة تجمع بين الدقة التقنية والرؤية الإبداعية السينمائية.",
+    services_kicker: "ما أقدمه", services_title: "الخدمات",
+    service1_title: "يوتيوب طويل",
+    service1_desc: "سرد سينمائي وإيقاع سلس ومونتاج راقٍ يحافظ على المشاهدين.",
+    service2_title: "فيديوهات قصيرة / ريلز",
+    service2_desc: "خطافات منتشرة وقطعات ديناميكية ومحتوى محسّن للتيك توك والريلز.",
+    service3_title: "موشن جرافيك",
+    service3_desc: "عناوين متحركة وانترو وانتقالات ومؤثرات بصرية مخصصة.",
+    service4_title: "تدرج الألوان",
+    service4_desc: "معالجة لونية سينمائية ترفع من جودة لقطاتك.",
+    longform_kicker: "فيديوهات طويلة", longform_title: "إنتاجات يوتيوب",
+    latest_kicker: "أحدث الأعمال", latest_title: "مشاريع مميزة",
+    shortform_kicker: "فيديوهات قصيرة", shortform_title: "ريلز وتيك توك",
+    why_kicker: "لماذا تعمل معي", why_title: "الفرق",
+    why1_title: "تسليم سريع", why1_desc: "تسليم خلال 24–72 ساعة لمعظم المشاريع.",
+    why2_title: "تعديلات غير محدودة", why2_desc: "حتى تكون راضياً 100% عن النتيجة.",
+    why3_title: "محسّن للمنصات", why3_desc: "مونتاج مصمم خصيصاً ليوتيوب وتيك توك وانستغرام.",
+    why4_title: "سرية تامة", why4_desc: "اتفاقيات سرية، مشروعك يبقى خاصاً.",
+    contact_kicker: "لنعمل معاً", contact_title: "لنبدع",
+    contact_intro: "جاهز لرفع مستوى محتواك؟ لنناقش مشروعك.",
+    form_name: "الاسم الكامل", form_email: "البريد الإلكتروني",
+    form_project: "نوع المشروع", form_budget: "الميزانية (USD)",
+    form_details: "تفاصيل المشروع",
+    form_btn_wa: "💬 إرسال عبر واتساب", form_btn_email: "✉️ إرسال عبر البريد",
+    footer_tag: "أصنع القصص، إطاراً تلو الآخر.",
+    footer_nav: "التنقل", footer_connect: "تواصل معي"
   },
   fr: {
     nav_home: "Accueil", nav_about: "À propos", nav_services: "Services",
-    nav_work: "Travaux", nav_contact: "Contact",
-    hero_sub: "Monteur Vidéo Créatif",
-    hero_desc: "Créer des histoires cinématographiques qui laissent une impression durable.",
-    hero_btn1: "Voir mes travaux", hero_btn2: "Travaillons ensemble",
-    about_label: "À propos", about_title: "Le monteur derrière le cadre",
-    about_p1: "Je suis Adamou Mohammed Al Amine — un monteur vidéo passionné avec des années d'expérience dans la création de récits visuels convaincants pour les marques, les créateurs et les cinéastes du monde entier.",
-    about_p2: "Mon travail va des documentaires cinématographiques longs au contenu court dynamique, toujours guidé par la narration, le rythme et l'émotion.",
-    stat1: "Projets réalisés", stat2: "Ans d'expérience", stat3: "Clients satisfaits",
-    services_label: "Ce que je fais", services_title: "Services",
-    s1_title: "Montage cinématographique", s1_desc: "Montages longs cinématographiques pour films, documentaires et histoires de marques.",
-    s2_title: "Contenu court", s2_desc: "Reels, TikToks et YouTube Shorts conçus pour un engagement maximal.",
-    s3_title: "Étalonnage des couleurs", s3_desc: "Étalonnage professionnel qui donne à vos images un look cinématographique distinctif.",
-    s4_title: "Design sonore", s4_desc: "Mixage audio immersif et design sonore pour compléter vos visuels.",
-    s5_title: "Sous-titres", s5_desc: "Sous-titres multilingues et légendes animées pour une portée mondiale.",
-    s6_title: "Motion Graphics", s6_desc: "Animations accrocheuses et titres animés qui renforcent votre identité de marque.",
-    lf_label: "Travail cinématographique", lf_title: "Vidéos longues",
-    lf_v1: "Documentaire — Voyage dans le désert", lf_v2: "Film de marque — Vision 2025", lf_v3: "Court métrage — Échos",
-    lw_label: "Portfolio", lw_title: "Derniers travaux",
-    sf_label: "Réseaux sociaux", sf_title: "Vidéos courtes",
-    sf_v1: "Reel — Identité de marque", sf_v2: "TikTok — Ambiances voyage",
-    sf_v3: "YouTube Short — Lancement produit", sf_v4: "Reel — Temps forts événement",
-    why_label: "La différence", why_title: "Pourquoi travailler avec moi?",
-    why1_title: "Œil cinématographique", why1_desc: "Chaque coupe, transition et choix de couleur est intentionnel — conçu pour raconter votre histoire visuellement.",
-    why2_title: "Livraison dans les délais", why2_desc: "Je respecte les délais. Votre projet sera livré à temps, à chaque fois — sans compromettre la qualité.",
-    why3_title: "Communication claire", why3_desc: "Je vous tiens informé à chaque étape du processus de montage.",
-    why4_title: "Révisions illimitées", why4_desc: "Votre satisfaction est ma priorité. Je réviserai jusqu'à ce que le résultat final soit exactement ce que vous avez imaginé.",
-    contact_label: "Contactez-moi", contact_title: "Créons ensemble",
-    contact_desc: "Vous avez un projet en tête? J'aimerais en savoir plus. Envoyez-moi un message et donnons vie à votre vision.",
-    form_name: "Votre nom", form_email: "Votre email",
-    form_service: "Choisir un service", form_message: "Votre message",
-    form_send: "Envoyer le message", form_wa: "Discuter sur WhatsApp",
-    footer_tagline: "Créer des histoires cinématographiques.", footer_rights: "Tous droits réservés."
+    nav_longform: "Format Long", nav_latest: "Travaux Récents",
+    nav_shortform: "Format Court", nav_why: "Pourquoi Moi", nav_contact: "Contact",
+    hero_accent: "Disponible pour Projets · El Oued, Algérie",
+    hero_title: "Monteur Vidéo Professionnel",
+    hero_script: "Conteur Cinématographique",
+    hero_subtitle: "Création de contenus courts viraux et de productions YouTube longues haut de gamme qui captivent et convertissent.",
+    hero_btn_portfolio: "▶ Voir Portfolio",
+    hero_btn_hire: "Engagez-moi",
+    scroll: "Défiler",
+    about_kicker: "À Propos", about_title: "Conteur Visuel",
+    about_name: "Adamou Mohammed Al Amine",
+    about_role: "Monteur Vidéo & Conteur Visuel",
+    about_dob: "12 Août 2005", about_location: "El Oued, Algérie",
+    about_edu: "Info & Maths — L3", about_uni: "Université Hamma Lakhdar",
+    about_para: "Étudiant universitaire en Informatique et Mathématiques, monteur vidéo passionné avec plus de 5 ans d'expérience. Je crée des récits visuels captivants alliant précision technique et vision créative cinématographique.",
+    services_kicker: "Ce Que J'offre", services_title: "Services",
+    service1_title: "YouTube Format Long",
+    service1_desc: "Narration cinématographique, rythme fluide et montages premium qui retiennent les spectateurs.",
+    service2_title: "Format Court / Reels",
+    service2_desc: "Accroches virales, coupes dynamiques et contenu optimisé pour TikTok & Reels.",
+    service3_title: "Motion Graphics",
+    service3_desc: "Titres animés sur mesure, intros, transitions et effets visuels.",
+    service4_title: "Étalonnage Couleur",
+    service4_desc: "Traitement chromatique cinématographique qui sublime vos images.",
+    longform_kicker: "Format Long", longform_title: "Productions YouTube",
+    latest_kicker: "Travaux Récents", latest_title: "Projets Phares",
+    shortform_kicker: "Format Court", shortform_title: "Reels & TikToks",
+    why_kicker: "Pourquoi Travailler Avec Moi", why_title: "La Différence",
+    why1_title: "Livraison Rapide", why1_desc: "Livraison sous 24–72h pour la plupart des projets.",
+    why2_title: "Révisions Illimitées", why2_desc: "Jusqu'à votre satisfaction totale.",
+    why3_title: "Optimisé Plateformes", why3_desc: "Montages conçus pour YouTube, TikTok, Instagram et plus.",
+    why4_title: "100% Confidentiel", why4_desc: "Compatible NDA, votre projet reste privé.",
+    contact_kicker: "Travaillons Ensemble", contact_title: "Créons",
+    contact_intro: "Prêt à élever votre contenu ? Discutons de votre projet.",
+    form_name: "Nom Complet", form_email: "Adresse Email",
+    form_project: "Type de Projet", form_budget: "Budget (USD)",
+    form_details: "Détails du Projet",
+    form_btn_wa: "💬 Envoyer via WhatsApp", form_btn_email: "✉️ Envoyer par Email",
+    footer_tag: "Création d'histoires, image par image.",
+    footer_nav: "Navigation", footer_connect: "Connexion"
   }
 };
 
-// ===== LANGUAGE =====
-let currentLang = localStorage.getItem('lang') || 'en';
+/* =========== LANGUAGE SWITCHING =========== */
+const langSwitcher = document.getElementById('langSwitcher');
 
-function setLang(lang) {
-  currentLang = lang;
-  localStorage.setItem('lang', lang);
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+function applyLanguage(lang) {
+  const dict = translations[lang] || translations.en;
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (translations[lang][key]) el.textContent = translations[lang][key];
+    if (dict[key]) el.textContent = dict[key];
   });
-  document.querySelectorAll('.lang-switcher button').forEach(btn => {
-    btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (dict[key]) el.placeholder = dict[key];
   });
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  localStorage.setItem('amine_lang', lang);
+  langSwitcher.value = lang;
 }
 
-// ===== NAVBAR =====
-const navbar = document.getElementById('navbar');
+const savedLang = localStorage.getItem('amine_lang') || 'en';
+applyLanguage(savedLang);
+
+langSwitcher.addEventListener('change', (e) => applyLanguage(e.target.value));
+
+/* =========== MOBILE MENU =========== */
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+
+menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a =>
+  a.addEventListener('click', () => navLinks.classList.remove('open'))
+);
+
+/* =========== ACTIVE NAV LINK =========== */
+const sections = document.querySelectorAll('section[id]');
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
-});
-
-function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('open');
-}
-
-document.querySelectorAll('.nav-links a').forEach(link => {
-  link.addEventListener('click', () => {
-    document.getElementById('navLinks').classList.remove('open');
-  });
-});
-
-// ===== REVEAL ON SCROLL =====
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 100);
-      revealObserver.unobserve(entry.target);
+  const scrollY = window.pageYOffset;
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 120;
+    const height = sec.offsetHeight;
+    const id = sec.getAttribute('id');
+    const link = document.querySelector(`.nav-links a[href="#${id}"]`);
+    if (link) {
+      if (scrollY >= top && scrollY < top + height) link.classList.add('active');
+      else link.classList.remove('active');
     }
   });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-// ===== VIDEO MODAL =====
-function openModal(url) {
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('modalIframe');
-  iframe.src = url + '?autoplay=1';
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal(e) {
-  if (e && e.target !== document.getElementById('videoModal') && !e.target.closest('.modal-close')) return;
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('modalIframe');
-  modal.classList.remove('active');
-  iframe.src = '';
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
 });
 
-// ===== CAROUSEL =====
-let carouselIndex = 0;
-const track = document.getElementById('carouselTrack');
-const items = document.querySelectorAll('.carousel-item');
-const dotsContainer = document.getElementById('carouselDots');
-const visibleItems = () => window.innerWidth <= 480 ? 1 : window.innerWidth <= 768 ? 1 : window.innerWidth <= 1024 ? 2 : 3;
-
-function buildDots() {
-  dotsContainer.innerHTML = '';
-  const total = Math.ceil(items.length / visibleItems());
-  for (let i = 0; i < total; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.onclick = () => goToSlide(i);
-    dotsContainer.appendChild(dot);
-  }
-}
-
-function updateCarousel() {
-  const vi = visibleItems();
-  const maxIndex = Math.ceil(items.length / vi) - 1;
-  carouselIndex = Math.max(0, Math.min(carouselIndex, maxIndex));
-  const itemWidth = track.parentElement.offsetWidth / vi;
-  const gap = 20;
-  track.style.transform = `translateX(-${carouselIndex * (itemWidth + gap) * vi}px)`;
-  document.querySelectorAll('.dot').forEach((dot, i) => {
-    dot.classList.toggle('active', i === carouselIndex);
+/* =========== REVEAL ON SCROLL =========== */
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
   });
+}, { threshold: 0.15 });
+revealEls.forEach(el => observer.observe(el));
+
+/* =========== VIDEO MODAL =========== */
+const modal = document.getElementById('videoModal');
+const modalIframe = document.getElementById('modalIframe');
+const modalClose = document.getElementById('modalClose');
+
+document.querySelectorAll('.video-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const url = card.getAttribute('data-video');
+    modalIframe.src = url;
+    modal.classList.add('active');
+  });
+});
+modalClose.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+function closeModal() {
+  modal.classList.remove('active');
+  modalIframe.src = '';
 }
 
-function moveCarousel(dir) {
-  const vi = visibleItems();
-  const maxIndex = Math.ceil(items.length / vi) - 1;
-  carouselIndex = Math.max(0, Math.min(carouselIndex + dir, maxIndex));
-  updateCarousel();
-}
+/* =========== CAROUSEL =========== */
+const slides = document.querySelectorAll('.carousel-slide');
+let currentSlide = 0;
 
-function goToSlide(i) {
-  carouselIndex = i;
-  updateCarousel();
-}
-
-window.addEventListener('resize', () => {
-  buildDots();
-  updateCarousel();
+document.getElementById('nextBtn').addEventListener('click', () => {
+  slides[currentSlide].classList.remove('active');
+  currentSlide = (currentSlide + 1) % slides.length;
+  slides[currentSlide].classList.add('active');
+  slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+});
+document.getElementById('prevBtn').addEventListener('click', () => {
+  slides[currentSlide].classList.remove('active');
+  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+  slides[currentSlide].classList.add('active');
+  slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 });
 
-// ===== SMOOTH CLOSE MODAL ON OVERLAY CLICK =====
-document.getElementById('videoModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
+/* =========== SHORT FORM EXPAND =========== */
+document.querySelectorAll('.short-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.short-card').forEach(c => c.classList.remove('expanded'));
+    card.classList.add('expanded');
+  });
 });
 
-// ===== CONTACT FORM =====
-function sendMessage(e) {
-  e.preventDefault();
-  const name = document.getElementById('fname').value;
-  const email = document.getElementById('femail').value;
-  const service = document.getElementById('fservice').value;
-  const message = document.getElementById('fmessage').value;
-  const subject = encodeURIComponent(`Project Inquiry from ${name}`);
-  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nService: ${service}\n\nMessage:\n${message}`);
-  window.location.href = `mailto:amine@example.com?subject=${subject}&body=${body}`;
+/* =========== CONTACT FORM =========== */
+function buildMessage() {
+  const name = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const project = document.getElementById('projectType').value.trim();
+  const budget = document.getElementById('budget').value.trim();
+  const details = document.getElementById('details').value.trim();
+
+  return `New Project Brief%0A%0AName: ${name}%0AEmail: ${email}%0AProject Type: ${project}%0ABudget: ${budget} USD%0A%0ADetails:%0A${details}`;
 }
 
-function sendWhatsApp() {
-  const name = document.getElementById('fname').value || 'there';
-  const service = document.getElementById('fservice').value || 'your services';
-  const message = document.getElementById('fmessage').value || '';
-  const text = encodeURIComponent(`Hi AMINE! My name is ${name}. I'm interested in ${service}.\n\n${message}`);
-  window.open(`https://wa.me/1234567890?text=${text}`, '_blank');
-}
+document.getElementById('sendWhatsApp').addEventListener('click', () => {
+  const msg = buildMessage();
+  window.open(`https://wa.me/213782955961?text=${msg}`, '_blank');
+});
 
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded', () => {
-  setLang(currentLang);
-  buildDots();
-  updateCarousel();
+document.getElementById('sendEmail').addEventListener('click', () => {
+  const subject = 'New Project Brief';
+  const body = buildMessage().replace(/%0A/g, '\n');
+  window.location.href = `mailto:[email protected]?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 });
