@@ -1,568 +1,186 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="AMINE — Professional Video Editor. Cinematic edits, clear storytelling, strong results." />
-  <meta name="keywords" content="video editor, cinematic, short form, long form, brand video, YouTube, social media" />
-  <title>AMINE — Video Editor</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMINE — Professional Video Editor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="cinematic-theme">
+    <div class="grain-overlay"></div>
 
-<!-- GRAIN OVERLAY -->
-<div class="grain-overlay" aria-hidden="true"></div>
-
-<!-- LOADING SCREEN -->
-<div id="loader">
-  <div class="loader-inner">
-    <div class="loader-logo">AMINE</div>
-    <div class="loader-line"><span></span></div>
-    <div class="loader-sub" data-i18n="loader_sub">Video Editor</div>
-  </div>
-</div>
-
-<!-- CURSOR -->
-<div id="cursor"></div>
-<div id="cursor-follower"></div>
-
-<!-- NAVBAR -->
-<nav id="navbar">
-  <div class="nav-container">
-    <a href="#home" class="nav-logo">AMINE</a>
-    <ul class="nav-links">
-      <li><a href="#home" data-i18n="nav_home">Home</a></li>
-      <li><a href="#about" data-i18n="nav_about">About</a></li>
-      <li><a href="#services" data-i18n="nav_services">Services</a></li>
-      <li><a href="#videos" data-i18n="nav_videos">Videos</a></li>
-      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-    </ul>
-    <div class="nav-right">
-      <div class="lang-switcher" id="langSwitcher">
-        <span class="lang-current" id="langCurrent">EN</span>
-        <div class="lang-dropdown" id="langDropdown">
-          <span class="lang-opt" data-lang="en">EN — English</span>
-          <span class="lang-opt" data-lang="fr">FR — Français</span>
-          <span class="lang-opt" data-lang="ar">AR — العربية</span>
-        </div>
-      </div>
-      <a href="#contact" class="btn-hire" data-i18n="btn_hire">Hire Me</a>
-      <button class="nav-burger" id="navBurger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <ul>
-      <li><a href="#home" data-i18n="nav_home">Home</a></li>
-      <li><a href="#about" data-i18n="nav_about">About</a></li>
-      <li><a href="#services" data-i18n="nav_services">Services</a></li>
-      <li><a href="#videos" data-i18n="nav_videos">Videos</a></li>
-      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-    </ul>
-    <div class="mobile-lang">
-      <span class="lang-opt" data-lang="en">EN</span>
-      <span class="lang-opt" data-lang="fr">FR</span>
-      <span class="lang-opt" data-lang="ar">AR</span>
-    </div>
-  </div>
-</nav>
-
-<!-- ============ HERO ============ -->
-<section id="home" class="hero">
-  <canvas id="heroCanvas"></canvas>
-  <div class="hero-vignette" aria-hidden="true"></div>
-  <div class="hero-sweep" aria-hidden="true"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow reveal-line"><span data-i18n="hero_eyebrow">Professional Video Editor</span></div>
-    <h1 class="hero-title">
-      <span class="hero-title-line reveal-line"><span>AMINE</span></span>
-      <span class="hero-title-line reveal-line"><span data-i18n="hero_title_2">Video Editor</span></span>
-    </h1>
-    <p class="hero-sub reveal-up" data-i18n="hero_sub">I create high-performing video content for creators, brands, and businesses.</p>
-    <p class="hero-tagline reveal-up" data-i18n="hero_tagline">Cinematic edits. Clear storytelling. Strong results.</p>
-    <div class="hero-btns reveal-up">
-      <a href="#videos" class="btn-primary magnetic" data-i18n="btn_view_work">View My Work</a>
-      <a href="#contact" class="btn-outline magnetic" data-i18n="btn_hire">Hire Me</a>
-    </div>
-  </div>
-  <div class="hero-scroll-hint" aria-hidden="true">
-    <span class="scroll-line"></span>
-    <span class="scroll-text" data-i18n="scroll_hint">Scroll</span>
-  </div>
-</section>
-
-<!-- SECTION DIVIDER -->
-<div class="section-divider" aria-hidden="true"><span></span></div>
-
-<!-- ============ ABOUT ============ -->
-<section id="about" class="about-section">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-visual">
-        <div class="about-portrait-wrap">
-          <div class="about-portrait-placeholder">
-            <div class="portrait-inner">
-              <span class="portrait-letter">A</span>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="brand">AMINE</div>
+            <ul class="nav-links">
+                <li><a href="#home" data-i18n="nav_home">Home</a></li>
+                <li><a href="#about" data-i18n="nav_about">About</a></li>
+                <li><a href="#services" data-i18n="nav_services">Services</a></li>
+                <li><a href="#videos" data-i18n="nav_videos">Videos</a></li>
+                <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <select id="lang-switcher" class="lang-select">
+                    <option value="en">EN</option>
+                    <option value="ar">AR</option>
+                    <option value="fr">FR</option>
+                </select>
+                <a href="#contact" class="btn-cta" data-i18n="btn_hire">Hire Me</a>
+                <div class="hamburger" id="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
             </div>
-          </div>
-          <div class="about-accent-line" aria-hidden="true"></div>
-          <div class="about-tag">
-            <span>Est. 2019</span>
-          </div>
         </div>
-      </div>
-      <div class="about-text">
-        <div class="section-label reveal-up" data-i18n="about_label">About Me</div>
-        <h2 class="section-title reveal-up" data-i18n="about_title">Crafting stories<br>frame by frame</h2>
-        <p class="about-body reveal-up" data-i18n="about_p1">I'm Adamou Mohammed Al Amine, a professional video editor with over 5 years of experience in creating high-quality short-form and long-form content.</p>
-        <p class="about-body reveal-up" data-i18n="about_p2">I help brands, creators, and businesses turn their ideas into engaging visual stories that capture attention and drive results. From dynamic social media videos to polished long-form content, I focus on delivering clean, modern, and impactful edits.</p>
-        <p class="about-body reveal-up" data-i18n="about_p3">My goal is simple: create videos that not only look good, but also perform.</p>
-        <div class="about-stats reveal-up">
-          <div class="stat-card">
-            <span class="stat-num">5+</span>
-            <span class="stat-label" data-i18n="stat_1">Years Experience</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-num">∞</span>
-            <span class="stat-label" data-i18n="stat_2">Short & Long Form</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-num">100%</span>
-            <span class="stat-label" data-i18n="stat_3">Creator Focused</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </nav>
 
-<!-- SECTION DIVIDER -->
-<div class="section-divider" aria-hidden="true"><span></span></div>
-
-<!-- ============ SERVICES ============ -->
-<section id="services" class="services-section">
-  <div class="container">
-    <div class="section-header reveal-up">
-      <div class="section-label" data-i18n="services_label">What I Do</div>
-      <h2 class="section-title" data-i18n="services_title">Featured Services</h2>
-    </div>
-    <div class="services-grid">
-      <div class="service-card reveal-up">
-        <div class="service-icon">
-          <svg viewBox="0 0 40 40" fill="none"><rect x="4" y="10" width="32" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M16 15l8 5-8 5V15z" fill="currentColor"/></svg>
-        </div>
-        <h3 class="service-title" data-i18n="srv1_title">Short Form Editing</h3>
-        <p class="service-desc" data-i18n="srv1_desc">High-retention Reels, TikToks, and Shorts built for maximum engagement and virality.</p>
-        <div class="service-hover-line" aria-hidden="true"></div>
-      </div>
-      <div class="service-card reveal-up">
-        <div class="service-icon">
-          <svg viewBox="0 0 40 40" fill="none"><rect x="4" y="8" width="32" height="24" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 16h32M14 8v24" stroke="currentColor" stroke-width="1.5"/></svg>
-        </div>
-        <h3 class="service-title" data-i18n="srv2_title">Long Form Editing</h3>
-        <p class="service-desc" data-i18n="srv2_desc">Documentaries, podcasts, interviews and YouTube content with cinematic polish.</p>
-        <div class="service-hover-line" aria-hidden="true"></div>
-      </div>
-      <div class="service-card reveal-up">
-        <div class="service-icon">
-          <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="1.5"/><path d="M20 6v4M20 30v4M6 20h4M30 20h4" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="20" r="4" fill="currentColor"/></svg>
-        </div>
-        <h3 class="service-title" data-i18n="srv3_title">Social Media Content</h3>
-        <p class="service-desc" data-i18n="srv3_desc">Platform-optimized edits for Instagram, TikTok, Facebook, and X/Twitter.</p>
-        <div class="service-hover-line" aria-hidden="true"></div>
-      </div>
-      <div class="service-card reveal-up">
-        <div class="service-icon">
-          <svg viewBox="0 0 40 40" fill="none"><path d="M8 32L20 8l12 24" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 24h16" stroke="currentColor" stroke-width="1.5"/></svg>
-        </div>
-        <h3 class="service-title" data-i18n="srv4_title">YouTube Editing</h3>
-        <p class="service-desc" data-i18n="srv4_desc">Audience-retention focused edits designed to grow your YouTube channel.</p>
-        <div class="service-hover-line" aria-hidden="true"></div>
-      </div>
-      <div class="service-card reveal-up">
-        <div class="service-icon">
-          <svg viewBox="0 0 40 40" fill="none"><rect x="6" y="12" width="28" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M14 12V10a2 2 0 012-2h8a2 2 0 012 2v2" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="21" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
-        </div>
-        <h3 class="service-title" data-i18n="srv5_title">Brand Video Editing</h3>
-        <p class="service-desc" data-i18n="srv5_desc">Premium brand storytelling that builds trust, identity, and client conversions.</p>
-        <div class="service-hover-line" aria-hidden="true"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION DIVIDER -->
-<div class="section-divider" aria-hidden="true"><span></span></div>
-
-<!-- ============ LONG FORM VIDEOS ============ -->
-<section id="videos" class="videos-section">
-  <div class="container">
-    <div class="section-header reveal-up">
-      <div class="section-label" data-i18n="videos_label">Portfolio</div>
-      <h2 class="section-title" data-i18n="videos_title">Long Form Projects</h2>
-      <p class="section-intro reveal-up" data-i18n="videos_intro">A selection of my long-form editing work designed for storytelling, retention, and impact.</p>
-    </div>
-    <div class="videos-grid">
-      <div class="video-card reveal-up" data-video="-qQsvqKB1_Y">
-        <div class="video-thumb">
-          <img src="https://img.youtube.com/vi/-qQsvqKB1_Y/maxresdefault.jpg" alt="Long Form Project 1" loading="lazy" />
-          <div class="video-overlay">
-            <div class="play-btn">
-              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg>
+    <section class="hero" id="home">
+        <div class="container hero-grid">
+            <div class="hero-content reveal">
+                <h2 class="script-font gold-text" data-i18n="hero_title_premium">Cinematic Storytelling</h2>
+                <h1 data-i18n="hero_main_title">AMINE — Video Editor</h1>
+                <p class="subtitle" data-i18n="hero_subtitle">I create high-performing video content for creators, brands, and businesses.</p>
+                <p class="supporting-text" data-i18n="hero_support">Cinematic edits. Clear storytelling. Strong results.</p>
+                <div class="hero-btns">
+                    <a href="#videos" class="btn-primary" data-i18n="btn_work">View My Work</a>
+                    <a href="#contact" class="btn-secondary" data-i18n="btn_hire">Hire Me</a>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="video-info">
-          <span class="video-num">01</span>
-          <span class="video-cat" data-i18n="vid_cat_long">Long Form</span>
-        </div>
-      </div>
-      <div class="video-card reveal-up" data-video="PTnRYDBoS98">
-        <div class="video-thumb">
-          <img src="https://img.youtube.com/vi/PTnRYDBoS98/maxresdefault.jpg" alt="Long Form Project 2" loading="lazy" />
-          <div class="video-overlay">
-            <div class="play-btn">
-              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg>
+            <div class="hero-image reveal">
+                <div class="image-frame">
+                    <img src="me.jpg" alt="Adamou Mohammed Al Amine">
+                </div>
             </div>
-          </div>
         </div>
-        <div class="video-info">
-          <span class="video-num">02</span>
-          <span class="video-cat" data-i18n="vid_cat_long">Long Form</span>
-        </div>
-      </div>
-      <div class="video-card reveal-up" data-video="X2Rfjeh4QwI">
-        <div class="video-thumb">
-          <img src="https://img.youtube.com/vi/X2Rfjeh4QwI/maxresdefault.jpg" alt="Long Form Project 3" loading="lazy" />
-          <div class="video-overlay">
-            <div class="play-btn">
-              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title script-font reveal" data-i18n="about_title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-text reveal">
+                    <p data-i18n="about_p1">I’m Adamou Mohammed Al Amine, a professional video editor with over 5 years of experience in creating high-quality content.</p>
+                    <p data-i18n="about_p2">I help brands and creators turn ideas into engaging visual stories. My goal is simple: create videos that perform.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card reveal">
+                        <h3>5+</h3>
+                        <p data-i18n="stat_1">Years Experience</p>
+                    </div>
+                    <div class="stat-card reveal">
+                        <h3 data-i18n="stat_2_val">Short & Long</h3>
+                        <p data-i18n="stat_2">Form Content</p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="video-info">
-          <span class="video-num">03</span>
-          <span class="video-cat" data-i18n="vid_cat_long">Long Form</span>
-        </div>
-      </div>
-      <div class="video-card reveal-up" data-video="jAKU_YR0YDs">
-        <div class="video-thumb">
-          <img src="https://img.youtube.com/vi/jAKU_YR0YDs/maxresdefault.jpg" alt="Long Form Project 4" loading="lazy" />
-          <div class="video-overlay">
-            <div class="play-btn">
-              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title script-font reveal" data-i18n="services_title">Services</h2>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="card-icon">🎬</div>
+                    <h4 data-i18n="ser_1_title">Short Form Editing</h4>
+                    <p data-i18n="ser_1_desc">Viral TikToks and Reels with high retention.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="card-icon">🎥</div>
+                    <h4 data-i18n="ser_2_title">Long Form Editing</h4>
+                    <p data-i18n="ser_2_desc">Professional YouTube videos and documentaries.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="card-icon">✨</div>
+                    <h4 data-i18n="ser_3_title">Brand Content</h4>
+                    <p data-i18n="ser_3_desc">Luxury ads and promotional material.</p>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="video-info">
-          <span class="video-num">04</span>
-          <span class="video-cat" data-i18n="vid_cat_long">Long Form</span>
-        </div>
-      </div>
-      <div class="video-card reveal-up" data-video="yw6jr3jXrEI">
-        <div class="video-thumb">
-          <img src="https://img.youtube.com/vi/yw6jr3jXrEI/maxresdefault.jpg" alt="Long Form Project 5" loading="lazy" />
-          <div class="video-overlay">
-            <div class="play-btn">
-              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg>
+    </section>
+
+    <section class="videos" id="videos">
+        <div class="container">
+            <h2 class="section-title script-font reveal" data-i18n="long_form_title">Long Form Projects</h2>
+            <div class="video-grid">
+                <div class="video-item reveal" onclick="openModal('https://www.youtube.com/embed/-qQsvqKB1_Y')">
+                    <div class="video-thumb"><img src="https://img.youtube.com/vi/-qQsvqKB1_Y/maxresdefault.jpg"></div>
+                </div>
+                <div class="video-item reveal" onclick="openModal('https://www.youtube.com/embed/PTnRYDBoS98')">
+                    <div class="video-thumb"><img src="https://img.youtube.com/vi/PTnRYDBoS98/maxresdefault.jpg"></div>
+                </div>
+                <div class="video-item reveal" onclick="openModal('https://www.youtube.com/embed/X2Rfjeh4QwI')">
+                    <div class="video-thumb"><img src="https://img.youtube.com/vi/X2Rfjeh4QwI/maxresdefault.jpg"></div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="video-info">
-          <span class="video-num">05</span>
-          <span class="video-cat" data-i18n="vid_cat_long">Long Form</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- VIDEO MODAL -->
-<div id="videoModal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Video Player">
-  <div class="modal-content">
-    <button class="modal-close" id="modalClose" aria-label="Close">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="white" stroke-width="1.5"/></svg>
-    </button>
-    <div class="modal-iframe-wrap">
-      <iframe id="modalIframe" src="" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-    </div>
-  </div>
-</div>
-
-<!-- SECTION DIVIDER -->
-<div class="section-divider" aria-hidden="true"><span></span></div>
-
-<!-- ============ CAROUSEL ============ -->
-<section class="carousel-section" id="work">
-  <div class="container">
-    <div class="section-header reveal-up">
-      <div class="section-label" data-i18n="carousel_label">Recent Projects</div>
-      <h2 class="section-title" data-i18n="carousel_title">Latest Work</h2>
-    </div>
-  </div>
-  <div class="carousel-track-wrap">
-    <div class="carousel-track" id="carouselTrack">
-      <div class="carousel-slide" data-caption="Brand Campaign Edit">
-        <div class="slide-img" style="background:linear-gradient(135deg,#1a0a0a,#2d0a0a,#1a1a2e)"></div>
-        <div class="slide-caption"><span>Brand Campaign Edit</span></div>
-      </div>
-      <div class="carousel-slide" data-caption="YouTube Documentary">
-        <div class="slide-img" style="background:linear-gradient(135deg,#0a0a1a,#1a0d2e,#0d1a1a)"></div>
-        <div class="slide-caption"><span>YouTube Documentary</span></div>
-      </div>
-      <div class="carousel-slide" data-caption="Social Media Reel">
-        <div class="slide-img" style="background:linear-gradient(135deg,#1a0505,#2e1a0a,#1a2e0a)"></div>
-        <div class="slide-caption"><span>Social Media Reel</span></div>
-      </div>
-      <div class="carousel-slide" data-caption="Podcast Production">
-        <div class="slide-img" style="background:linear-gradient(135deg,#0a1a0a,#1a1a0a,#2e0a1a)"></div>
-        <div class="slide-caption"><span>Podcast Production</span></div>
-      </div>
-      <div class="carousel-slide" data-caption="Event Highlight">
-        <div class="slide-img" style="background:linear-gradient(135deg,#1a1a0a,#0a2e1a,#1a0a2e)"></div>
-        <div class="slide-caption"><span>Event Highlight</span></div>
-      </div>
-      <div class="carousel-slide" data-caption="Brand Story">
-        <div class="slide-img" style="background:linear-gradient(135deg,#2e0a0a,#0a0a2e,#0a2e0a)"></div>
-        <div class="slide-caption"><span>Brand Story</span></div>
-      </div>
-    </div>
-    <button class="carousel-btn carousel-prev" id="carouselPrev" aria-label="Previous">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="white" stroke-width="1.5"/></svg>
-    </button>
-    <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Next">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="white" stroke-width="1.5"/></svg>
-    </button>
-  </div>
-</section>
-
-<!-- SECTION DIVIDER -->
-<div class="section-divider" aria-hidden="true"><span></span></div>
-
-<!-- ============ SHORT FORM REEL ============ -->
-<section class="shortform-section" id="reel">
-  <div class="container">
-    <div class="section-header reveal-up">
-      <div class="section-label" data-i18n="short_label">Reels & Shorts</div>
-      <h2 class="section-title" data-i18n="short_title">Short Form Edits</h2>
-    </div>
-  </div>
-  <div class="reel-strip-wrap">
-    <div class="reel-strip" id="reelStrip">
-      <div class="reel-card" data-id="1" data-desc-key="reel1_desc">
-        <div class="reel-thumb" style="background:linear-gradient(180deg,#2d0a0a 0%,#050505 100%)">
-          <div class="reel-play-icon">▶</div>
-          <div class="reel-placeholder-tag">SHORT 01</div>
-        </div>
-      </div>
-      <div class="reel-card" data-id="2" data-desc-key="reel2_desc">
-        <div class="reel-thumb" style="background:linear-gradient(180deg,#0a0a2d 0%,#050505 100%)">
-          <div class="reel-play-icon">▶</div>
-          <div class="reel-placeholder-tag">SHORT 02</div>
-        </div>
-      </div>
-      <div class="reel-card" data-id="3" data-desc-key="reel3_desc">
-        <div class="reel-thumb" style="background:linear-gradient(180deg,#0a2d0a 0%,#050505 100%)">
-          <div class="reel-play-icon">▶</div>
-          <div class="reel-placeholder-tag">SHORT 03</div>
-        </div>
-      </div>
-      <div class="reel-card" data-id="4" data-desc-key="reel1_desc">
-        <div class="reel-thumb" style="background:linear-gradient(180deg,#2d1a0a 0%,#050505 100%)">
-          <div class="reel-play-icon">▶</div>
-          <div class="reel-placeholder-tag">SHORT 04</div>
-        </div>
-      </div>
-      <div class="reel-card" data-id="5" data-desc-key="reel2_desc">
-        <div class="reel-thumb" style="background:linear-gradient(180deg,#1a0a2d 0%,#050505 100%)">
-          <div class="reel-play-icon">▶</div>
-          <div class="reel-placeholder-tag">SHORT 05</div>
-        </div>
-      </div>
-      <div class="reel-card" data-id="6" data-desc-key="reel3_desc">
-        <div class="reel-thumb" style="background:linear-gradient(180deg,#2d2d0a 0%,#050505 100%)">
-          <div class="reel-play-icon">▶</div>
-          <div class="reel-placeholder-tag">SHORT 06</div>
-        </div>
-      </div>
-      <!-- duplicates for infinite loop -->
-      <div class="reel-card" data-id="1c" data-desc-key="reel1_desc">
-        <div class="reel-thumb" style="background:linear-gradient(180deg,#2d0a0a 0%,#050505 100%)">
-          <div class="reel-play-icon">▶</div>
-          <div class="reel-placeholder-tag">SHORT 01</div>
-        </div>
-      </div>
-      <div class="reel-card" data-id="2c" data-desc-key="reel2_desc">
-        <div class="reel-thumb" style="background:linear-gradient(180deg,#0a0a2d 0%,#050505 100%)">
-          <div class="reel-play-icon">▶</div>
-          <div class="reel-placeholder-tag">SHORT 02</div>
-        </div>
-      </div>
-      <div class="reel-card" data-id="3c" data-desc-key="reel3_desc">
-        <div class="reel-thumb" style="background:linear-gradient(180deg,#0a2d0a 0%,#050505 100%)">
-          <div class="reel-play-icon">▶</div>
-          <div class="reel-placeholder-tag">SHORT 03</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="reel-expanded" id="reelExpanded">
-    <div class="reel-expanded-inner">
-      <div class="reel-preview-box">
-        <div class="reel-preview-placeholder">
-          <span data-i18n="reel_placeholder">Select a short above to preview</span>
-        </div>
-      </div>
-      <p class="reel-expanded-desc" id="reelDesc"></p>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION DIVIDER -->
-<div class="section-divider" aria-hidden="true"><span></span></div>
-
-<!-- ============ WHY WORK WITH ME ============ -->
-<section class="why-section" id="why">
-  <div class="container">
-    <div class="section-header reveal-up">
-      <div class="section-label" data-i18n="why_label">The Difference</div>
-      <h2 class="section-title" data-i18n="why_title">Why Work With Me</h2>
-    </div>
-    <div class="why-grid">
-      <div class="why-card reveal-up">
-        <div class="why-num">01</div>
-        <h3 data-i18n="why1_title">Clean & Modern Style</h3>
-        <p data-i18n="why1_desc">Every edit is crafted with a sharp eye for aesthetics — color grading, pacing, typography, and motion all work in harmony.</p>
-      </div>
-      <div class="why-card reveal-up">
-        <div class="why-num">02</div>
-        <h3 data-i18n="why2_title">Performance & Retention</h3>
-        <p data-i18n="why2_desc">I study platform algorithms and viewer behavior to create edits that keep audiences watching and clicking.</p>
-      </div>
-      <div class="why-card reveal-up">
-        <div class="why-num">03</div>
-        <h3 data-i18n="why3_title">Reliable Communication</h3>
-        <p data-i18n="why3_desc">Clear updates, fast responses, and full transparency throughout every project — no surprises, no guessing.</p>
-      </div>
-      <div class="why-card reveal-up">
-        <div class="why-num">04</div>
-        <h3 data-i18n="why4_title">Fast Professional Delivery</h3>
-        <p data-i18n="why4_desc">Your deadlines matter. I deliver polished, ready-to-publish content on time, every time.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION DIVIDER -->
-<div class="section-divider" aria-hidden="true"><span></span></div>
-
-<!-- ============ CONTACT ============ -->
-<section id="contact" class="contact-section">
-  <div class="container">
-    <div class="contact-grid">
-      <div class="contact-left reveal-up">
-        <div class="section-label" data-i18n="contact_label">Get In Touch</div>
-        <h2 class="section-title" data-i18n="contact_title">Let's Work<br>Together</h2>
-        <p class="contact-sub" data-i18n="contact_sub">Tell me about your project and choose the easiest way to reach me.</p>
-        <div class="contact-direct">
-          <a href="https://wa.me/213782955961" target="_blank" class="direct-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            WhatsApp
-          </a>
-          <a href="mailto:mohalaminadamou@gmail.com" class="direct-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            mohalaminadamou@gmail.com
-          </a>
-        </div>
-      </div>
-      <div class="contact-right reveal-up">
-        <form id="contactForm" novalidate>
-          <div class="form-row">
-            <div class="form-group">
-              <label data-i18n="form_fname">First Name</label>
-              <input type="text" id="fname" name="fname" required autocomplete="given-name" />
-              <span class="form-error" data-i18n="form_err_required">This field is required</span>
+    <section class="carousel-section">
+        <div class="carousel-container reveal">
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide active"><div class="placeholder-img">STILL 01</div></div>
+                <div class="carousel-slide"><div class="placeholder-img">STILL 02</div></div>
+                <div class="carousel-slide"><div class="placeholder-img">STILL 03</div></div>
             </div>
-            <div class="form-group">
-              <label data-i18n="form_lname">Last Name</label>
-              <input type="text" id="lname" name="lname" required autocomplete="family-name" />
-              <span class="form-error" data-i18n="form_err_required">This field is required</span>
+            <button class="carousel-btn prev" id="prevBtn">&#10094;</button>
+            <button class="carousel-btn next" id="nextBtn">&#10095;</button>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title script-font reveal" data-i18n="contact_title">Let’s Work Together</h2>
+            <div class="contact-flex">
+                <form id="contactForm" class="reveal">
+                    <div class="form-row">
+                        <input type="text" id="fname" data-i18n-placeholder="p_fname" placeholder="First Name" required>
+                        <input type="text" id="lname" data-i18n-placeholder="p_lname" placeholder="Last Name" required>
+                    </div>
+                    <input type="text" id="workType" data-i18n-placeholder="p_type" placeholder="Type of Work" required>
+                    <textarea id="details" data-i18n-placeholder="p_details" placeholder="Project Details" required></textarea>
+                    
+                    <div class="contact-method">
+                        <label class="radio-container">
+                            <input type="radio" name="method" value="whatsapp" checked>
+                            <span class="checkmark"></span> WhatsApp
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="method" value="email">
+                            <span class="checkmark"></span> Email
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-primary full-width" data-i18n="btn_send">Send Message</button>
+                </form>
             </div>
-          </div>
-          <div class="form-group">
-            <label data-i18n="form_work_type">Type of Work</label>
-            <select id="workType" name="workType" required>
-              <option value="" disabled selected data-i18n="form_select_placeholder">Select a service…</option>
-              <option value="Short Form Editing" data-i18n="srv1_title">Short Form Editing</option>
-              <option value="Long Form Editing" data-i18n="srv2_title">Long Form Editing</option>
-              <option value="Social Media Content" data-i18n="srv3_title">Social Media Content</option>
-              <option value="YouTube Editing" data-i18n="srv4_title">YouTube Editing</option>
-              <option value="Brand Video Editing" data-i18n="srv5_title">Brand Video Editing</option>
-            </select>
-            <span class="form-error" data-i18n="form_err_required">This field is required</span>
-          </div>
-          <div class="form-group">
-            <label data-i18n="form_details">Project Details</label>
-            <textarea id="details" name="details" rows="4" required placeholder="Tell me about your project..." data-i18n-placeholder="form_details_ph"></textarea>
-            <span class="form-error" data-i18n="form_err_required">This field is required</span>
-          </div>
-          <div class="form-submit-row">
-            <button type="button" class="btn-submit btn-wa magnetic" id="btnWhatsApp">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-              <span data-i18n="btn_wa">Send via WhatsApp</span>
-            </button>
-            <button type="button" class="btn-submit btn-email magnetic" id="btnEmail">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              <span data-i18n="btn_email">Send via Email</span>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
+        </div>
+    </section>
 
-<!-- ============ FOOTER ============ -->
-<footer id="footer">
-  <div class="footer-top">
-    <div class="footer-brand">
-      <div class="footer-logo">AMINE</div>
-      <div class="footer-tagline" data-i18n="footer_tagline">Video Editor</div>
-      <div class="footer-location">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
-        El Oued, Algeria
-      </div>
-    </div>
-    <div class="footer-nav">
-      <h4 data-i18n="footer_nav_title">Navigation</h4>
-      <ul>
-        <li><a href="#home" data-i18n="nav_home">Home</a></li>
-        <li><a href="#about" data-i18n="nav_about">About</a></li>
-        <li><a href="#services" data-i18n="nav_services">Services</a></li>
-        <li><a href="#videos" data-i18n="nav_videos">Videos</a></li>
-        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-social">
-      <h4 data-i18n="footer_social_title">Connect</h4>
-      <ul>
-        <li><a href="https://www.instagram.com/adamou_moh_al_amine/" target="_blank">Instagram</a></li>
-        <li><a href="https://www.facebook.com/mehalamine.adamou" target="_blank">Facebook</a></li>
-        <li><a href="https://drive.google.com/file/d/1YnzzHX7Yb5dQvbdcpxtPSps1qFVIzvkQ/view" target="_blank" data-i18n="footer_cv">Download CV</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span data-i18n="footer_copy">© 2026 AMINE — All rights reserved.</span>
-    <span class="footer-made">El Oued, Algeria</span>
-  </div>
-</footer>
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <h2>AMINE</h2>
+                <p data-i18n="footer_role">Professional Video Editor</p>
+                <p>El Oued, Algeria</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.instagram.com/adamou_moh_al_amine/" target="_blank">Instagram</a>
+                <a href="https://www.facebook.com/mehalamine.adamou" target="_blank">Facebook</a>
+                <a href="https://drive.google.com/file/d/1YnzzHX7Yb5dQvbdcpxtPSps1qFVIzvkQ/view" target="_blank">CV</a>
+            </div>
+        </div>
+        <p class="copyright">© 2026 AMINE — All rights reserved.</p>
+    </footer>
 
-<script src="script.js"></script>
+    <div id="videoModal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <iframe id="modalIframe" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
