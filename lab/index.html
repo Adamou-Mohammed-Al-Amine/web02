@@ -1,1225 +1,568 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AMINE — Video Editor</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Helvetica+Neue:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --black: #0a0a0a;
-    --white: #ffffff;
-    --red: #ff2a2a;
-    --red-dim: rgba(255,42,42,0.15);
-    --red-glow: rgba(255,42,42,0.4);
-    --grey: #1a1a1a;
-    --grey2: #2a2a2a;
-    --text-muted: rgba(255,255,255,0.45);
-  }
-
-  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
-  html { scroll-behavior: smooth; font-size: 16px; }
-
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* ── CUSTOM CURSOR ── */
-  #cursor {
-    position: fixed; top:0; left:0;
-    width:10px; height:10px;
-    background: var(--red);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%,-50%);
-    transition: transform .12s ease, width .2s ease, height .2s ease, background .2s ease;
-    mix-blend-mode: normal;
-  }
-  #cursor-ring {
-    position: fixed; top:0; left:0;
-    width:36px; height:36px;
-    border: 1px solid rgba(255,42,42,0.5);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%,-50%);
-    transition: transform .35s cubic-bezier(.25,.46,.45,.94), width .3s ease, height .3s ease, border-color .3s ease;
-  }
-  body.cursor-hover #cursor { width:18px; height:18px; background: var(--white); }
-  body.cursor-hover #cursor-ring { width:56px; height:56px; border-color: var(--red); }
-
-  /* ── LOADER ── */
-  #loader {
-    position: fixed; inset: 0;
-    background: var(--black);
-    z-index: 10000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: opacity .8s ease, visibility .8s ease;
-  }
-  #loader.hidden { opacity:0; visibility:hidden; }
-  .loader-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3rem, 10vw, 8rem);
-    font-weight: 300;
-    letter-spacing: .35em;
-    color: var(--white);
-    animation: loaderPulse 1.5s ease infinite alternate;
-  }
-  .loader-bar-wrap {
-    width: 200px; height: 1px;
-    background: var(--grey2);
-    margin-top: 2rem;
-    overflow: hidden;
-  }
-  .loader-bar {
-    height: 100%;
-    background: var(--red);
-    animation: loaderLine 2s cubic-bezier(.4,0,.2,1) forwards;
-  }
-  .loader-sub {
-    font-size: .7rem;
-    letter-spacing: .3em;
-    color: var(--text-muted);
-    margin-top: .75rem;
-    text-transform: uppercase;
-  }
-  @keyframes loaderPulse { from{opacity:.4} to{opacity:1} }
-  @keyframes loaderLine { from{width:0} to{width:100%} }
-
-  /* ── NAVBAR ── */
-  nav {
-    position: fixed; top:0; left:0; right:0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem 4rem;
-    transition: background .4s ease, padding .4s ease, backdrop-filter .4s ease;
-  }
-  nav.scrolled {
-    background: rgba(10,10,10,0.92);
-    backdrop-filter: blur(16px);
-    padding: 1rem 4rem;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    font-weight: 600;
-    letter-spacing: .2em;
-    text-decoration: none;
-    color: var(--white);
-  }
-  .nav-logo span { color: var(--red); }
-  .nav-links { display:flex; gap:2.5rem; list-style:none; }
-  .nav-links a {
-    font-size: .72rem;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    text-decoration: none;
-    position: relative;
-    transition: color .25s;
-  }
-  .nav-links a::after {
-    content:'';
-    position:absolute; bottom:-4px; left:0;
-    width:0; height:1px;
-    background: var(--red);
-    transition: width .3s ease;
-  }
-  .nav-links a:hover { color: var(--white); }
-  .nav-links a:hover::after { width:100%; }
-  .nav-hire {
-    font-size: .7rem;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    padding: .6rem 1.5rem;
-    border: 1px solid var(--red);
-    color: var(--red);
-    text-decoration: none;
-    transition: background .25s, color .25s, box-shadow .25s;
-  }
-  .nav-hire:hover {
-    background: var(--red);
-    color: var(--white);
-    box-shadow: 0 0 20px var(--red-glow);
-  }
-  .burger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
-  .burger span { display:block; width:24px; height:1px; background: var(--white); transition: .3s; }
-
-  /* ── HERO ── */
-  #hero {
-    position: relative;
-    height: 100vh; min-height: 600px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  #hero-canvas {
-    position: absolute; inset: 0;
-    z-index: 0;
-  }
-  .hero-vignette {
-    position: absolute; inset:0; z-index:1;
-    background: radial-gradient(ellipse at center, transparent 40%, rgba(10,10,10,0.8) 100%);
-  }
-  .hero-content {
-    position: relative; z-index:2;
-    text-align: center;
-    padding: 2rem;
-    max-width: 900px;
-  }
-  .hero-eyebrow {
-    font-size: .7rem;
-    letter-spacing: .4em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp .8s ease .5s forwards;
-  }
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3.5rem, 9vw, 8rem);
-    font-weight: 300;
-    line-height: 1;
-    letter-spacing: .04em;
-    opacity: 0;
-    transform: translateY(40px);
-    animation: fadeUp .9s ease .7s forwards;
-  }
-  .hero-title strong { font-weight:700; font-style:italic; }
-  .hero-divider {
-    width: 60px; height: 1px;
-    background: var(--red);
-    margin: 2rem auto;
-    opacity: 0;
-    animation: fadeIn .6s ease 1s forwards;
-  }
-  .hero-sub {
-    font-size: clamp(.9rem, 1.5vw, 1.1rem);
-    font-weight: 300;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.7;
-    max-width: 580px;
-    margin: 0 auto 2.5rem;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp .8s ease 1.1s forwards;
-  }
-  .hero-btns {
-    display: flex; gap: 1.2rem; justify-content: center; flex-wrap:wrap;
-    opacity: 0;
-    animation: fadeIn .6s ease 1.4s forwards;
-  }
-  .btn-primary {
-    display:inline-flex; align-items:center; gap:.6rem;
-    padding: .9rem 2.4rem;
-    background: var(--red);
-    color: var(--white);
-    font-size: .75rem;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    transition: box-shadow .3s, transform .2s;
-  }
-  .btn-primary:hover {
-    box-shadow: 0 0 30px var(--red-glow), 0 0 60px rgba(255,42,42,0.2);
-    transform: translateY(-2px);
-  }
-  .btn-outline {
-    display:inline-flex; align-items:center; gap:.6rem;
-    padding: .9rem 2.4rem;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: var(--white);
-    font-size: .75rem;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: border-color .3s, box-shadow .3s, transform .2s;
-  }
-  .btn-outline:hover {
-    border-color: var(--red);
-    box-shadow: 0 0 20px var(--red-dim);
-    transform: translateY(-2px);
-  }
-  .hero-scroll-hint {
-    position: absolute; bottom: 2rem; left:50%; transform:translateX(-50%);
-    z-index:2; text-align:center;
-    opacity: 0; animation: fadeIn .6s ease 2s forwards;
-  }
-  .hero-scroll-hint span {
-    display:block; font-size:.65rem; letter-spacing:.25em;
-    text-transform:uppercase; color:var(--text-muted); margin-bottom:.5rem;
-  }
-  .scroll-line {
-    width:1px; height:50px;
-    background: linear-gradient(to bottom, rgba(255,42,42,.8), transparent);
-    margin:0 auto;
-    animation: scrollPulse 2s ease infinite;
-  }
-  @keyframes scrollPulse { 0%,100%{opacity:.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.1)} }
-  @keyframes fadeUp { to{opacity:1;transform:translateY(0)} }
-  @keyframes fadeIn { to{opacity:1} }
-
-  /* ── SECTIONS COMMON ── */
-  section { padding: 7rem 4rem; }
-  .section-label {
-    font-size: .65rem;
-    letter-spacing: .4em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 1rem;
-  }
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 300;
-    line-height: 1.1;
-  }
-  .section-title em { font-style:italic; color: rgba(255,255,255,0.55); }
-  .reveal { opacity:0; transform:translateY(40px); transition: opacity .8s ease, transform .8s ease; }
-  .reveal.visible { opacity:1; transform:translateY(0); }
-
-  /* ── ABOUT ── */
-  #about {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: center;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-  .about-left {}
-  .about-right {}
-  .about-text {
-    font-size: 1.05rem;
-    font-weight:300;
-    line-height: 1.9;
-    color: rgba(255,255,255,0.7);
-    margin-top: 2rem;
-  }
-  .about-text p + p { margin-top: 1.2rem; }
-  .about-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.08);
-  }
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3.5rem;
-    font-weight:600;
-    color: var(--red);
-    line-height:1;
-  }
-  .stat-label {
-    font-size: .7rem;
-    letter-spacing:.2em;
-    text-transform:uppercase;
-    color: var(--text-muted);
-    margin-top:.4rem;
-  }
-  .about-visual {
-    position:relative;
-    height: 500px;
-    background: var(--grey);
-    overflow:hidden;
-  }
-  .about-visual-inner {
-    position:absolute; inset:0;
-    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .about-monogram {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 14rem;
-    font-weight:700;
-    font-style:italic;
-    color:rgba(255,42,42,0.08);
-    line-height:1;
-    user-select:none;
-  }
-  .about-tag {
-    position:absolute; bottom:2rem; right:2rem;
-    font-size:.65rem;
-    letter-spacing:.25em;
-    text-transform:uppercase;
-    color:var(--text-muted);
-    border:1px solid rgba(255,255,255,0.08);
-    padding:.5rem 1rem;
-  }
-  .about-cv-btn {
-    display:inline-flex; align-items:center; gap:.5rem;
-    margin-top:2rem;
-    font-size:.72rem;
-    letter-spacing:.2em;
-    text-transform:uppercase;
-    color:var(--white);
-    text-decoration:none;
-    border-bottom:1px solid var(--red);
-    padding-bottom:.25rem;
-    transition: color .25s, gap .25s;
-  }
-  .about-cv-btn:hover { color:var(--red); gap:.8rem; }
-
-  /* ── VIDEOS ── */
-  #videos { border-top: 1px solid rgba(255,255,255,0.06); }
-  .videos-intro {
-    display:flex; justify-content:space-between; align-items:flex-end;
-    margin-bottom: 4rem; flex-wrap:wrap; gap:2rem;
-  }
-  .video-section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-    font-weight:300;
-    letter-spacing:.1em;
-    margin: 3.5rem 0 1.5rem;
-    padding-bottom:1rem;
-    border-bottom:1px solid rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.8);
-  }
-  .video-section-title span { color:var(--red); margin-right:.6rem; font-style:italic; }
-
-  /* Long form grid */
-  .longform-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
-  }
-  .video-card {
-    position:relative;
-    aspect-ratio:16/9;
-    overflow:hidden;
-    cursor:pointer;
-    background: var(--grey);
-  }
-  .video-card img {
-    width:100%; height:100%;
-    object-fit:cover;
-    transition: transform .5s cubic-bezier(.25,.46,.45,.94), filter .4s ease;
-    filter: brightness(.75);
-  }
-  .video-card:hover img { transform:scale(1.06); filter:brightness(.5); }
-  .video-card-overlay {
-    position:absolute; inset:0;
-    background: linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 60%);
-    opacity:0; transition: opacity .4s;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .video-card:hover .video-card-overlay { opacity:1; }
-  .play-btn {
-    width:60px; height:60px;
-    border:2px solid rgba(255,255,255,0.8);
-    border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    transition: border-color .25s, box-shadow .25s, transform .25s;
-  }
-  .video-card:hover .play-btn {
-    border-color: var(--red);
-    box-shadow: 0 0 25px var(--red-glow);
-    transform: scale(1.1);
-  }
-  .play-btn svg { width:20px; height:20px; fill:var(--white); margin-left:3px; }
-  .video-card-glow {
-    position:absolute; inset:0;
-    box-shadow: inset 0 0 0 1px rgba(255,42,42,0);
-    transition: box-shadow .4s;
-  }
-  .video-card:hover .video-card-glow { box-shadow: inset 0 0 0 1px rgba(255,42,42,0.4); }
-
-  /* Modal */
-  #modal {
-    position:fixed; inset:0;
-    background:rgba(0,0,0,0.95);
-    z-index:5000;
-    display:flex; align-items:center; justify-content:center;
-    opacity:0; visibility:hidden;
-    transition: opacity .35s, visibility .35s;
-    padding:2rem;
-  }
-  #modal.open { opacity:1; visibility:visible; }
-  .modal-inner {
-    position:relative;
-    width:100%; max-width:960px;
-    aspect-ratio:16/9;
-    background:#000;
-    box-shadow: 0 0 60px rgba(255,42,42,0.2);
-  }
-  .modal-inner iframe { width:100%; height:100%; border:none; }
-  .modal-close {
-    position:absolute; top:-3rem; right:0;
-    font-size:.75rem; letter-spacing:.2em; text-transform:uppercase;
-    color:rgba(255,255,255,0.5); cursor:pointer; border:none; background:none;
-    transition:color .25s;
-  }
-  .modal-close:hover { color:var(--red); }
-
-  /* Carousel */
-  .carousel-wrap {
-    position:relative;
-    overflow:hidden;
-    margin-top:1rem;
-    padding: 1rem 0;
-  }
-  .carousel-track {
-    display:flex;
-    gap:1.5rem;
-    transition: transform .5s cubic-bezier(.25,.46,.45,.94);
-    will-change:transform;
-  }
-  .carousel-slide {
-    flex-shrink:0;
-    width: clamp(260px, 38vw, 480px);
-    aspect-ratio:16/9;
-    background: var(--grey);
-    position:relative;
-    overflow:hidden;
-  }
-  .carousel-slide img {
-    width:100%; height:100%;
-    object-fit:cover;
-    transition: transform .5s ease, filter .4s ease;
-    filter: brightness(.65) saturate(.8);
-  }
-  .carousel-slide.center img { filter:brightness(.9) saturate(1); transform:scale(1.02); }
-  .carousel-slide .slide-label {
-    position:absolute; bottom:0; left:0; right:0;
-    padding:1.5rem 1.2rem .8rem;
-    background:linear-gradient(to top,rgba(10,10,10,.9),transparent);
-    font-size:.7rem; letter-spacing:.15em; text-transform:uppercase;
-    color:rgba(255,255,255,0.5);
-    opacity:0; transition:opacity .35s;
-  }
-  .carousel-slide.center .slide-label { opacity:1; }
-  .carousel-arrows {
-    display:flex; gap:1rem; justify-content:center; margin-top:1.5rem;
-  }
-  .carousel-btn {
-    width:44px; height:44px;
-    border:1px solid rgba(255,255,255,0.15);
-    background:transparent;
-    color:var(--white);
-    cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    transition: border-color .25s, background .25s, box-shadow .25s;
-  }
-  .carousel-btn:hover {
-    border-color: var(--red);
-    background: rgba(255,42,42,0.1);
-    box-shadow: 0 0 15px var(--red-dim);
-  }
-  .carousel-btn svg { width:18px; height:18px; stroke:currentColor; fill:none; }
-
-  /* Short form reel */
-  .reel-wrap {
-    position:relative;
-    overflow:hidden;
-    margin-top:1rem;
-  }
-  .reel-track {
-    display:flex;
-    gap:1rem;
-    animation: reelScroll 30s linear infinite;
-    width:max-content;
-  }
-  .reel-wrap:hover .reel-track { animation-play-state: paused; }
-  @keyframes reelScroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  .reel-card {
-    flex-shrink:0;
-    width: 180px;
-    aspect-ratio:9/16;
-    background: var(--grey);
-    position:relative;
-    overflow:hidden;
-    cursor:pointer;
-    transition: transform .3s ease;
-  }
-  .reel-card:hover { transform: scale(1.04); }
-  .reel-card-img {
-    width:100%; height:100%;
-    object-fit:cover;
-    filter:brightness(.7);
-    transition: filter .3s;
-  }
-  .reel-card:hover .reel-card-img { filter:brightness(.5); }
-  .reel-card-play {
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
-    opacity:0; transition:opacity .3s;
-  }
-  .reel-card:hover .reel-card-play { opacity:1; }
-  .reel-card-play-inner {
-    width:44px; height:44px;
-    border:1px solid var(--red);
-    border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 0 20px var(--red-glow);
-  }
-  .reel-card-play-inner svg { width:14px; height:14px; fill:var(--white); margin-left:2px; }
-  .reel-label {
-    position:absolute; bottom:0; left:0; right:0;
-    padding:.8rem .6rem .5rem;
-    background:linear-gradient(to top,rgba(10,10,10,.9),transparent);
-    font-size:.6rem; letter-spacing:.1em; text-transform:uppercase;
-    color:rgba(255,255,255,.5);
-  }
-
-  /* ── CONTACT ── */
-  #contact {
-    border-top:1px solid rgba(255,255,255,0.06);
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6rem;
-    align-items:start;
-  }
-  .contact-right { padding-top:6.5rem; }
-  .contact-form { display:flex; flex-direction:column; gap:1.2rem; margin-top:2.5rem; }
-  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-  .form-group { display:flex; flex-direction:column; gap:.4rem; }
-  .form-group label {
-    font-size:.65rem; letter-spacing:.2em; text-transform:uppercase;
-    color:var(--text-muted);
-  }
-  .form-group input, .form-group select, .form-group textarea {
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.1);
-    color:var(--white);
-    padding:.8rem 1rem;
-    font-family:inherit; font-size:.9rem; font-weight:300;
-    outline:none;
-    transition: border-color .25s, box-shadow .25s;
-    resize:none;
-    -webkit-appearance:none;
-  }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    border-color:var(--red);
-    box-shadow:0 0 15px var(--red-dim);
-  }
-  .form-group select option { background:var(--black); }
-  .contact-btns { display:flex; gap:1rem; flex-wrap:wrap; margin-top:.5rem; }
-  .btn-whatsapp {
-    flex:1; min-width:160px;
-    padding:.9rem 1.5rem;
-    background: #25D366;
-    color:#fff;
-    border:none;
-    font-family:inherit; font-size:.72rem; letter-spacing:.15em; text-transform:uppercase;
-    cursor:pointer;
-    display:flex; align-items:center; justify-content:center; gap:.5rem;
-    transition: box-shadow .25s, transform .2s;
-  }
-  .btn-whatsapp:hover { box-shadow:0 0 20px rgba(37,211,102,0.4); transform:translateY(-2px); }
-  .btn-email {
-    flex:1; min-width:160px;
-    padding:.9rem 1.5rem;
-    background:transparent;
-    border:1px solid rgba(255,255,255,0.2);
-    color:var(--white);
-    font-family:inherit; font-size:.72rem; letter-spacing:.15em; text-transform:uppercase;
-    cursor:pointer;
-    display:flex; align-items:center; justify-content:center; gap:.5rem;
-    transition: border-color .25s, box-shadow .25s, transform .2s;
-  }
-  .btn-email:hover { border-color:var(--red); box-shadow:0 0 15px var(--red-dim); transform:translateY(-2px); }
-  .contact-info-item {
-    display:flex; align-items:flex-start; gap:1rem;
-    margin-bottom:2rem;
-  }
-  .contact-info-icon {
-    width:40px; height:40px; flex-shrink:0;
-    border:1px solid rgba(255,255,255,0.1);
-    display:flex; align-items:center; justify-content:center;
-    color:var(--red);
-  }
-  .contact-info-icon svg { width:18px; height:18px; stroke:currentColor; fill:none; }
-  .contact-info-label {
-    font-size:.65rem; letter-spacing:.2em; text-transform:uppercase;
-    color:var(--text-muted); margin-bottom:.2rem;
-  }
-  .contact-info-val { font-size:.9rem; font-weight:300; color:var(--white); }
-
-  /* ── FOOTER ── */
-  footer {
-    background: #060606;
-    border-top:1px solid rgba(255,255,255,0.06);
-    padding:4rem 4rem 2rem;
-  }
-  .footer-top {
-    display:flex; justify-content:space-between; align-items:flex-start;
-    flex-wrap:wrap; gap:3rem;
-    padding-bottom:3rem;
-    border-bottom:1px solid rgba(255,255,255,0.06);
-  }
-  .footer-brand {}
-  .footer-logo {
-    font-family:'Cormorant Garamond',serif;
-    font-size:3rem; font-weight:300; letter-spacing:.2em;
-    display:block; line-height:1; margin-bottom:.4rem;
-  }
-  .footer-logo span { color:var(--red); }
-  .footer-tagline {
-    font-size:.7rem; letter-spacing:.25em; text-transform:uppercase;
-    color:var(--text-muted);
-  }
-  .footer-nav h4 {
-    font-size:.65rem; letter-spacing:.3em; text-transform:uppercase;
-    color:var(--text-muted); margin-bottom:1rem;
-  }
-  .footer-nav ul { list-style:none; display:flex; flex-direction:column; gap:.6rem; }
-  .footer-nav a {
-    font-size:.85rem; font-weight:300; color:rgba(255,255,255,0.5);
-    text-decoration:none; transition:color .25s;
-  }
-  .footer-nav a:hover { color:var(--white); }
-  .footer-social h4 {
-    font-size:.65rem; letter-spacing:.3em; text-transform:uppercase;
-    color:var(--text-muted); margin-bottom:1rem;
-  }
-  .social-links { display:flex; gap:.8rem; }
-  .social-link {
-    width:40px; height:40px;
-    border:1px solid rgba(255,255,255,0.1);
-    display:flex; align-items:center; justify-content:center;
-    text-decoration:none; color:rgba(255,255,255,0.5);
-    transition: border-color .25s, color .25s, box-shadow .25s;
-  }
-  .social-link:hover { border-color:var(--red); color:var(--red); box-shadow:0 0 12px var(--red-dim); }
-  .social-link svg { width:16px; height:16px; fill:currentColor; }
-  .footer-bottom {
-    display:flex; justify-content:space-between; align-items:center;
-    flex-wrap:wrap; gap:1rem;
-    padding-top:2rem;
-    font-size:.65rem; letter-spacing:.15em; text-transform:uppercase;
-    color:rgba(255,255,255,0.2);
-  }
-  .footer-bottom a { color:inherit; text-decoration:none; }
-  .footer-bottom a:hover { color:var(--red); }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width:900px) {
-    section { padding:5rem 2rem; }
-    nav { padding:1.2rem 2rem; }
-    nav.scrolled { padding:.9rem 2rem; }
-    .nav-links, .nav-hire { display:none; }
-    .burger { display:flex; }
-    #about { grid-template-columns:1fr; gap:3rem; }
-    .about-visual { height:280px; }
-    #contact { grid-template-columns:1fr; gap:3rem; }
-    .contact-right { padding-top:0; }
-    .form-row { grid-template-columns:1fr; }
-    footer { padding:3rem 2rem 2rem; }
-    .footer-top { flex-direction:column; gap:2rem; }
-  }
-  @media (max-width:600px) {
-    .longform-grid { grid-template-columns:1fr; }
-    .hero-btns { flex-direction:column; align-items:center; }
-  }
-
-  /* MOBILE MENU */
-  #mobile-menu {
-    position:fixed; inset:0; background:var(--black); z-index:990;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:2rem; opacity:0; visibility:hidden; transition:.35s;
-  }
-  #mobile-menu.open { opacity:1; visibility:visible; }
-  #mobile-menu a {
-    font-family:'Cormorant Garamond',serif;
-    font-size:3rem; font-weight:300;
-    color:var(--white); text-decoration:none; letter-spacing:.1em;
-    transition:color .25s;
-  }
-  #mobile-menu a:hover { color:var(--red); }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AMINE — Professional Video Editor. Cinematic edits, clear storytelling, strong results." />
+  <meta name="keywords" content="video editor, cinematic, short form, long form, brand video, YouTube, social media" />
+  <title>AMINE — Video Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+<!-- GRAIN OVERLAY -->
+<div class="grain-overlay" aria-hidden="true"></div>
+
+<!-- LOADING SCREEN -->
+<div id="loader">
+  <div class="loader-inner">
+    <div class="loader-logo">AMINE</div>
+    <div class="loader-line"><span></span></div>
+    <div class="loader-sub" data-i18n="loader_sub">Video Editor</div>
+  </div>
+</div>
+
 <!-- CURSOR -->
 <div id="cursor"></div>
-<div id="cursor-ring"></div>
+<div id="cursor-follower"></div>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="loader-title">AMINE</div>
-  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
-  <div class="loader-sub">Loading Experience</div>
-</div>
-
-<!-- MOBILE MENU -->
-<div id="mobile-menu">
-  <a href="#hero" onclick="closeMobileMenu()">Home</a>
-  <a href="#about" onclick="closeMobileMenu()">About</a>
-  <a href="#videos" onclick="closeMobileMenu()">Videos</a>
-  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
-</div>
-
-<!-- NAV -->
+<!-- NAVBAR -->
 <nav id="navbar">
-  <a href="#hero" class="nav-logo">AM<span>I</span>NE</a>
-  <ul class="nav-links">
-    <li><a href="#hero">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#videos">Videos</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <a href="#contact" class="nav-hire">Hire Me</a>
-  <div class="burger" id="burger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
+  <div class="nav-container">
+    <a href="#home" class="nav-logo">AMINE</a>
+    <ul class="nav-links">
+      <li><a href="#home" data-i18n="nav_home">Home</a></li>
+      <li><a href="#about" data-i18n="nav_about">About</a></li>
+      <li><a href="#services" data-i18n="nav_services">Services</a></li>
+      <li><a href="#videos" data-i18n="nav_videos">Videos</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-switcher" id="langSwitcher">
+        <span class="lang-current" id="langCurrent">EN</span>
+        <div class="lang-dropdown" id="langDropdown">
+          <span class="lang-opt" data-lang="en">EN — English</span>
+          <span class="lang-opt" data-lang="fr">FR — Français</span>
+          <span class="lang-opt" data-lang="ar">AR — العربية</span>
+        </div>
+      </div>
+      <a href="#contact" class="btn-hire" data-i18n="btn_hire">Hire Me</a>
+      <button class="nav-burger" id="navBurger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#home" data-i18n="nav_home">Home</a></li>
+      <li><a href="#about" data-i18n="nav_about">About</a></li>
+      <li><a href="#services" data-i18n="nav_services">Services</a></li>
+      <li><a href="#videos" data-i18n="nav_videos">Videos</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+    </ul>
+    <div class="mobile-lang">
+      <span class="lang-opt" data-lang="en">EN</span>
+      <span class="lang-opt" data-lang="fr">FR</span>
+      <span class="lang-opt" data-lang="ar">AR</span>
+    </div>
   </div>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-vignette"></div>
+<!-- ============ HERO ============ -->
+<section id="home" class="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="hero-sweep" aria-hidden="true"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">Video Editor &amp; Post-Production Artist</div>
-    <h1 class="hero-title">AMINE —<br><strong>Video Editor</strong></h1>
-    <div class="hero-divider"></div>
-    <p class="hero-sub">I create high-performing video content for creators, brands, and businesses.</p>
-    <div class="hero-btns">
-      <a href="#videos" class="btn-primary">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
-        View Work
-      </a>
-      <a href="#contact" class="btn-outline">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.7 9.82a19.79 19.79 0 01-3.07-8.59A2 2 0 012.61 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.58a16 16 0 006.29 6.29l.96-.96a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-        Hire Me
-      </a>
+    <div class="hero-eyebrow reveal-line"><span data-i18n="hero_eyebrow">Professional Video Editor</span></div>
+    <h1 class="hero-title">
+      <span class="hero-title-line reveal-line"><span>AMINE</span></span>
+      <span class="hero-title-line reveal-line"><span data-i18n="hero_title_2">Video Editor</span></span>
+    </h1>
+    <p class="hero-sub reveal-up" data-i18n="hero_sub">I create high-performing video content for creators, brands, and businesses.</p>
+    <p class="hero-tagline reveal-up" data-i18n="hero_tagline">Cinematic edits. Clear storytelling. Strong results.</p>
+    <div class="hero-btns reveal-up">
+      <a href="#videos" class="btn-primary magnetic" data-i18n="btn_view_work">View My Work</a>
+      <a href="#contact" class="btn-outline magnetic" data-i18n="btn_hire">Hire Me</a>
     </div>
   </div>
-  <div class="hero-scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <span class="scroll-line"></span>
+    <span class="scroll-text" data-i18n="scroll_hint">Scroll</span>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="about-left reveal">
-    <div class="section-label">About Me</div>
-    <h2 class="section-title">Crafting <em>Stories</em><br>Through Film</h2>
-    <div class="about-text">
-      <p>I'm Adamou Mohammed Al Amine, a professional video editor with over 5 years of experience in creating high-quality short-form and long-form content.</p>
-      <p>I help brands, creators, and businesses turn their ideas into engaging visual stories that capture attention and drive results. From dynamic social media videos to polished long-form content, I focus on delivering clean, modern, and impactful edits.</p>
-      <p>My goal is simple: create videos that not only look good, but also perform.</p>
-    </div>
-    <div class="about-stats">
-      <div><div class="stat-num">5+</div><div class="stat-label">Years Experience</div></div>
-      <div><div class="stat-num">100+</div><div class="stat-label">Projects Delivered</div></div>
-      <div><div class="stat-num">50+</div><div class="stat-label">Happy Clients</div></div>
-      <div><div class="stat-num">∞</div><div class="stat-label">Creative Ideas</div></div>
-    </div>
-    <a href="https://drive.google.com/file/d/1YnzzHX7Yb5dQvbdcpxtPSps1qFVIzvkQ/view" target="_blank" class="about-cv-btn">
-      Download CV
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-    </a>
-  </div>
-  <div class="about-right reveal" style="transition-delay:.15s">
-    <div class="about-visual">
-      <div class="about-visual-inner">
-        <div class="about-monogram">A</div>
+<!-- SECTION DIVIDER -->
+<div class="section-divider" aria-hidden="true"><span></span></div>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="about-section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-portrait-wrap">
+          <div class="about-portrait-placeholder">
+            <div class="portrait-inner">
+              <span class="portrait-letter">A</span>
+            </div>
+          </div>
+          <div class="about-accent-line" aria-hidden="true"></div>
+          <div class="about-tag">
+            <span>Est. 2019</span>
+          </div>
+        </div>
       </div>
-      <div class="about-tag">El Oued, Algeria</div>
-    </div>
-  </div>
-</section>
-
-<!-- VIDEOS -->
-<section id="videos">
-  <div class="videos-intro reveal">
-    <div>
-      <div class="section-label">Portfolio</div>
-      <h2 class="section-title">Selected <em>Works</em></h2>
-    </div>
-  </div>
-
-  <!-- LONG FORM -->
-  <div class="reveal">
-    <div class="video-section-title"><span>01</span> Long Form Videos</div>
-    <div class="longform-grid" id="longform-grid">
-      <!-- Injected by JS -->
-    </div>
-  </div>
-
-  <!-- CAROUSEL -->
-  <div class="reveal" style="transition-delay:.1s">
-    <div class="video-section-title"><span>02</span> Project Showcase</div>
-    <div class="carousel-wrap" id="carousel">
-      <div class="carousel-track" id="carousel-track">
-        <!-- Injected by JS -->
-      </div>
-    </div>
-    <div class="carousel-arrows">
-      <button class="carousel-btn" onclick="carouselPrev()" aria-label="Previous">
-        <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="15,18 9,12 15,6"/></svg>
-      </button>
-      <button class="carousel-btn" onclick="carouselNext()" aria-label="Next">
-        <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="9,6 15,12 9,18"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- SHORT FORM REEL -->
-  <div class="reveal" style="transition-delay:.2s">
-    <div class="video-section-title"><span>03</span> Short Form Reel</div>
-    <div class="reel-wrap" id="reel-wrap">
-      <div class="reel-track" id="reel-track">
-        <!-- Injected by JS -->
+      <div class="about-text">
+        <div class="section-label reveal-up" data-i18n="about_label">About Me</div>
+        <h2 class="section-title reveal-up" data-i18n="about_title">Crafting stories<br>frame by frame</h2>
+        <p class="about-body reveal-up" data-i18n="about_p1">I'm Adamou Mohammed Al Amine, a professional video editor with over 5 years of experience in creating high-quality short-form and long-form content.</p>
+        <p class="about-body reveal-up" data-i18n="about_p2">I help brands, creators, and businesses turn their ideas into engaging visual stories that capture attention and drive results. From dynamic social media videos to polished long-form content, I focus on delivering clean, modern, and impactful edits.</p>
+        <p class="about-body reveal-up" data-i18n="about_p3">My goal is simple: create videos that not only look good, but also perform.</p>
+        <div class="about-stats reveal-up">
+          <div class="stat-card">
+            <span class="stat-num">5+</span>
+            <span class="stat-label" data-i18n="stat_1">Years Experience</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">∞</span>
+            <span class="stat-label" data-i18n="stat_2">Short & Long Form</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">100%</span>
+            <span class="stat-label" data-i18n="stat_3">Creator Focused</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="reveal">
-    <div class="section-label">Get In Touch</div>
-    <h2 class="section-title">Let's Create<br><em>Something</em><br>Together</h2>
-    <div style="margin-top:3rem">
-      <div class="contact-info-item">
-        <div class="contact-info-icon">
-          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.7 9.82a19.79 19.79 0 01-3.07-8.59A2 2 0 012.61 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.58a16 16 0 006.29 6.29l.96-.96a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-        </div>
-        <div>
-          <div class="contact-info-label">WhatsApp</div>
-          <div class="contact-info-val">+213 782 955 961</div>
-        </div>
-      </div>
-      <div class="contact-info-item">
-        <div class="contact-info-icon">
-          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        </div>
-        <div>
-          <div class="contact-info-label">Email</div>
-          <div class="contact-info-val">mohalaminadamou@gmail.com</div>
-        </div>
-      </div>
-      <div class="contact-info-item">
-        <div class="contact-info-icon">
-          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <div>
-          <div class="contact-info-label">Location</div>
-          <div class="contact-info-val">El Oued, Algeria</div>
-        </div>
-      </div>
+<!-- SECTION DIVIDER -->
+<div class="section-divider" aria-hidden="true"><span></span></div>
+
+<!-- ============ SERVICES ============ -->
+<section id="services" class="services-section">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <div class="section-label" data-i18n="services_label">What I Do</div>
+      <h2 class="section-title" data-i18n="services_title">Featured Services</h2>
     </div>
-  </div>
-  <div class="contact-right reveal" style="transition-delay:.1s">
-    <div class="contact-form" id="contact-form">
-      <div class="form-row">
-        <div class="form-group">
-          <label>First Name</label>
-          <input type="text" id="fname" placeholder="John">
+    <div class="services-grid">
+      <div class="service-card reveal-up">
+        <div class="service-icon">
+          <svg viewBox="0 0 40 40" fill="none"><rect x="4" y="10" width="32" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M16 15l8 5-8 5V15z" fill="currentColor"/></svg>
         </div>
-        <div class="form-group">
-          <label>Last Name</label>
-          <input type="text" id="lname" placeholder="Doe">
+        <h3 class="service-title" data-i18n="srv1_title">Short Form Editing</h3>
+        <p class="service-desc" data-i18n="srv1_desc">High-retention Reels, TikToks, and Shorts built for maximum engagement and virality.</p>
+        <div class="service-hover-line" aria-hidden="true"></div>
+      </div>
+      <div class="service-card reveal-up">
+        <div class="service-icon">
+          <svg viewBox="0 0 40 40" fill="none"><rect x="4" y="8" width="32" height="24" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 16h32M14 8v24" stroke="currentColor" stroke-width="1.5"/></svg>
         </div>
+        <h3 class="service-title" data-i18n="srv2_title">Long Form Editing</h3>
+        <p class="service-desc" data-i18n="srv2_desc">Documentaries, podcasts, interviews and YouTube content with cinematic polish.</p>
+        <div class="service-hover-line" aria-hidden="true"></div>
       </div>
-      <div class="form-group">
-        <label>Type of Work</label>
-        <select id="service">
-          <option value="" disabled selected>Select a service</option>
-          <option>Short-Form Video Editing</option>
-          <option>Long-Form Video Editing</option>
-          <option>Social Media Content</option>
-          <option>Brand Video</option>
-          <option>YouTube Video</option>
-          <option>Other</option>
-        </select>
+      <div class="service-card reveal-up">
+        <div class="service-icon">
+          <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="1.5"/><path d="M20 6v4M20 30v4M6 20h4M30 20h4" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="20" r="4" fill="currentColor"/></svg>
+        </div>
+        <h3 class="service-title" data-i18n="srv3_title">Social Media Content</h3>
+        <p class="service-desc" data-i18n="srv3_desc">Platform-optimized edits for Instagram, TikTok, Facebook, and X/Twitter.</p>
+        <div class="service-hover-line" aria-hidden="true"></div>
       </div>
-      <div class="form-group">
-        <label>Project Details</label>
-        <textarea id="details" rows="5" placeholder="Tell me about your project..."></textarea>
+      <div class="service-card reveal-up">
+        <div class="service-icon">
+          <svg viewBox="0 0 40 40" fill="none"><path d="M8 32L20 8l12 24" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 24h16" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="service-title" data-i18n="srv4_title">YouTube Editing</h3>
+        <p class="service-desc" data-i18n="srv4_desc">Audience-retention focused edits designed to grow your YouTube channel.</p>
+        <div class="service-hover-line" aria-hidden="true"></div>
       </div>
-      <div class="contact-btns">
-        <button class="btn-whatsapp" onclick="sendWhatsApp()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Via WhatsApp
-        </button>
-        <button class="btn-email" onclick="sendEmail()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Via Email
-        </button>
+      <div class="service-card reveal-up">
+        <div class="service-icon">
+          <svg viewBox="0 0 40 40" fill="none"><rect x="6" y="12" width="28" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M14 12V10a2 2 0 012-2h8a2 2 0 012 2v2" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="21" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="service-title" data-i18n="srv5_title">Brand Video Editing</h3>
+        <p class="service-desc" data-i18n="srv5_desc">Premium brand storytelling that builds trust, identity, and client conversions.</p>
+        <div class="service-hover-line" aria-hidden="true"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <span class="footer-logo">AM<span>I</span>NE</span>
-      <div class="footer-tagline">Video Editor</div>
+<!-- SECTION DIVIDER -->
+<div class="section-divider" aria-hidden="true"><span></span></div>
+
+<!-- ============ LONG FORM VIDEOS ============ -->
+<section id="videos" class="videos-section">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <div class="section-label" data-i18n="videos_label">Portfolio</div>
+      <h2 class="section-title" data-i18n="videos_title">Long Form Projects</h2>
+      <p class="section-intro reveal-up" data-i18n="videos_intro">A selection of my long-form editing work designed for storytelling, retention, and impact.</p>
     </div>
-    <nav class="footer-nav">
-      <h4>Navigation</h4>
-      <ul>
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#videos">Videos</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-    <div class="footer-social">
-      <h4>Follow</h4>
-      <div class="social-links">
-        <a href="https://www.instagram.com/adamou_moh_al_amine/" target="_blank" class="social-link" title="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </a>
-        <a href="https://www.facebook.com/mehalamine.adamou" target="_blank" class="social-link" title="Facebook">
-          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </a>
-        <a href="https://wa.me/213782955961" target="_blank" class="social-link" title="WhatsApp">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        </a>
+    <div class="videos-grid">
+      <div class="video-card reveal-up" data-video="-qQsvqKB1_Y">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/-qQsvqKB1_Y/maxresdefault.jpg" alt="Long Form Project 1" loading="lazy" />
+          <div class="video-overlay">
+            <div class="play-btn">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="video-info">
+          <span class="video-num">01</span>
+          <span class="video-cat" data-i18n="vid_cat_long">Long Form</span>
+        </div>
+      </div>
+      <div class="video-card reveal-up" data-video="PTnRYDBoS98">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/PTnRYDBoS98/maxresdefault.jpg" alt="Long Form Project 2" loading="lazy" />
+          <div class="video-overlay">
+            <div class="play-btn">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="video-info">
+          <span class="video-num">02</span>
+          <span class="video-cat" data-i18n="vid_cat_long">Long Form</span>
+        </div>
+      </div>
+      <div class="video-card reveal-up" data-video="X2Rfjeh4QwI">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/X2Rfjeh4QwI/maxresdefault.jpg" alt="Long Form Project 3" loading="lazy" />
+          <div class="video-overlay">
+            <div class="play-btn">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="video-info">
+          <span class="video-num">03</span>
+          <span class="video-cat" data-i18n="vid_cat_long">Long Form</span>
+        </div>
+      </div>
+      <div class="video-card reveal-up" data-video="jAKU_YR0YDs">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/jAKU_YR0YDs/maxresdefault.jpg" alt="Long Form Project 4" loading="lazy" />
+          <div class="video-overlay">
+            <div class="play-btn">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="video-info">
+          <span class="video-num">04</span>
+          <span class="video-cat" data-i18n="vid_cat_long">Long Form</span>
+        </div>
+      </div>
+      <div class="video-card reveal-up" data-video="yw6jr3jXrEI">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/yw6jr3jXrEI/maxresdefault.jpg" alt="Long Form Project 5" loading="lazy" />
+          <div class="video-overlay">
+            <div class="play-btn">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="video-info">
+          <span class="video-num">05</span>
+          <span class="video-cat" data-i18n="vid_cat_long">Long Form</span>
+        </div>
       </div>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 AMINE — All rights reserved</span>
-    <span>El Oued, Algeria</span>
-    <a href="mailto:mohalaminadamou@gmail.com">mohalaminadamou@gmail.com</a>
-  </div>
-</footer>
+</section>
 
-<!-- MODAL -->
-<div id="modal" onclick="closeModal(event)">
-  <div class="modal-inner" id="modal-inner">
-    <button class="modal-close" onclick="closeModal()">✕ Close</button>
-    <iframe id="modal-iframe" allowfullscreen></iframe>
+<!-- VIDEO MODAL -->
+<div id="videoModal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Video Player">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="white" stroke-width="1.5"/></svg>
+    </button>
+    <div class="modal-iframe-wrap">
+      <iframe id="modalIframe" src="" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
   </div>
 </div>
 
-<script>
-/* ───────── LOADER ───────── */
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loader').classList.add('hidden');
-  }, 2400);
-});
+<!-- SECTION DIVIDER -->
+<div class="section-divider" aria-hidden="true"><span></span></div>
 
-/* ───────── CURSOR ───────── */
-const cur = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
-function animRing() { rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); }
-animRing();
-document.querySelectorAll('a,button,.video-card,.reel-card,.carousel-btn,.social-link').forEach(el => {
-  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
-});
-
-/* ───────── NAVBAR SCROLL ───────── */
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
-});
-
-/* ───────── MOBILE MENU ───────── */
-let menuOpen = false;
-function toggleMenu() {
-  menuOpen = !menuOpen;
-  document.getElementById('mobile-menu').classList.toggle('open', menuOpen);
-  const b = document.getElementById('burger').querySelectorAll('span');
-  if(menuOpen) { b[0].style.transform='rotate(45deg) translate(4px,4px)'; b[1].style.opacity='0'; b[2].style.transform='rotate(-45deg) translate(4px,-4px)'; }
-  else { b[0].style.transform=''; b[1].style.opacity=''; b[2].style.transform=''; }
-}
-function closeMobileMenu() { menuOpen=false; document.getElementById('mobile-menu').classList.remove('open'); const b=document.getElementById('burger').querySelectorAll('span'); b[0].style.transform=''; b[1].style.opacity=''; b[2].style.transform=''; }
-
-/* ───────── HERO CANVAS PARTICLES ───────── */
-const canvas = document.getElementById('hero-canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-function resizeCanvas() { canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-class Particle {
-  constructor() { this.reset(); }
-  reset() {
-    this.x = Math.random()*canvas.width;
-    this.y = Math.random()*canvas.height;
-    this.size = Math.random()*1.5+0.2;
-    this.speed = Math.random()*.3+.05;
-    this.alpha = Math.random()*.4+.05;
-    this.vx = (Math.random()-.5)*.3;
-    this.vy = -this.speed;
-    this.life = 1;
-  }
-  update() {
-    this.x+=this.vx; this.y+=this.vy;
-    this.life -= .003;
-    if(this.life<=0||this.y<-10) this.reset();
-  }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
-    ctx.fillStyle=`rgba(255,42,42,${this.alpha*this.life})`;
-    ctx.fill();
-  }
-}
-for(let i=0;i<120;i++) particles.push(new Particle());
-function animParticles() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  // faint grid lines
-  ctx.strokeStyle='rgba(255,42,42,0.03)';
-  ctx.lineWidth=1;
-  const gapX=120, gapY=80;
-  for(let x=0;x<canvas.width;x+=gapX){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();}
-  for(let y=0;y<canvas.height;y+=gapY){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();}
-  particles.forEach(p=>{p.update();p.draw();});
-  requestAnimationFrame(animParticles);
-}
-animParticles();
-
-/* ───────── SCROLL REVEAL ───────── */
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-},{threshold:.12});
-reveals.forEach(r=>observer.observe(r));
-
-/* ───────── VIDEOS DATA ───────── */
-const longFormVideos = [
-  { id:'-qQsvqKB1_Y', title:'Brand Campaign' },
-  { id:'PTnRYDBoS98', title:'Creative Edit' },
-  { id:'X2Rfjeh4QwI', title:'Short Film' },
-  { id:'jAKU_YR0YDs', title:'Commercial Video' },
-  { id:'yw6jr3jXrEI', title:'Documentary' },
-];
-
-// Build long form grid
-const lGrid = document.getElementById('longform-grid');
-longFormVideos.forEach(v=>{
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="https://img.youtube.com/vi/${v.id}/maxresdefault.jpg" alt="${v.title}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${v.id}/hqdefault.jpg'">
-    <div class="video-card-overlay">
-      <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+<!-- ============ CAROUSEL ============ -->
+<section class="carousel-section" id="work">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <div class="section-label" data-i18n="carousel_label">Recent Projects</div>
+      <h2 class="section-title" data-i18n="carousel_title">Latest Work</h2>
     </div>
-    <div class="video-card-glow"></div>
-  `;
-  card.addEventListener('click',()=>openModal(v.id));
-  lGrid.appendChild(card);
-});
+  </div>
+  <div class="carousel-track-wrap">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide" data-caption="Brand Campaign Edit">
+        <div class="slide-img" style="background:linear-gradient(135deg,#1a0a0a,#2d0a0a,#1a1a2e)"></div>
+        <div class="slide-caption"><span>Brand Campaign Edit</span></div>
+      </div>
+      <div class="carousel-slide" data-caption="YouTube Documentary">
+        <div class="slide-img" style="background:linear-gradient(135deg,#0a0a1a,#1a0d2e,#0d1a1a)"></div>
+        <div class="slide-caption"><span>YouTube Documentary</span></div>
+      </div>
+      <div class="carousel-slide" data-caption="Social Media Reel">
+        <div class="slide-img" style="background:linear-gradient(135deg,#1a0505,#2e1a0a,#1a2e0a)"></div>
+        <div class="slide-caption"><span>Social Media Reel</span></div>
+      </div>
+      <div class="carousel-slide" data-caption="Podcast Production">
+        <div class="slide-img" style="background:linear-gradient(135deg,#0a1a0a,#1a1a0a,#2e0a1a)"></div>
+        <div class="slide-caption"><span>Podcast Production</span></div>
+      </div>
+      <div class="carousel-slide" data-caption="Event Highlight">
+        <div class="slide-img" style="background:linear-gradient(135deg,#1a1a0a,#0a2e1a,#1a0a2e)"></div>
+        <div class="slide-caption"><span>Event Highlight</span></div>
+      </div>
+      <div class="carousel-slide" data-caption="Brand Story">
+        <div class="slide-img" style="background:linear-gradient(135deg,#2e0a0a,#0a0a2e,#0a2e0a)"></div>
+        <div class="slide-caption"><span>Brand Story</span></div>
+      </div>
+    </div>
+    <button class="carousel-btn carousel-prev" id="carouselPrev" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="white" stroke-width="1.5"/></svg>
+    </button>
+    <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="white" stroke-width="1.5"/></svg>
+    </button>
+  </div>
+</section>
 
-/* ───────── MODAL ───────── */
-function openModal(id) {
-  document.getElementById('modal-iframe').src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-  document.getElementById('modal').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function closeModal(e) {
-  if(e && e.target !== document.getElementById('modal')) return;
-  document.getElementById('modal').classList.remove('open');
-  document.getElementById('modal-iframe').src='';
-  document.body.style.overflow='';
-}
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') { document.getElementById('modal').classList.remove('open'); document.getElementById('modal-iframe').src=''; document.body.style.overflow=''; }});
+<!-- SECTION DIVIDER -->
+<div class="section-divider" aria-hidden="true"><span></span></div>
 
-/* ───────── CAROUSEL ───────── */
-const carouselImages = [
-  { src:'https://img.youtube.com/vi/-qQsvqKB1_Y/maxresdefault.jpg', label:'Brand Campaign' },
-  { src:'https://img.youtube.com/vi/PTnRYDBoS98/maxresdefault.jpg', label:'Creative Edit' },
-  { src:'https://img.youtube.com/vi/X2Rfjeh4QwI/maxresdefault.jpg', label:'Short Film' },
-  { src:'https://img.youtube.com/vi/jAKU_YR0YDs/maxresdefault.jpg', label:'Commercial' },
-  { src:'https://img.youtube.com/vi/yw6jr3jXrEI/maxresdefault.jpg', label:'Documentary' },
-];
-const track = document.getElementById('carousel-track');
-let carouselIdx = 1;
-function buildCarousel() {
-  track.innerHTML='';
-  carouselImages.forEach((img,i)=>{
-    const slide=document.createElement('div');
-    slide.className='carousel-slide'+(i===carouselIdx?' center':'');
-    slide.innerHTML=`<img src="${img.src}" alt="${img.label}" loading="lazy" onerror="this.src='https://via.placeholder.com/480x270/1a1a1a/444?text=Project'"><div class="slide-label">${img.label}</div>`;
-    track.appendChild(slide);
-  });
-  const slideW = track.children[0]?.offsetWidth || 360;
-  const gap = 24;
-  const containerW = track.parentElement.offsetWidth;
-  const offset = (containerW/2) - (slideW/2) - carouselIdx*(slideW+gap);
-  track.style.transform=`translateX(${offset}px)`;
-}
-function carouselNext() {
-  carouselIdx=Math.min(carouselIdx+1,carouselImages.length-1);
-  buildCarousel();
-}
-function carouselPrev() {
-  carouselIdx=Math.max(carouselIdx-1,0);
-  buildCarousel();
-}
-window.addEventListener('resize', buildCarousel);
-setTimeout(buildCarousel, 200);
+<!-- ============ SHORT FORM REEL ============ -->
+<section class="shortform-section" id="reel">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <div class="section-label" data-i18n="short_label">Reels & Shorts</div>
+      <h2 class="section-title" data-i18n="short_title">Short Form Edits</h2>
+    </div>
+  </div>
+  <div class="reel-strip-wrap">
+    <div class="reel-strip" id="reelStrip">
+      <div class="reel-card" data-id="1" data-desc-key="reel1_desc">
+        <div class="reel-thumb" style="background:linear-gradient(180deg,#2d0a0a 0%,#050505 100%)">
+          <div class="reel-play-icon">▶</div>
+          <div class="reel-placeholder-tag">SHORT 01</div>
+        </div>
+      </div>
+      <div class="reel-card" data-id="2" data-desc-key="reel2_desc">
+        <div class="reel-thumb" style="background:linear-gradient(180deg,#0a0a2d 0%,#050505 100%)">
+          <div class="reel-play-icon">▶</div>
+          <div class="reel-placeholder-tag">SHORT 02</div>
+        </div>
+      </div>
+      <div class="reel-card" data-id="3" data-desc-key="reel3_desc">
+        <div class="reel-thumb" style="background:linear-gradient(180deg,#0a2d0a 0%,#050505 100%)">
+          <div class="reel-play-icon">▶</div>
+          <div class="reel-placeholder-tag">SHORT 03</div>
+        </div>
+      </div>
+      <div class="reel-card" data-id="4" data-desc-key="reel1_desc">
+        <div class="reel-thumb" style="background:linear-gradient(180deg,#2d1a0a 0%,#050505 100%)">
+          <div class="reel-play-icon">▶</div>
+          <div class="reel-placeholder-tag">SHORT 04</div>
+        </div>
+      </div>
+      <div class="reel-card" data-id="5" data-desc-key="reel2_desc">
+        <div class="reel-thumb" style="background:linear-gradient(180deg,#1a0a2d 0%,#050505 100%)">
+          <div class="reel-play-icon">▶</div>
+          <div class="reel-placeholder-tag">SHORT 05</div>
+        </div>
+      </div>
+      <div class="reel-card" data-id="6" data-desc-key="reel3_desc">
+        <div class="reel-thumb" style="background:linear-gradient(180deg,#2d2d0a 0%,#050505 100%)">
+          <div class="reel-play-icon">▶</div>
+          <div class="reel-placeholder-tag">SHORT 06</div>
+        </div>
+      </div>
+      <!-- duplicates for infinite loop -->
+      <div class="reel-card" data-id="1c" data-desc-key="reel1_desc">
+        <div class="reel-thumb" style="background:linear-gradient(180deg,#2d0a0a 0%,#050505 100%)">
+          <div class="reel-play-icon">▶</div>
+          <div class="reel-placeholder-tag">SHORT 01</div>
+        </div>
+      </div>
+      <div class="reel-card" data-id="2c" data-desc-key="reel2_desc">
+        <div class="reel-thumb" style="background:linear-gradient(180deg,#0a0a2d 0%,#050505 100%)">
+          <div class="reel-play-icon">▶</div>
+          <div class="reel-placeholder-tag">SHORT 02</div>
+        </div>
+      </div>
+      <div class="reel-card" data-id="3c" data-desc-key="reel3_desc">
+        <div class="reel-thumb" style="background:linear-gradient(180deg,#0a2d0a 0%,#050505 100%)">
+          <div class="reel-play-icon">▶</div>
+          <div class="reel-placeholder-tag">SHORT 03</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="reel-expanded" id="reelExpanded">
+    <div class="reel-expanded-inner">
+      <div class="reel-preview-box">
+        <div class="reel-preview-placeholder">
+          <span data-i18n="reel_placeholder">Select a short above to preview</span>
+        </div>
+      </div>
+      <p class="reel-expanded-desc" id="reelDesc"></p>
+    </div>
+  </div>
+</section>
 
-/* ───────── REEL ───────── */
-const shortFormIds = [
-  '-qQsvqKB1_Y','PTnRYDBoS98','X2Rfjeh4QwI','jAKU_YR0YDs','yw6jr3jXrEI',
-  '-qQsvqKB1_Y','PTnRYDBoS98','X2Rfjeh4QwI','jAKU_YR0YDs','yw6jr3jXrEI'
-];
-const reelTrack = document.getElementById('reel-track');
-function buildReel() {
-  reelTrack.innerHTML='';
-  const dbl = [...shortFormIds,...shortFormIds];
-  dbl.forEach((id,i)=>{
-    const card=document.createElement('div');
-    card.className='reel-card';
-    card.innerHTML=`
-      <img class="reel-card-img" src="https://img.youtube.com/vi/${id}/mqdefault.jpg" alt="Reel ${i}" loading="lazy">
-      <div class="reel-card-play"><div class="reel-card-play-inner"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
-      <div class="reel-label">Short Edit ${(i%5)+1}</div>
-    `;
-    card.addEventListener('click',()=>openModal(id));
-    reelTrack.appendChild(card);
-  });
-}
-buildReel();
+<!-- SECTION DIVIDER -->
+<div class="section-divider" aria-hidden="true"><span></span></div>
 
-/* ───────── CONTACT FUNCTIONS ───────── */
-function getFormData() {
-  const fn = document.getElementById('fname').value.trim();
-  const ln = document.getElementById('lname').value.trim();
-  const svc = document.getElementById('service').value;
-  const det = document.getElementById('details').value.trim();
-  if(!fn||!ln||!svc||!det) { alert('Please fill in all fields.'); return null; }
-  return { fn,ln,svc,det };
-}
-function sendWhatsApp() {
-  const d = getFormData(); if(!d) return;
-  const msg = `Hello AMINE,%0A%0AName: ${d.fn}%0ALast Name: ${d.ln}%0AService: ${d.svc}%0ADetails: ${d.det}`;
-  window.open(`https://wa.me/213782955961?text=${msg}`,'_blank');
-}
-function sendEmail() {
-  const d = getFormData(); if(!d) return;
-  const sub = `Project Inquiry — ${d.svc}`;
-  const body = `Name: ${d.fn}\nLast Name: ${d.ln}\nService: ${d.svc}\nDetails: ${d.det}`;
-  window.open(`mailto:mohalaminadamou@gmail.com?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`);
-}
-</script>
+<!-- ============ WHY WORK WITH ME ============ -->
+<section class="why-section" id="why">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <div class="section-label" data-i18n="why_label">The Difference</div>
+      <h2 class="section-title" data-i18n="why_title">Why Work With Me</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal-up">
+        <div class="why-num">01</div>
+        <h3 data-i18n="why1_title">Clean & Modern Style</h3>
+        <p data-i18n="why1_desc">Every edit is crafted with a sharp eye for aesthetics — color grading, pacing, typography, and motion all work in harmony.</p>
+      </div>
+      <div class="why-card reveal-up">
+        <div class="why-num">02</div>
+        <h3 data-i18n="why2_title">Performance & Retention</h3>
+        <p data-i18n="why2_desc">I study platform algorithms and viewer behavior to create edits that keep audiences watching and clicking.</p>
+      </div>
+      <div class="why-card reveal-up">
+        <div class="why-num">03</div>
+        <h3 data-i18n="why3_title">Reliable Communication</h3>
+        <p data-i18n="why3_desc">Clear updates, fast responses, and full transparency throughout every project — no surprises, no guessing.</p>
+      </div>
+      <div class="why-card reveal-up">
+        <div class="why-num">04</div>
+        <h3 data-i18n="why4_title">Fast Professional Delivery</h3>
+        <p data-i18n="why4_desc">Your deadlines matter. I deliver polished, ready-to-publish content on time, every time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION DIVIDER -->
+<div class="section-divider" aria-hidden="true"><span></span></div>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-left reveal-up">
+        <div class="section-label" data-i18n="contact_label">Get In Touch</div>
+        <h2 class="section-title" data-i18n="contact_title">Let's Work<br>Together</h2>
+        <p class="contact-sub" data-i18n="contact_sub">Tell me about your project and choose the easiest way to reach me.</p>
+        <div class="contact-direct">
+          <a href="https://wa.me/213782955961" target="_blank" class="direct-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+          <a href="mailto:mohalaminadamou@gmail.com" class="direct-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            mohalaminadamou@gmail.com
+          </a>
+        </div>
+      </div>
+      <div class="contact-right reveal-up">
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="form_fname">First Name</label>
+              <input type="text" id="fname" name="fname" required autocomplete="given-name" />
+              <span class="form-error" data-i18n="form_err_required">This field is required</span>
+            </div>
+            <div class="form-group">
+              <label data-i18n="form_lname">Last Name</label>
+              <input type="text" id="lname" name="lname" required autocomplete="family-name" />
+              <span class="form-error" data-i18n="form_err_required">This field is required</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form_work_type">Type of Work</label>
+            <select id="workType" name="workType" required>
+              <option value="" disabled selected data-i18n="form_select_placeholder">Select a service…</option>
+              <option value="Short Form Editing" data-i18n="srv1_title">Short Form Editing</option>
+              <option value="Long Form Editing" data-i18n="srv2_title">Long Form Editing</option>
+              <option value="Social Media Content" data-i18n="srv3_title">Social Media Content</option>
+              <option value="YouTube Editing" data-i18n="srv4_title">YouTube Editing</option>
+              <option value="Brand Video Editing" data-i18n="srv5_title">Brand Video Editing</option>
+            </select>
+            <span class="form-error" data-i18n="form_err_required">This field is required</span>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form_details">Project Details</label>
+            <textarea id="details" name="details" rows="4" required placeholder="Tell me about your project..." data-i18n-placeholder="form_details_ph"></textarea>
+            <span class="form-error" data-i18n="form_err_required">This field is required</span>
+          </div>
+          <div class="form-submit-row">
+            <button type="button" class="btn-submit btn-wa magnetic" id="btnWhatsApp">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              <span data-i18n="btn_wa">Send via WhatsApp</span>
+            </button>
+            <button type="button" class="btn-submit btn-email magnetic" id="btnEmail">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span data-i18n="btn_email">Send via Email</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">AMINE</div>
+      <div class="footer-tagline" data-i18n="footer_tagline">Video Editor</div>
+      <div class="footer-location">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+        El Oued, Algeria
+      </div>
+    </div>
+    <div class="footer-nav">
+      <h4 data-i18n="footer_nav_title">Navigation</h4>
+      <ul>
+        <li><a href="#home" data-i18n="nav_home">Home</a></li>
+        <li><a href="#about" data-i18n="nav_about">About</a></li>
+        <li><a href="#services" data-i18n="nav_services">Services</a></li>
+        <li><a href="#videos" data-i18n="nav_videos">Videos</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-social">
+      <h4 data-i18n="footer_social_title">Connect</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/adamou_moh_al_amine/" target="_blank">Instagram</a></li>
+        <li><a href="https://www.facebook.com/mehalamine.adamou" target="_blank">Facebook</a></li>
+        <li><a href="https://drive.google.com/file/d/1YnzzHX7Yb5dQvbdcpxtPSps1qFVIzvkQ/view" target="_blank" data-i18n="footer_cv">Download CV</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-i18n="footer_copy">© 2026 AMINE — All rights reserved.</span>
+    <span class="footer-made">El Oued, Algeria</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
