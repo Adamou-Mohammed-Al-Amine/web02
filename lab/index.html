@@ -1,222 +1,492 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMINE — Professional Video Editor</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMINE — Video Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="loading">
-    <div class="grain-overlay"></div>
-    <div class="cursor" id="cursor"></div>
+<body>
 
-    <nav id="navbar">
-        <div class="nav-container">
-            <div class="brand">AMINE</div>
-            <ul class="nav-links">
-                <li><a href="#home" data-i18n="nav_home">Home</a></li>
-                <li><a href="#about" data-i18n="nav_about">About</a></li>
-                <li><a href="#services" data-i18n="nav_services">Services</a></li>
-                <li><a href="#videos" data-i18n="nav_videos">Videos</a></li>
-                <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-            </ul>
-            <div class="nav-actions">
-                <select id="langSwitcher" class="lang-select">
-                    <option value="en">EN</option>
-                    <option value="ar">AR</option>
-                    <option value="fr">FR</option>
-                </select>
-                <a href="#contact" class="btn-hire-nav" data-i18n="btn_hire">Hire Me</a>
-                <div class="hamburger" id="hamburger">
-                    <span></span><span></span><span></span>
-                </div>
-            </div>
-        </div>
+  <!-- ══ LOADER ══ -->
+  <div id="loader">
+    <div class="loader-inner">
+      <span class="loader-brand">AMINE</span>
+      <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+      <span class="loader-pct" id="loaderPct">0%</span>
+    </div>
+  </div>
+
+  <!-- ══ CURSOR ══ -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- ══ PROGRESS ══ -->
+  <div id="scroll-progress"></div>
+
+  <!-- ══ TOAST ══ -->
+  <div id="toast"></div>
+
+  <!-- ══ VIDEO MODAL ══ -->
+  <div id="videoModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose" aria-label="Close">&#10005;</button>
+      <div class="modal-frame">
+        <iframe id="modalIframe" src="" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MOBILE MENU ══ -->
+  <div id="mobileMenu" class="mobile-menu">
+    <button class="mobile-close" id="mobileClose">&#10005;</button>
+    <nav class="mobile-nav">
+      <a href="#home"     data-i18n="nav_home"     onclick="closeMobileMenu()">Home</a>
+      <a href="#about"    data-i18n="nav_about"    onclick="closeMobileMenu()">About</a>
+      <a href="#services" data-i18n="nav_services" onclick="closeMobileMenu()">Services</a>
+      <a href="#videos"   data-i18n="nav_videos"   onclick="closeMobileMenu()">Videos</a>
+      <a href="#contact"  data-i18n="nav_contact"  onclick="closeMobileMenu()">Contact</a>
     </nav>
+    <div class="mobile-lang">
+      <button onclick="setLang('en');closeMobileMenu()">EN</button>
+      <button onclick="setLang('ar');closeMobileMenu()">AR</button>
+      <button onclick="setLang('fr');closeMobileMenu()">FR</button>
+    </div>
+  </div>
 
-    <section class="hero" id="home">
-        <div class="hero-bg">
-            <div class="radial-glow"></div>
-        </div>
-        <div class="container hero-grid">
-            <div class="hero-content reveal">
-                <h2 class="script-font gold-text" data-i18n="hero_accent">Cinematic Storytelling</h2>
-                <h1 data-i18n="hero_title">AMINE — Video Editor</h1>
-                <p class="subtitle" data-i18n="hero_subtitle">I create high-performing video content for creators, brands, and businesses.</p>
-                <p class="supporting-text" data-i18n="hero_support">Cinematic edits. Clear storytelling. Strong results.</p>
-                <div class="hero-btns">
-                    <a href="#videos" class="btn-primary" data-i18n="btn_work">View My Work</a>
-                    <a href="#contact" class="btn-secondary" data-i18n="btn_hire">Hire Me</a>
-                </div>
-            </div>
-            <div class="hero-image-area reveal">
-                <div class="image-frame">
-                    <img src="me.jpg" alt="Adamou Mohammed Al Amine">
-                    <div class="frame-glow"></div>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-hint">
-            <div class="mouse"></div>
-        </div>
-    </section>
+  <!-- ══════════════════════════════
+       NAVBAR
+  ══════════════════════════════ -->
+  <header id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-brand">AMINE</a>
 
-    <section class="about" id="about">
-        <div class="container">
-            <h2 class="section-title script-font reveal" data-i18n="about_title">About Me</h2>
-            <div class="about-grid">
-                <div class="about-text reveal">
-                    <p data-i18n="about_p1">I’m Adamou Mohammed Al Amine, a professional video editor with over 5 years of experience in creating high-quality short-form and long-form content.</p>
-                    <p data-i18n="about_p2">I help brands, creators, and businesses turn their ideas into engaging visual stories that capture attention and drive results.</p>
-                </div>
-                <div class="stats-row reveal">
-                    <div class="stat-card">
-                        <span class="stat-num">5+</span>
-                        <p data-i18n="stat_1">Years Experience</p>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-num">∞</span>
-                        <p data-i18n="stat_2">Short & Long Form</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      <ul class="nav-links">
+        <li><a href="#home"     data-i18n="nav_home">Home</a></li>
+        <li><a href="#about"    data-i18n="nav_about">About</a></li>
+        <li><a href="#services" data-i18n="nav_services">Services</a></li>
+        <li><a href="#videos"   data-i18n="nav_videos">Videos</a></li>
+        <li><a href="#contact"  data-i18n="nav_contact">Contact</a></li>
+      </ul>
 
-    <section class="services" id="services">
-        <div class="container">
-            <h2 class="section-title script-font reveal" data-i18n="services_title">Services</h2>
-            <div class="services-grid">
-                <div class="service-card reveal">
-                    <h3 data-i18n="ser_1_title">Short Form Video</h3>
-                    <p data-i18n="ser_1_desc">High-retention edits for TikTok, Reels, and Shorts.</p>
-                </div>
-                <div class="service-card reveal">
-                    <h3 data-i18n="ser_2_title">Long Form Video</h3>
-                    <p data-i18n="ser_2_desc">Professional YouTube content and documentaries.</p>
-                </div>
-                <div class="service-card reveal">
-                    <h3 data-i18n="ser_3_title">Brand Storytelling</h3>
-                    <p data-i18n="ser_3_desc">Visual content that builds brand identity.</p>
-                </div>
-            </div>
+      <div class="nav-right">
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="ar">AR</button>
+          <button class="lang-btn" data-lang="fr">FR</button>
         </div>
-    </section>
+        <a href="#contact" class="btn-hire" data-i18n="nav_hire">Hire Me</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-    <section class="videos" id="videos">
-        <div class="container">
-            <h2 class="section-title script-font reveal" data-i18n="long_form_title">Long Form Projects</h2>
-            <div class="video-grid reveal">
-                <div class="video-card" onclick="openModal('https://www.youtube.com/embed/-qQsvqKB1_Y')">
-                    <img src="https://img.youtube.com/vi/-qQsvqKB1_Y/maxresdefault.jpg" alt="Video">
-                    <div class="play-overlay"><span>▶</span></div>
-                </div>
-                <div class="video-card" onclick="openModal('https://www.youtube.com/embed/PTnRYDBoS98')">
-                    <img src="https://img.youtube.com/vi/PTnRYDBoS98/maxresdefault.jpg" alt="Video">
-                    <div class="play-overlay"><span>▶</span></div>
-                </div>
-                <div class="video-card" onclick="openModal('https://www.youtube.com/embed/X2Rfjeh4QwI')">
-                    <img src="https://img.youtube.com/vi/X2Rfjeh4QwI/maxresdefault.jpg" alt="Video">
-                    <div class="play-overlay"><span>▶</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- ══════════════════════════════
+       HERO
+  ══════════════════════════════ -->
+  <section id="home" class="hero-section">
+    <div class="hero-grain"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-particles" id="heroParticles"></div>
 
-    <section class="latest-work">
-        <div class="carousel-container reveal">
-            <div class="carousel-track" id="carouselTrack">
-                <div class="carousel-slide active"><div class="slide-inner">STILL 01</div></div>
-                <div class="carousel-slide"><div class="slide-inner">STILL 02</div></div>
-                <div class="carousel-slide"><div class="slide-inner">STILL 03</div></div>
-            </div>
-            <div class="carousel-controls">
-                <button id="prevBtn">❮</button>
-                <button id="nextBtn">❯</button>
-            </div>
+    <div class="hero-container">
+      <!-- Text Side -->
+      <div class="hero-text">
+        <p class="hero-eyebrow" data-i18n="hero_eyebrow">Professional Video Editor</p>
+        <h1 class="hero-title">
+          <span class="hero-title-line reveal-word" data-i18n="hero_title_1">AMINE</span>
+          <span class="hero-title-accent">
+            <span class="script-font" data-i18n="hero_title_accent">the Editor</span>
+          </span>
+        </h1>
+        <p class="hero-subtitle" data-i18n="hero_subtitle">
+          I create high-performing video content for creators, brands, and businesses.
+        </p>
+        <p class="hero-tagline" data-i18n="hero_tagline">
+          Cinematic edits. Clear storytelling. Strong results.
+        </p>
+        <div class="hero-btns">
+          <a href="#videos"  class="btn-primary" data-i18n="hero_btn1">View My Work</a>
+          <a href="#contact" class="btn-outline"  data-i18n="hero_btn2">Hire Me</a>
         </div>
-    </section>
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span data-i18n="hero_available">Available for projects</span>
+        </div>
+      </div>
 
-    <section class="short-form">
-        <div class="container">
-            <h2 class="section-title script-font reveal" data-i18n="short_title">Short Form Edits</h2>
-            <div class="reel-wrapper reveal">
-                <div class="reel-track" id="reelTrack">
-                    <div class="reel-card" onclick="selectReel(this, 'Fast-paced social media edit')"><span>REEL 1</span></div>
-                    <div class="reel-card" onclick="selectReel(this, 'Retention-focused storytelling')"><span>REEL 2</span></div>
-                    <div class="reel-card" onclick="selectReel(this, 'Clean modern captions')"><span>REEL 3</span></div>
-                </div>
-                <div id="reelPreview" class="reel-preview-area">
-                    <p id="previewText" data-i18n="reel_placeholder">Click a card to see details</p>
-                </div>
-            </div>
+      <!-- Image Side -->
+      <div class="hero-image-wrap">
+        <div class="hero-img-frame">
+          <div class="hero-img-glow"></div>
+          <img src="me.jpg" alt="Adamou Mohammed Al Amine" class="hero-img"
+               onerror="this.parentElement.classList.add('img-fallback')" />
+          <div class="hero-img-overlay"></div>
+          <div class="hero-img-corner tl"></div>
+          <div class="hero-img-corner br"></div>
         </div>
-    </section>
-
-    <section class="why-me">
-        <div class="container">
-            <h2 class="section-title script-font reveal" data-i18n="why_title">Why Work With Me</h2>
-            <div class="why-grid">
-                <div class="why-card reveal">
-                    <h4 data-i18n="why_1">Clean Editing Style</h4>
-                </div>
-                <div class="why-card reveal">
-                    <h4 data-i18n="why_2">Focus on Retention</h4>
-                </div>
-                <div class="why-card reveal">
-                    <h4 data-i18n="why_3">Fast Delivery</h4>
-                </div>
-            </div>
+        <div class="hero-img-badge">
+          <span class="badge-num">5+</span>
+          <span class="badge-lbl" data-i18n="hero_years">Years</span>
         </div>
-    </section>
-
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2 class="section-title script-font reveal" data-i18n="contact_title">Let's Work Together</h2>
-            <form id="contactForm" class="reveal">
-                <div class="form-row">
-                    <input type="text" id="fname" data-i18n-ph="ph_fname" placeholder="First Name" required>
-                    <input type="text" id="lname" data-i18n-ph="ph_lname" placeholder="Last Name" required>
-                </div>
-                <input type="text" id="workType" data-i18n-ph="ph_type" placeholder="Type of Work" required>
-                <textarea id="details" data-i18n-ph="ph_details" placeholder="Project Details" required></textarea>
-                <div class="contact-methods">
-                    <label><input type="radio" name="method" value="whatsapp" checked> WhatsApp</label>
-                    <label><input type="radio" name="method" value="email"> Email</label>
-                </div>
-                <button type="submit" class="btn-primary" data-i18n="btn_send">Send Message</button>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container footer-grid">
-            <div class="footer-left">
-                <h2 class="brand">AMINE</h2>
-                <p data-i18n="footer_role">Professional Video Editor</p>
-                <p>El Oued, Algeria</p>
-            </div>
-            <div class="footer-right">
-                <div class="footer-socials">
-                    <a href="https://www.instagram.com/adamou_moh_al_amine/" target="_blank">Instagram</a>
-                    <a href="https://www.facebook.com/mehalamine.adamou" target="_blank">Facebook</a>
-                    <a href="https://drive.google.com/file/d/1YnzzHX7Yb5dQvbdcpxtPSps1qFVIzvkQ/view" target="_blank">CV</a>
-                </div>
-            </div>
-        </div>
-        <p class="copyright">© 2026 AMINE — <span data-i18n="rights">All rights reserved.</span></p>
-    </footer>
-
-    <div id="videoModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <iframe id="modalIframe" src="" frameborder="0" allowfullscreen></iframe>
-        </div>
+      </div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      <span data-i18n="hero_scroll">Scroll</span>
+    </div>
+  </section>
+
+  <!-- ══ MARQUEE ══ -->
+  <div class="marquee-strip">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+
+  <!-- ══════════════════════════════
+       ABOUT
+  ══════════════════════════════ -->
+  <section id="about" class="section about-section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-label" data-i18n="about_label">The Creator</span>
+        <h2 class="section-title gradient-title" data-i18n="about_title">About Me</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-visual reveal">
+          <div class="about-img-frame">
+            <img src="me.jpg" alt="Adamou Mohammed Al Amine"
+                 onerror="this.parentElement.classList.add('img-fallback')" />
+            <div class="about-img-shine"></div>
+          </div>
+          <div class="about-img-tag">
+            <span class="script-font">5+</span>
+            <small data-i18n="about_years_label">Years of Craft</small>
+          </div>
+        </div>
+
+        <div class="about-content">
+          <h3 class="about-name reveal">Adamou Mohammed Al Amine</h3>
+          <p class="about-role reveal" data-i18n="about_role">Professional Video Editor</p>
+          <p class="about-text reveal" data-i18n="about_text">
+            I'm a professional video editor with over 5 years of experience creating high-quality short-form and long-form content. I help brands, creators, and businesses turn their ideas into engaging visual stories that capture attention and drive results. My goal is simple: create videos that not only look good, but also perform.
+          </p>
+
+          <div class="about-stats">
+            <div class="stat-card reveal">
+              <span class="stat-num script-font">5+</span>
+              <span class="stat-lbl" data-i18n="stat_1">Years Experience</span>
+            </div>
+            <div class="stat-card reveal reveal-delay-1">
+              <span class="stat-icon">✦</span>
+              <span class="stat-lbl" data-i18n="stat_2">Short & Long Form</span>
+            </div>
+            <div class="stat-card reveal reveal-delay-2">
+              <span class="stat-icon">✦</span>
+              <span class="stat-lbl" data-i18n="stat_3">Creator Focused</span>
+            </div>
+          </div>
+
+          <div class="about-chips reveal">
+            <span class="chip">Adobe Premiere Pro</span>
+            <span class="chip">After Effects</span>
+            <span class="chip">Motion Graphics</span>
+            <span class="chip">Color Grading</span>
+            <span class="chip">Visual Storytelling</span>
+          </div>
+
+          <div class="about-cta reveal">
+            <a href="https://www.behance.net/adamoumehal" target="_blank" class="btn-primary" data-i18n="about_btn1">View Portfolio</a>
+            <a href="https://drive.google.com/file/d/1YnzzHX7Yb5dQvbdcpxtPSps1qFVIzvkQ/view" target="_blank" class="btn-outline" data-i18n="about_btn2">Download CV</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       SERVICES
+  ══════════════════════════════ -->
+  <section id="services" class="section services-section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-label" data-i18n="services_label">What I Do</span>
+        <h2 class="section-title gradient-title" data-i18n="services_title">Services</h2>
+        <p class="section-sub reveal" data-i18n="services_sub">Premium editing crafted for every platform and purpose.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon">◈</div>
+          <h3 data-i18n="srv_1_title">Short Form Editing</h3>
+          <p data-i18n="srv_1_desc">TikTok, Reels, Shorts — fast-paced, retention-focused edits engineered to stop the scroll.</p>
+          <div class="card-line"></div>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-icon">◉</div>
+          <h3 data-i18n="srv_2_title">Long Form Editing</h3>
+          <p data-i18n="srv_2_desc">YouTube videos and documentaries — cinematic pacing with clean storytelling that keeps audiences watching.</p>
+          <div class="card-line"></div>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-icon">◇</div>
+          <h3 data-i18n="srv_3_title">Social Media Content</h3>
+          <p data-i18n="srv_3_desc">Platform-optimized edits for Instagram, Facebook, and beyond — designed to drive engagement.</p>
+          <div class="card-line"></div>
+        </div>
+        <div class="service-card reveal reveal-delay-3">
+          <div class="service-icon">◎</div>
+          <h3 data-i18n="srv_4_title">YouTube Editing</h3>
+          <p data-i18n="srv_4_desc">Full YouTube production — thumbnails, intros, chapters, and high-retention edits for growing channels.</p>
+          <div class="card-line"></div>
+        </div>
+        <div class="service-card reveal reveal-delay-4">
+          <div class="service-icon">◆</div>
+          <h3 data-i18n="srv_5_title">Brand Video Editing</h3>
+          <p data-i18n="srv_5_desc">Premium brand videos that communicate your identity, build trust, and convert viewers into customers.</p>
+          <div class="card-line"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       LONG FORM VIDEOS
+  ══════════════════════════════ -->
+  <section id="videos" class="section videos-section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-label" data-i18n="lf_label">Long Form</span>
+        <h2 class="section-title gradient-title" data-i18n="lf_title">Long Form Projects</h2>
+        <p class="section-sub" data-i18n="lf_sub">A selection of my long-form editing work designed for storytelling, retention, and impact.</p>
+      </div>
+
+      <div class="yt-grid" id="ytGrid"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       LATEST WORK CAROUSEL
+  ══════════════════════════════ -->
+  <section class="carousel-section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-label" data-i18n="carousel_label">Gallery</span>
+        <h2 class="section-title gradient-title" data-i18n="carousel_title">Latest Work</h2>
+      </div>
+    </div>
+
+    <div class="carousel-wrap">
+      <button class="car-arrow car-prev" id="carPrev">&#8592;</button>
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="carouselTrack"></div>
+      </div>
+      <button class="car-arrow car-next" id="carNext">&#8594;</button>
+    </div>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </section>
+
+  <!-- ══════════════════════════════
+       SHORT FORM
+  ══════════════════════════════ -->
+  <section class="short-section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-label" data-i18n="sf_label">Short Form</span>
+        <h2 class="section-title gradient-title" data-i18n="sf_title">Reels & TikToks</h2>
+        <p class="section-sub" data-i18n="sf_sub">Vertical content built to stop the scroll and keep audiences engaged.</p>
+      </div>
+    </div>
+
+    <div class="short-reel-wrap">
+      <div class="short-reel" id="shortReel"></div>
+    </div>
+
+    <!-- Selected preview -->
+    <div class="short-preview" id="shortPreview">
+      <div class="section-container">
+        <div class="short-preview-inner" id="shortPreviewInner"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       WHY WORK WITH ME
+  ══════════════════════════════ -->
+  <section class="why-section section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-label" data-i18n="why_label">The Difference</span>
+        <h2 class="section-title gradient-title" data-i18n="why_title">Why Work With Me</h2>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card reveal">
+          <div class="why-num script-font">01</div>
+          <h3 data-i18n="why_1_title">Clean & Modern Style</h3>
+          <p data-i18n="why_1_desc">Every edit is crafted from scratch. No templates — pure creative precision that matches your brand.</p>
+        </div>
+        <div class="why-card reveal reveal-delay-1">
+          <div class="why-num script-font">02</div>
+          <h3 data-i18n="why_2_title">Performance Focused</h3>
+          <p data-i18n="why_2_desc">My edits are engineered for retention, watch-time, and results — not just aesthetics.</p>
+        </div>
+        <div class="why-card reveal reveal-delay-2">
+          <div class="why-num script-font">03</div>
+          <h3 data-i18n="why_3_title">Reliable Communication</h3>
+          <p data-i18n="why_3_desc">Direct, fast, and clear. You're always updated on progress and revisions are handled smoothly.</p>
+        </div>
+        <div class="why-card reveal reveal-delay-3">
+          <div class="why-num script-font">04</div>
+          <h3 data-i18n="why_4_title">Fast Delivery</h3>
+          <p data-i18n="why_4_desc">24–72 hour turnaround without compromising quality. Your deadline is always my priority.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       CONTACT
+  ══════════════════════════════ -->
+  <section id="contact" class="section contact-section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-label" data-i18n="contact_label">Get In Touch</span>
+        <h2 class="section-title gradient-title" data-i18n="contact_title">Let's Work Together</h2>
+        <p class="section-sub" data-i18n="contact_sub">Tell me about your project and choose the easiest way to reach me.</p>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Info -->
+        <div class="contact-info reveal">
+          <p class="contact-tagline script-font" data-i18n="contact_tagline">
+            Let's create something remarkable.
+          </p>
+          <div class="contact-links">
+            <a href="https://wa.me/213782955961" target="_blank" class="clink">
+              <span class="clink-icon">💬</span>
+              <div>
+                <small data-i18n="contact_wa_label">WhatsApp</small>
+                <span>+213 782 955 961</span>
+              </div>
+            </a>
+            <a href="mailto:mohalaminadamou@gmail.com" class="clink">
+              <span class="clink-icon">✉</span>
+              <div>
+                <small data-i18n="contact_email_label">Email</small>
+                <span>mohalaminadamou@gmail.com</span>
+              </div>
+            </a>
+            <a href="https://www.instagram.com/adamou_moh_al_amine/" target="_blank" class="clink">
+              <span class="clink-icon">◈</span>
+              <div>
+                <small>Instagram</small>
+                <span>@adamou_moh_al_amine</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="contact-form-wrap reveal reveal-delay-2">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="cfFirst" data-i18n="form_first">First Name</label>
+              <input type="text" id="cfFirst" placeholder="Alex" />
+            </div>
+            <div class="form-field">
+              <label for="cfLast" data-i18n="form_last">Last Name</label>
+              <input type="text" id="cfLast" placeholder="Johnson" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="cfType" data-i18n="form_type">Type of Work</label>
+              <select id="cfType">
+                <option value="" data-i18n="form_type_ph">Select...</option>
+                <option data-i18n="form_opt1">Short-Form (TikTok / Reels)</option>
+                <option data-i18n="form_opt2">Long-Form (YouTube)</option>
+                <option data-i18n="form_opt3">Brand Video</option>
+                <option data-i18n="form_opt4">Social Media Package</option>
+                <option data-i18n="form_opt5">Other</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="cfBudget" data-i18n="form_budget">Budget (USD)</label>
+              <input type="text" id="cfBudget" placeholder="e.g. $200 – $500" />
+            </div>
+          </div>
+          <div class="form-field full">
+            <label for="cfMsg" data-i18n="form_details">Project Details</label>
+            <textarea id="cfMsg" rows="5" data-i18n-ph="form_details_ph" placeholder="Describe your project, goals, and timeline..."></textarea>
+          </div>
+          <div class="form-btns">
+            <button class="btn-wa" onclick="sendWA()">
+              <span>💬</span> <span data-i18n="btn_wa">Send via WhatsApp</span>
+            </button>
+            <button class="btn-email" onclick="sendEmail()">
+              <span>✉</span> <span data-i18n="btn_email">Send via Email</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       FOOTER
+  ══════════════════════════════ -->
+  <footer id="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo">AMINE</div>
+        <div class="footer-role" data-i18n="footer_role">Video Editor</div>
+        <p class="footer-tagline" data-i18n="footer_tagline">Cinematic edits. Strong results.</p>
+      </div>
+
+      <div class="footer-nav-group">
+        <h4 data-i18n="footer_nav_title">Navigate</h4>
+        <ul>
+          <li><a href="#home"     data-i18n="nav_home">Home</a></li>
+          <li><a href="#about"    data-i18n="nav_about">About</a></li>
+          <li><a href="#services" data-i18n="nav_services">Services</a></li>
+          <li><a href="#videos"   data-i18n="nav_videos">Videos</a></li>
+          <li><a href="#contact"  data-i18n="nav_contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-nav-group">
+        <h4 data-i18n="footer_social_title">Social</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/adamou_moh_al_amine/" target="_blank">Instagram</a></li>
+          <li><a href="https://www.facebook.com/mehalamine.adamou" target="_blank">Facebook</a></li>
+          <li><a href="https://www.behance.net/adamoumehal" target="_blank">Behance</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-nav-group">
+        <h4 data-i18n="footer_resources_title">Resources</h4>
+        <ul>
+          <li><a href="https://drive.google.com/file/d/1YnzzHX7Yb5dQvbdcpxtPSps1qFVIzvkQ/view" target="_blank" data-i18n="footer_cv">Download CV</a></li>
+          <li><a href="mailto:mohalaminadamou@gmail.com" data-i18n="footer_email_link">Email Me</a></li>
+          <li><a href="https://wa.me/213782955961" target="_blank">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span data-i18n="footer_copy">© 2026 AMINE — All rights reserved.</span>
+      <span class="footer-loc">◎ El Oued, Algeria</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
