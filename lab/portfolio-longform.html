@@ -165,42 +165,32 @@
   .hero-cta:hover .arrow { transform: translateX(5px); }
 
   .hero-images-area {
-    flex: 1.4;
+    flex: 1.5;
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 12px;
-    padding: 60px 40px 60px 0;
+    transform: skewX(-12deg) translateX(60px);
+    gap: 8px;
     z-index: 5;
-    position: relative;
   }
 
   .color-block {
     flex: 1;
-    aspect-ratio: 9/16;
-    max-height: 80vh;
+    height: 100%;
     background-size: cover;
     background-position: center;
     transition: flex 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-                filter 0.6s ease,
-                border-radius 0.6s ease;
-    filter: brightness(0.35) contrast(1.1);
-    border-radius: 18px;
+                filter 0.6s ease;
+    filter: brightness(0.45) contrast(1.1);
+    border-right: 1px solid rgba(255,255,255,0.08);
     position: relative;
-    overflow: hidden;
   }
   .color-block::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.65));
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.6));
     pointer-events: none;
   }
-  .color-block:hover {
-    flex: 3.5;
-    filter: brightness(1) contrast(1.05);
-    border-radius: 22px;
-  }
+  .color-block:hover { flex: 4; filter: brightness(1) contrast(1.05); }
 
   .block-1 { background-image: url('Intro - V1.png'); }
   .block-2 { background-image: url('Intro - V2.png'); }
@@ -227,14 +217,14 @@
   .intro-white-section {
     padding: 140px 20px;
     text-align: center;
-    background: linear-gradient(180deg, #faf9f7 0%, #f3f1ee 100%);
+    background: linear-gradient(180deg, #fff 0%, #f4f4f4 100%);
     position: relative;
   }
 
   .section-eyebrow {
     font-size: 12px;
     letter-spacing: 0.4em;
-    color: #999;
+    color: #888;
     margin-bottom: 20px;
     font-weight: 500;
   }
@@ -255,108 +245,82 @@
   }
 
   .section-sub {
-    color: #888;
+    color: #666;
     font-size: 15px;
     max-width: 500px;
     margin: 0 auto 50px;
     line-height: 1.6;
   }
 
-  /* ===== SHORTS VIDEO SECTION ===== */
   .video-container {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    background: linear-gradient(160deg, #111 0%, #0a0a0a 100%);
-    border-radius: 32px;
-    padding: 40px 36px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
+    width: 100%; max-width: 1280px; margin: 0 auto;
+    background: linear-gradient(135deg, #0a1111 0%, #050a0a 100%);
+    border-radius: 30px;
+    padding: 30px;
+    display: flex; gap: 30px; direction: ltr;
     box-shadow:
-      0 50px 120px rgba(0,0,0,0.18),
+      0 30px 80px rgba(0,0,0,0.25),
       0 0 0 1px rgba(255,255,255,0.05) inset;
-    position: relative;
   }
 
-  /* Left / Right playlist — vertical stack 16/9 for longform */
   .side-playlist {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    flex: 0 0 180px;
-    justify-content: center;
+    flex: 1;
+    display: flex; flex-direction: column; gap: 12px;
+    max-height: 560px; overflow-y: auto;
+    padding-right: 8px;
   }
-
-  .playlist-row {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-  }
+  .side-playlist::-webkit-scrollbar { width: 4px; }
+  .side-playlist::-webkit-scrollbar-thumb { background: #333; }
 
   .playlist-item {
-    width: 100%;
-    aspect-ratio: 16/9;
-    cursor: pointer;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    border: 2px solid transparent;
-    position: relative;
+    display: flex; gap: 15px; cursor: pointer;
+    padding: 12px; border-radius: 14px;
+    transition: all 0.4s ease;
+    align-items: center;
+    border: 1px solid transparent;
   }
   .playlist-item:hover {
-    transform: scale(1.04) translateY(-3px);
-    border-color: rgba(255,255,255,0.28);
-  }
-  .playlist-item.active-thumb {
-    border-color: rgba(255,255,255,0.65);
-    box-shadow: 0 0 18px rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.08);
+    transform: translateX(4px);
   }
 
   .thumb-wrap {
-    width: 100%;
-    height: 100%;
+    flex: 0 0 130px;
+    aspect-ratio: 16/9;
+    border-radius: 10px;
+    overflow: hidden;
     position: relative;
-    background: #1a1a1a;
   }
   .thumb-wrap::after {
     content: '▶';
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    background: rgba(0,0,0,0.5);
-    color: #fff; font-size: 11px;
+    background: rgba(0,0,0,0.4);
+    color: #fff; font-size: 18px;
     opacity: 0; transition: opacity 0.3s;
   }
   .playlist-item:hover .thumb-wrap::after { opacity: 1; }
-  .thumb-wrap img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center;
-    transform: scale(1);
+  .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+  .content-wrap { text-align: left; color: #fff; }
+  .content-wrap .item-title {
+    font-weight: 600; font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .content-wrap .item-desc {
+    color: #888; font-size: 12px;
   }
 
-  .content-wrap { display: none; }
-
-  /* Main video — center 16/9 for longform */
   .main-video-section {
-    flex: 0 0 auto;
-    width: 560px;
+    flex: 0 0 70%;
     aspect-ratio: 16/9;
-    border-radius: 22px;
+    border-radius: 20px;
     overflow: hidden;
     background: #000;
-    box-shadow:
-      0 0 0 2px rgba(255,255,255,0.1),
-      0 30px 80px rgba(0,0,0,0.7);
-    position: relative;
-    z-index: 2;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   }
-  .main-video-section iframe {
-    width: 100%; height: 100%; border: none;
-  }
+  .main-video-section iframe { width: 100%; height: 100%; border: none; }
 
   /* ===== FRAMES SLIDER ===== */
   .frames-section {
@@ -388,59 +352,42 @@
     display: flex; justify-content: center; align-items: center;
     position: relative;
     z-index: 2;
-    overflow: hidden;
-    padding: 20px 0 40px;
   }
 
   .frames-wrapper {
-    display: flex; align-items: center; gap: 16px;
+    display: flex; align-items: center; gap: 20px;
     transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .frame-item {
-    flex: 0 0 130px;
-    aspect-ratio: 9/16;
+    flex: 0 0 300px;
     transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-    filter: brightness(0.3) saturate(0.6);
-    transform: scale(0.88);
-    border-radius: 16px;
+    filter: brightness(0.35) saturate(0.7);
+    transform: scale(0.85);
+    border-radius: 18px;
     overflow: hidden;
     position: relative;
-    cursor: pointer;
   }
 
   .frame-item.active {
-    flex: 0 0 280px;
+    flex: 0 0 720px;
     filter: brightness(1) saturate(1);
     transform: scale(1);
-    border-radius: 22px;
     box-shadow:
-      0 40px 100px rgba(0,0,0,0.9),
-      0 0 0 1px rgba(255,255,255,0.1);
+      0 30px 100px rgba(0,0,0,0.8),
+      0 0 0 1px rgba(255,255,255,0.08);
   }
   .frame-item.active::after {
     content: '';
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, transparent 65%, rgba(0,0,0,0.5));
+    background: linear-gradient(180deg, transparent 70%, rgba(0,0,0,0.4));
     pointer-events: none;
   }
 
-  /* Left/right neighbors slightly visible */
-  .frame-item.neighbor {
-    flex: 0 0 160px;
-    filter: brightness(0.55) saturate(0.8);
-    transform: scale(0.93);
-  }
-
   .frame-item img {
-    width: 100%;
-    height: 100%;
+    width: 100%; aspect-ratio: 16/9;
     object-fit: cover;
-    object-position: center;
-    /* Crop 16/9 images to look like 9/16 — zoom into center */
-    transform: scale(1.8);
   }
-  .frame-item.active img { transform: scale(1.8); }
 
   .slider-controls {
     margin-top: 70px;
@@ -654,34 +601,16 @@
   /* ===== RESPONSIVE ===== */
   @media (max-width: 900px) {
     .hero-section { flex-direction: column; min-height: auto; }
-    .hero-text-area { padding: 120px 30px 50px; }
+    .hero-text-area { padding: 120px 30px 60px; }
     .hero-images-area {
-      padding: 0 20px 60px;
-      justify-content: center;
-      max-height: 55vw;
+      transform: skewX(-8deg) translateX(20px);
+      height: 400px;
     }
-    .color-block { max-height: 55vw; }
     .hero-label { left: 30px; top: 30px; }
-    .video-container {
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 24px 16px;
-      gap: 16px;
-    }
-    .main-video-section { width: 240px; order: -1; flex: 0 0 auto; }
-    .side-playlist { flex-direction: row; flex-wrap: wrap; width: auto; justify-content: center; }
-    .side-playlist .playlist-item { width: 80px; }
-    .frame-item.active { flex: 0 0 200px; }
-    .frame-item { flex: 0 0 100px; }
-  }
-
-  @media (max-width: 600px) {
-    .contact-grid-2 { grid-template-columns: 1fr; }
-    .contact-card { padding: 28px 22px; }
-    .contact-services-row { gap: 18px; }
-    .budget-options-row { gap: 8px; }
-    .budget-option { min-width: 80px; padding: 12px 14px; }
-    .budget-amount { font-size: 15px; }
+    .video-container { flex-direction: column-reverse; padding: 20px; gap: 20px; }
+    .main-video-section { flex: none; width: 100%; }
+    .frame-item.active { flex: 0 0 90vw; }
+    .frame-item { flex: 0 0 200px; }
   }
 
   @media (max-width: 768px) {
@@ -1000,84 +929,11 @@
   }
   .social-icon-btn:hover svg { fill: #fff; }
 
-  /* ===== BUDGET SELECTOR ===== */
-  .contact-budget-section {
-    margin: 6px 0 22px;
-    text-align: center;
-  }
-
-  .budget-options-row {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .budget-option {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    padding: 14px 22px;
-    border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.07);
-    background: rgba(255,255,255,0.03);
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    min-width: 100px;
-    position: relative;
-    overflow: hidden;
-  }
-  .budget-option::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .budget-option:hover {
-    border-color: rgba(255,255,255,0.16);
-    background: rgba(255,255,255,0.06);
-    transform: translateY(-3px);
-  }
-  .budget-option:hover::before { opacity: 1; }
-
-  .budget-option.selected {
-    border-color: rgba(255,255,255,0.3);
-    background: rgba(255,255,255,0.08);
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 8px 24px rgba(0,0,0,0.3);
-  }
-  .budget-option.selected::before { opacity: 1; }
-  .budget-option.selected .budget-amount { color: #fff; }
-  .budget-option.selected .budget-label {
-    color: rgba(255,255,255,0.55);
-  }
-
-  .budget-amount {
-    font-family: var(--title-font);
-    font-size: 18px;
-    font-weight: 700;
-    color: #888;
-    letter-spacing: -0.01em;
-    transition: color 0.3s;
-  }
-  .budget-label {
-    font-family: var(--body-font);
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    color: #555;
-    text-transform: uppercase;
-    transition: color 0.3s;
-  }
-
   @media (max-width: 600px) {
-    .budget-options-row { gap: 8px; }
-    .budget-option { min-width: 80px; padding: 12px 14px; }
-    .budget-amount { font-size: 15px; }
+    .contact-grid-2 { grid-template-columns: 1fr; }
+    .contact-card { padding: 28px 22px; }
+    .contact-services-row { gap: 18px; }
   }
-
 </style>
 </head>
 <body>
@@ -1114,19 +970,18 @@
 <section class="intro-white-section" id="work">
   <p class="section-eyebrow fade-blur">Selected Works</p>
   <h2 class="section-title fade-blur delay-1">
-    <span class="gradient-line">Cinematic</span>
-    <span class="gradient-line">Intros & Trailers</span>
+    <span class="gradient-line">Some Of</span>
+    <span class="gradient-line">My Best</span>
   </h2>
   <p class="section-sub fade-blur delay-2">
     A Curated Selection Of Intros, Trailers, And Cinematic Openers Built For Impact.
   </p>
 
   <div class="video-container fade-blur delay-3">
-    <div class="side-playlist" id="sidePlaylistLeft"></div>
+    <div class="side-playlist" id="sidePlaylist"></div>
     <div class="main-video-section">
       <iframe id="mainPlayer" src="https://www.youtube.com/embed/yw6jr3jXrEI?enablejsapi=1" allowfullscreen></iframe>
     </div>
-    <div class="side-playlist" id="sidePlaylistRight"></div>
   </div>
 </section>
 
@@ -1222,79 +1077,54 @@
 </section>
 
 <script>
-  /* ---------- LONGFORM PLAYLIST ---------- */
+  /* ---------- PLAYLIST ---------- */
   const videos = [
-    { id: 'yw6jr3jXrEI', title: 'Main Feature',      desc: 'Cinematic Opener' },
-    { id: 'PTnRYDBoS98', title: 'Professor Jiang',    desc: 'Official Podcast' },
-    { id: 'X2Rfjeh4QwI', title: 'Official File',      desc: 'Visual Story' },
-    { id: '-qQsvqKB1_Y', title: 'Real Vision',        desc: 'Cinematic Trailer' },
-    { id: 'jAKU_YR0YDs', title: 'The Other Side',     desc: 'Documentary Style' }
+    { id: 'PTnRYDBoS98', title: 'Professor Jiang', desc: 'Official Podcast' },
+    { id: 'X2Rfjeh4QwI', title: 'Official File',   desc: 'Visual Story' },
+    { id: '-qQsvqKB1_Y', title: 'Real Vision',     desc: 'Cinematic Trailer' },
+    { id: 'jAKU_YR0YDs', title: 'The Other Side',  desc: 'Documentary Style' }
   ];
 
-  let activeId = videos[0].id;
-
-  function buildThumb(v) {
-    return `<div class="playlist-item ${v.id === activeId ? 'active-thumb' : ''}" data-id="${v.id}">
-      <div class="thumb-wrap">
-        <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}">
+  const playlistEl = document.getElementById('sidePlaylist');
+  playlistEl.innerHTML = videos.map(v => `
+    <div class="playlist-item" data-id="${v.id}">
+      <div class="thumb-wrap"><img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}"></div>
+      <div class="content-wrap">
+        <p class="item-title">${v.title}</p>
+        <p class="item-desc">${v.desc}</p>
       </div>
-    </div>`;
+    </div>
+  `).join('');
+
+  playlistEl.addEventListener('click', e => {
+    const item = e.target.closest('.playlist-item');
+    if (!item) return;
+    swapVideo(item, item.dataset.id);
+  });
+
+  function swapVideo(element, newId) {
+    const player = document.getElementById('mainPlayer');
+    const currentId = player.src.split('/embed/')[1].split('?')[0];
+    player.src = `https://www.youtube.com/embed/${newId}?autoplay=1`;
+    element.querySelector('img').src = `https://img.youtube.com/vi/${currentId}/mqdefault.jpg`;
+    element.dataset.id = currentId;
   }
 
-  function buildRows(vids, perRow) {
-    let html = '';
-    for (let i = 0; i < vids.length; i += perRow) {
-      const chunk = vids.slice(i, i + perRow);
-      html += `<div class="playlist-row">${chunk.map(buildThumb).join('')}</div>`;
-    }
-    return html;
-  }
-
-  function renderPlaylists() {
-    const rest  = videos.slice(1); // 4 remaining
-    const left  = rest.slice(0, 2);
-    const right = rest.slice(2, 4);
-
-    document.getElementById('sidePlaylistLeft').innerHTML  = buildRows(left, 1);
-    document.getElementById('sidePlaylistRight').innerHTML = buildRows(right, 1);
-
-    document.querySelectorAll('.playlist-item').forEach(item => {
-      item.addEventListener('click', () => {
-        activeId = item.dataset.id;
-        document.getElementById('mainPlayer').src =
-          `https://www.youtube.com/embed/${activeId}?autoplay=1`;
-        document.querySelectorAll('.playlist-item').forEach(i =>
-          i.classList.toggle('active-thumb', i.dataset.id === activeId)
-        );
-      });
-    });
-  }
-
-  renderPlaylists();
-
-  /* ---------- PORTRAIT SLIDER ---------- */
+  /* ---------- INFINITE SLIDER ---------- */
   let currentIdx = 3;
   const items = document.querySelectorAll('.frame-item');
-
-  function updateSlider() {
-    items.forEach((item, i) => {
-      item.classList.remove('active', 'neighbor');
-      if (i === currentIdx) item.classList.add('active');
-      else if (i === currentIdx - 1 || i === currentIdx + 1) item.classList.add('neighbor');
-    });
-    const wrapper = document.getElementById('framesWrapper');
-    const moveAmount = (currentIdx - 3) * -152;
-    wrapper.style.transform = `translateX(${moveAmount}px)`;
-  }
 
   function moveSlide(step) {
     currentIdx += step;
     if (currentIdx >= items.length) currentIdx = 0;
     if (currentIdx < 0) currentIdx = items.length - 1;
-    updateSlider();
-  }
 
-  updateSlider();
+    items.forEach((item, i) => item.classList.toggle('active', i === currentIdx));
+
+    const wrapper = document.getElementById('framesWrapper');
+    const moveAmount = (currentIdx - 3) * -320;
+    wrapper.style.transform = `translateX(${moveAmount}px)`;
+  }
 
   /* ---------- FADE-BLUR ON SCROLL ---------- */
   const observer = new IntersectionObserver(entries => {
@@ -1304,7 +1134,7 @@
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.05 });
+  }, { threshold: 0.15 });
 
   document.querySelectorAll('.fade-blur').forEach(el => observer.observe(el));
 
@@ -1361,12 +1191,12 @@
 
   <div class="contact-available-badge">Available to hire</div>
 
-  <div class="contact-title-wrap">
+  <div class="contact-title-wrap fade-blur">
     <h2 class="contact-title">Contact</h2>
     <p class="contact-subtitle-text">Got a project, drop a message!</p>
   </div>
 
-  <div class="contact-card">
+  <div class="contact-card fade-blur delay-1">
     <div class="contact-grid-2">
       <div class="contact-field-group">
         <label>Name</label>
@@ -1420,33 +1250,6 @@
       </div>
     </div>
 
-    <!-- Budget Selector -->
-    <div class="contact-budget-section">
-      <p class="contact-service-title" style="margin-bottom:14px;">ESTIMATED BUDGET</p>
-      <div class="budget-options-row" id="budgetRow">
-        <div class="budget-option" data-budget="< $500">
-          <span class="budget-amount">&#60; $500</span>
-          <span class="budget-label">Starter</span>
-        </div>
-        <div class="budget-option" data-budget="$500–$1k">
-          <span class="budget-amount">$500–$1k</span>
-          <span class="budget-label">Basic</span>
-        </div>
-        <div class="budget-option selected" data-budget="$1k–$2k">
-          <span class="budget-amount">$1k–$2k</span>
-          <span class="budget-label">Standard</span>
-        </div>
-        <div class="budget-option" data-budget="$2k–$5k">
-          <span class="budget-amount">$2k–$5k</span>
-          <span class="budget-label">Premium</span>
-        </div>
-        <div class="budget-option" data-budget="$5k+">
-          <span class="budget-amount">$5k+</span>
-          <span class="budget-label">Enterprise</span>
-        </div>
-      </div>
-    </div>
-
     <!-- Message -->
     <div class="contact-field-group contact-message-group">
       <label>Message</label>
@@ -1460,7 +1263,7 @@
   </div>
 
   <!-- Social Icons -->
-  <div class="contact-socials">
+  <div class="contact-socials fade-blur delay-2">
     <a href="#" class="social-icon-btn" aria-label="Instagram">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
@@ -1481,14 +1284,6 @@
 </section>
 
 <script>
-  /* ---------- BUDGET PICKER ---------- */
-  document.getElementById('budgetRow').addEventListener('click', e => {
-    const opt = e.target.closest('.budget-option');
-    if (!opt) return;
-    document.querySelectorAll('.budget-option').forEach(o => o.classList.remove('selected'));
-    opt.classList.add('selected');
-  });
-
   /* ---------- SERVICE PICKER ---------- */
   document.getElementById('servicesRow').addEventListener('click', e => {
     const opt = e.target.closest('.service-option');
