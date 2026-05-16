@@ -32,6 +32,8 @@
     color: var(--dark);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    opacity: 0;
+    transition: opacity 0.6s ease;
   }
   ::selection { background: #1a1a1a; color: #fff; }
   ::-webkit-scrollbar { width: 6px; }
@@ -67,6 +69,10 @@
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--border);
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease;
+  }
+  nav.scrolled {
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
   }
 
   .nav-logo {
@@ -140,6 +146,14 @@
     overflow: hidden;
   }
 
+  #particleCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
   /* Warm glow blobs */
   .hero::before {
     content: '';
@@ -150,16 +164,18 @@
     pointer-events: none;
     border-radius: 50%;
     animation: floatBlob 8s ease-in-out infinite;
+    z-index: 0;
   }
   .hero::after {
     content: '';
     position: absolute;
     bottom: -60px; left: -60px;
     width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(180,160,120,0.08) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(180,160,120,0.06) 0%, transparent 65%);
     pointer-events: none;
     border-radius: 50%;
     animation: floatBlob 10s ease-in-out infinite reverse;
+    z-index: 0;
   }
   @keyframes floatBlob {
     0%,100% { transform: translate(0,0) scale(1); }
@@ -354,41 +370,25 @@
     box-shadow:
       0 40px 100px rgba(0,0,0,0.2),
       0 0 0 1px rgba(0,0,0,0.06);
+    animation: cardFloat 6s ease-in-out infinite;
   }
-
-  /* Placeholder silhouette — replace with real photo */
-  .portrait-placeholder {
-    width: 100%; height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    padding-bottom: 36px;
-    position: relative;
+  @keyframes cardFloat {
+    0%,100% { transform: translateY(0px); }
+    50%      { transform: translateY(-12px); }
   }
-
-  /* Abstract person silhouette */
-  .portrait-placeholder::before {
+  .portrait-card::after {
     content: '';
     position: absolute;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 260px;
-    background: linear-gradient(180deg, #3a3a3a 0%, #252525 100%);
-    border-radius: 50% 50% 30% 30% / 60% 60% 40% 40%;
-  }
-  .portrait-placeholder::after {
-    content: '';
-    position: absolute;
-    bottom: 280px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 88px; height: 88px;
-    background: linear-gradient(135deg, #4a4a4a, #333);
-    border-radius: 50%;
-    box-shadow: 0 0 0 6px rgba(255,255,255,0.04);
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 45%,
+      rgba(0,0,0,0.18) 70%,
+      rgba(0,0,0,0.68) 100%
+    );
+    z-index: 2;
+    border-radius: 28px;
+    pointer-events: none;
   }
 
   .portrait-name-tag {
@@ -640,7 +640,7 @@
   .service-card:hover {
     transform: translateY(-6px);
     border-color: rgba(0,0,0,0.14);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.09);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.09), 0 0 0 1px rgba(212,175,55,0.15);
   }
   .service-card:hover::before { opacity: 1; }
 
@@ -1025,8 +1025,232 @@
     display: block;
   }
 
-  /* ── CIRCLE REVEAL ── */
-  #circleReveal {
+  /* ── REAL PORTRAIT PHOTO ── */
+  .portrait-real-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    border-radius: 28px;
+  }
+  .portrait-card .portrait-name-tag {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    text-align: center;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 10px 22px;
+    white-space: nowrap;
+  }
+
+  /* ── CURSOR GLOW TRAIL ── */
+  .cursor-glow {
+    position: fixed;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,175,55,0.7) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.08s ease, opacity 0.3s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(212,175,55,0.35);
+    pointer-events: none;
+    z-index: 9997;
+    transform: translate(-50%,-50%);
+    transition: transform 0.18s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s;
+  }
+
+  /* ── SCROLL PROGRESS BAR ── */
+  #scrollBar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #d4af37, #f5e07a, #b8860b);
+    z-index: 9999;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(212,175,55,0.5);
+  }
+
+  /* ── HERO PARALLAX BLOBS ── */
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .blob-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 65%);
+    top: -100px; right: -80px;
+    animation: blobFloat1 9s ease-in-out infinite;
+  }
+  .blob-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(74,52,243,0.08) 0%, transparent 65%);
+    bottom: -60px; left: 10%;
+    animation: blobFloat2 12s ease-in-out infinite;
+  }
+  .blob-3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(230,81,0,0.07) 0%, transparent 65%);
+    top: 30%; left: -60px;
+    animation: blobFloat3 7s ease-in-out infinite;
+  }
+  @keyframes blobFloat1 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(30px,-20px) scale(1.08); }
+    66% { transform: translate(-15px,25px) scale(0.95); }
+  }
+  @keyframes blobFloat2 {
+    0%,100% { transform: translate(0,0) rotate(0deg); }
+    50% { transform: translate(20px,-30px) rotate(15deg); }
+  }
+  @keyframes blobFloat3 {
+    0%,100% { transform: translate(0,0); }
+    50% { transform: translate(15px,20px); }
+  }
+
+  /* ── PARTICLE CANVAS ── */
+  #particleCanvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.6;
+    z-index: 1;
+  }
+
+  /* ── MAGNETIC BUTTONS ── */
+  .btn-primary, .btn-secondary, .nav-cta {
+    transition: all 0.4s cubic-bezier(0.23,1,0.32,1) !important;
+  }
+
+  /* ── EXPLORE CARD — TILT + SHINE ── */
+  .explore-card {
+    transform-style: preserve-3d;
+    perspective: 800px;
+  }
+  .ecard-shine {
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.12) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .explore-card:hover .ecard-shine { opacity: 1; }
+
+  /* ── STATS COUNTER ANIMATION ── */
+  .stat-num {
+    transition: transform 0.3s ease;
+  }
+  .stat-item:hover .stat-num {
+    transform: scale(1.15);
+    color: #b8860b;
+  }
+
+  /* ── SERVICE CARD ICON SPIN ── */
+  .service-card:hover .svc-icon {
+    animation: iconBounce 0.5s cubic-bezier(0.36,0.07,0.19,0.97) both;
+  }
+  @keyframes iconBounce {
+    0% { transform: scale(1) rotate(0deg); }
+    30% { transform: scale(1.3) rotate(-10deg); }
+    60% { transform: scale(0.9) rotate(8deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+
+  /* ── REVIEW CARDS AUTO-SCROLL ── */
+  .reviews-track {
+    cursor: grab;
+  }
+  .reviews-track:active { cursor: grabbing; }
+
+  /* ── TEXT SCRAMBLE on hover ── */
+  .hero-name { cursor: default; }
+
+  /* ── SECTION COUNTER labels ── */
+  .section-number {
+    position: absolute;
+    top: 60px; right: 60px;
+    font-family: var(--title-font);
+    font-size: 120px;
+    font-weight: 900;
+    color: rgba(0,0,0,0.03);
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -0.05em;
+    user-select: none;
+  }
+
+  /* ── STAGGER GRID animation ── */
+  .services-grid .service-card {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1), all 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+  .services-grid .service-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── EXPLORE SECTION ENHANCED ── */
+  .explore-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 19px;
+    background: linear-gradient(135deg, rgba(212,175,55,0.4), rgba(74,52,243,0.3), rgba(230,81,0,0.35));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .explore-card:hover::before { opacity: 1; }
+
+  /* ── FLOATING NOISE TEXTURE ── */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── LETTER SPLIT ANIMATION on NAME ── */
+  .hero-name .split-char {
+    display: inline-block;
+    animation: charReveal 0.8s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  @keyframes charReveal {
+    from { opacity: 0; transform: translateY(40px) rotateX(-60deg); filter: blur(8px); }
+    to   { opacity: 1; transform: translateY(0) rotateX(0deg); filter: blur(0); }
+  }
+
+  /* ── MARQUEE PAUSE on hover ── */
+  .marquee-strip:hover .marquee-track { animation-play-state: paused; }
+
+  /* ── SCROLL SNAP HINT for mobile ── */
+  @media (max-width: 768px) {
+    .hero-role-box-wrap { flex-direction: row; }
+    .section-number { display: none; }
+  }
     position: fixed;
     inset: 0;
     z-index: 9999;
@@ -1473,6 +1697,12 @@
 
 </style>
 
+<!-- ── SCROLL PROGRESS ── -->
+<div id="scrollBar"></div>
+<!-- ── CURSOR GLOW ── -->
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
 <!-- ── NAVBAR ── -->
 <nav>
   <a href="#" class="nav-logo">Amine<span>.</span></a>
@@ -1486,6 +1716,10 @@
 
 <!-- ── HERO ── -->
 <section class="hero" id="home">
+  <canvas id="particleCanvas"></canvas>
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="hero-blob blob-3"></div>
   <div class="hero-inner">
 
     <!-- LEFT -->
@@ -1562,11 +1796,10 @@
           <div class="badge-dot"></div>
           Available
         </div>
-        <div class="portrait-placeholder">
-          <div class="portrait-name-tag">
-            <p class="p-name">Amine</p>
-            <p class="p-role">Editor & Animator</p>
-          </div>
+        <img src="me.png" alt="Amine" class="portrait-real-photo">
+        <div class="portrait-name-tag">
+          <p class="p-name">Amine</p>
+          <p class="p-role">Editor & Animator</p>
         </div>
       </div>
     </div>
@@ -1592,7 +1825,8 @@
 
       <!-- Card 1 — Intros / Long-form -->
       <div class="explore-card" onclick="circleReveal(event, 'portfolio-longform.html')">
-        <div class="ecard-img" style="background-image:url('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/long.png')"></div>
+        <div class="ecard-shine"></div>
+        <div class="ecard-img" style="background-image:url('long.png')"></div>
         <div class="ecard-overlay"></div>
         <div class="ecard-tags">
           <span class="etag">Podcast</span>
@@ -1608,7 +1842,8 @@
 
       <!-- Card 2 — Short-form / Reels -->
       <div class="explore-card" onclick="circleReveal(event, 'portfolio-reels.html')">
-        <div class="ecard-img" style="background-image:url('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/short.png')"></div>
+        <div class="ecard-shine"></div>
+        <div class="ecard-img" style="background-image:url('short.png')"></div>
         <div class="ecard-overlay"></div>
         <div class="ecard-tags">
           <span class="etag">Reels</span>
@@ -2022,6 +2257,393 @@
       window.location.href = url;
     }, { once: true });
   }
+</script>
+
+<script>
+/* ══════════════════════════════════════
+   ADVANCED ANIMATIONS & INTERACTIONS
+══════════════════════════════════════ */
+
+/* ── SCROLL PROGRESS BAR ── */
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('scrollBar').style.width = (scrolled / total * 100) + '%';
+});
+
+/* ── CURSOR GLOW TRAIL ── */
+(function() {
+  const glow = document.getElementById('cursorGlow');
+  const ring = document.getElementById('cursorRing');
+  let mx = -100, my = -100;
+  let rx = -100, ry = -100;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    glow.style.left = mx + 'px';
+    glow.style.top  = my + 'px';
+  });
+
+  // Smooth ring follow
+  (function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+
+  // Expand ring on clickable elements
+  document.querySelectorAll('a, button, .explore-card, .service-card, .review-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width  = '70px';
+      ring.style.height = '70px';
+      ring.style.borderColor = 'rgba(212,175,55,0.7)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width  = '42px';
+      ring.style.height = '42px';
+      ring.style.borderColor = 'rgba(212,175,55,0.35)';
+    });
+  });
+})();
+
+/* ── PARTICLE CANVAS ── */
+(function() {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x  = Math.random() * W;
+      this.y  = Math.random() * H;
+      this.r  = Math.random() * 1.5 + 0.3;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = -Math.random() * 0.5 - 0.1;
+      this.alpha = Math.random() * 0.5 + 0.1;
+      this.gold  = Math.random() > 0.6;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = this.gold
+        ? `rgba(212,175,55,${this.alpha})`
+        : `rgba(180,160,130,${this.alpha})`;
+      ctx.fill();
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.alpha -= 0.001;
+      if (this.y < -5 || this.alpha <= 0) this.reset();
+    }
+  }
+
+  for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+  (function loop() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ── EXPLORE CARD CARD 3D TILT + SHINE ── */
+document.querySelectorAll('.explore-card').forEach(card => {
+  const shine = card.querySelector('.ecard-shine');
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width  / 2;
+    const cy = rect.height / 2;
+    const rotX = ((y - cy) / cy) * -8;
+    const rotY = ((x - cx) / cx) *  8;
+    card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-6px) scale(1.01)`;
+    if (shine) {
+      const px = (x / rect.width  * 100).toFixed(1) + '%';
+      const py = (y / rect.height * 100).toFixed(1) + '%';
+      shine.style.setProperty('--mx', px);
+      shine.style.setProperty('--my', py);
+    }
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+/* ── SERVICE CARDS STAGGER REVEAL ── */
+(function() {
+  const cards = document.querySelectorAll('.services-grid .service-card');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 90);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  cards.forEach(c => obs.observe(c));
+})();
+
+/* ── STATS COUNTER ROLL ── */
+(function() {
+  const nums = document.querySelectorAll('.stat-num');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const raw = el.textContent;
+      const num = parseInt(raw);
+      if (isNaN(num)) return;
+      const suffix = raw.replace(/[0-9]/g, '');
+      let start = 0;
+      const step = num / 40;
+      const timer = setInterval(() => {
+        start += step;
+        if (start >= num) { start = num; clearInterval(timer); }
+        el.textContent = Math.floor(start) + suffix;
+      }, 30);
+      obs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  nums.forEach(n => obs.observe(n));
+})();
+
+/* ── REVIEW TRACK DRAG SCROLL ── */
+(function() {
+  const track = document.querySelector('.reviews-track');
+  if (!track) return;
+  let isDown = false, startX, scrollL;
+  track.addEventListener('mousedown', e => {
+    isDown = true;
+    track.style.cursor = 'grabbing';
+    startX = e.pageX - track.offsetLeft;
+    scrollL = track.scrollLeft;
+  });
+  document.addEventListener('mouseup',   () => { isDown = false; track.style.cursor = 'grab'; });
+  document.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    track.scrollLeft = scrollL - (e.pageX - track.offsetLeft - startX);
+  });
+})();
+
+/* ── MAGNETIC BUTTONS ── */
+document.querySelectorAll('.btn-primary, .btn-secondary, .nav-cta').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const rect = btn.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width  / 2);
+    const dy = e.clientY - (rect.top  + rect.height / 2);
+    btn.style.transform = `translate(${dx * 0.18}px, ${dy * 0.18}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+  });
+});
+
+/* ── HERO NAME LETTER SPLIT ── */
+(function() {
+  const name = document.querySelector('.hero-name');
+  if (!name) return;
+  name.querySelectorAll('span').forEach(span => {
+    const text = span.textContent;
+    span.innerHTML = [...text].map((ch, i) =>
+      ch === ' ' ? ' ' :
+      `<span class="split-char" style="animation-delay:${0.05 + i * 0.04}s">${ch}</span>`
+    ).join('');
+  });
+})();
+
+/* ── SMOOTH PARALLAX on scroll ── */
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  const blobs = document.querySelectorAll('.hero-blob');
+  blobs.forEach((b, i) => {
+    const speed = [0.15, 0.1, 0.2][i] || 0.1;
+    b.style.transform = `translateY(${scrollY * speed}px)`;
+  });
+  const portrait = document.querySelector('.portrait-card');
+  if (portrait && scrollY < window.innerHeight) {
+    portrait.style.transform = `translateY(${scrollY * 0.08}px)`;
+  }
+});
+
+/* ── NAVBAR HIDE/SHOW on scroll ── */
+(function() {
+  const nav = document.querySelector('nav');
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > lastY && y > 100) {
+      nav.style.transform = 'translateY(-100%)';
+    } else {
+      nav.style.transform = 'translateY(0)';
+    }
+    nav.classList.toggle('scrolled', y > 40);
+    lastY = y;
+  });
+})();
+
+/* ── FEATURE BOXES STAGGER (all1) ── */
+(function() {
+  const boxes = document.querySelectorAll('.feature-box');
+  boxes.forEach(b => {
+    b.style.opacity = '0';
+    b.style.transform = 'translateY(50px) scale(0.96)';
+    b.style.transition = 'opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1)';
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const allBoxes = [...document.querySelectorAll('.feature-box')];
+      const idx = allBoxes.indexOf(entry.target);
+      setTimeout(() => {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0) scale(1)';
+      }, idx * 100);
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.15 });
+  boxes.forEach(b => obs.observe(b));
+})();
+
+/* ── REVIEW CARDS SLIDE IN ── */
+(function() {
+  const cards = document.querySelectorAll('.review-card');
+  cards.forEach((c, i) => {
+    c.style.opacity = '0';
+    c.style.transform = 'translateX(40px)';
+    c.style.transition = `opacity 0.6s ease ${i * 0.12}s, transform 0.6s cubic-bezier(0.22,1,0.36,1) ${i * 0.12}s`;
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      document.querySelectorAll('.review-card').forEach(c => {
+        c.style.opacity = '1';
+        c.style.transform = 'translateX(0)';
+      });
+      obs.disconnect();
+    });
+  }, { threshold: 0.1 });
+  const track = document.querySelector('.reviews-track');
+  if (track) obs.observe(track);
+})();
+
+/* ── CONTACT SECTION REVEAL ── */
+(function() {
+  const card = document.querySelector('.contact-card');
+  if (!card) return;
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(60px)';
+  card.style.transition = 'opacity 0.8s ease, transform 0.8s cubic-bezier(0.22,1,0.36,1)';
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.1 });
+  obs.observe(card);
+})();
+
+/* ── ALL1 SECTION ENTRANCE ── */
+(function() {
+  const section = document.querySelector('.final-showcase-section');
+  if (!section) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      section.querySelectorAll('.fade-up').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), i * 110);
+      });
+      obs.unobserve(section);
+    });
+  }, { threshold: 0.08 });
+  obs.observe(section);
+})();
+
+/* ── HERO STATS ENTRANCE ── */
+(function() {
+  const stats = document.querySelector('.hero-stats');
+  if (!stats) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      stats.querySelectorAll('.stat-item').forEach((s, i) => {
+        s.style.opacity = '0';
+        s.style.transform = 'translateY(20px)';
+        s.style.transition = `opacity 0.5s ease ${i * 0.12}s, transform 0.5s ease ${i * 0.12}s`;
+        requestAnimationFrame(() => {
+          s.style.opacity = '1';
+          s.style.transform = 'translateY(0)';
+        });
+      });
+      obs.unobserve(stats);
+    });
+  }, { threshold: 0.5 });
+  obs.observe(stats);
+})();
+
+/* ── EXPLORE SECTION FADE IN ── */
+(function() {
+  const section = document.querySelector('.explore-section');
+  if (!section) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      section.querySelectorAll('.fade-up').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), i * 150);
+      });
+      obs.unobserve(section);
+    });
+  }, { threshold: 0.1 });
+  obs.observe(section);
+})();
+
+/* ── FLOAT TAGS STAGGER ── */
+(function() {
+  document.querySelectorAll('.float-tag').forEach((tag, i) => {
+    tag.style.opacity = '0';
+    tag.style.transform = 'translateY(20px) scale(0.9)';
+    tag.style.transition = `opacity 0.6s ease ${0.8 + i * 0.2}s, transform 0.6s cubic-bezier(0.22,1,0.36,1) ${0.8 + i * 0.2}s`;
+    setTimeout(() => {
+      tag.style.opacity = '1';
+      tag.style.transform = 'translateY(0) scale(1)';
+    }, 900 + i * 200);
+  });
+})();
+
+/* ── GOLD TEXT SHIMMER on hover ── */
+(function() {
+  const gold = document.querySelector('.fss-gold-text');
+  if (!gold) return;
+  gold.addEventListener('mouseenter', () => {
+    gold.style.filter = 'drop-shadow(0 2px 30px rgba(212,175,55,0.35))';
+  });
+  gold.addEventListener('mouseleave', () => {
+    gold.style.filter = 'drop-shadow(0 2px 20px rgba(212,175,55,0.15))';
+  });
+})();
+
+/* ── PAGE LOAD ENTRANCE ── */
+window.addEventListener('load', () => {
+  document.body.style.opacity = '1';
+  document.querySelectorAll('.hero .fade-up').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), i * 120);
+  });
+});
 </script>
 </body>
 </html>
